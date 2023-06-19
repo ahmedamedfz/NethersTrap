@@ -14,6 +14,7 @@
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
 		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
+		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		4997DA452A3C3B6300A377A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
+		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				4997DA452A3C3B6300A377A9 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
 				4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */,
+				FA36697F2A40970F00B451DA /* MazeTileSet.sks */,
 			);
 			path = NethersTrap;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
 				4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */,
 				4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
@@ -284,7 +288,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C5V5PAM88P;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -311,7 +315,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C5V5PAM88P;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
