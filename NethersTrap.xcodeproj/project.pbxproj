@@ -15,6 +15,12 @@
 		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
+		FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */; };
+		FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */; };
+		FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* CharEntity.swift */; };
+		FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* CharacterNode.swift */; };
+		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
+		FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8802A41F7D100A820AA /* TriggerNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +34,12 @@
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
+		FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryComponent.swift; sourceTree = "<group>"; };
+		FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControllerComponent.swift; sourceTree = "<group>"; };
+		FAA4A8782A4169BB00A820AA /* CharEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharEntity.swift; sourceTree = "<group>"; };
+		FAA4A87A2A4184D200A820AA /* CharacterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterNode.swift; sourceTree = "<group>"; };
+		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
+		FAA4A8802A41F7D100A820AA /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +72,9 @@
 		4997DA3A2A3C3B6200A377A9 /* NethersTrap */ = {
 			isa = PBXGroup;
 			children = (
+				FAA4A8842A41FFA700A820AA /* Component */,
+				FAA4A8832A41FF9700A820AA /* Node */,
+				FAA4A8822A41FF8D00A820AA /* Entity */,
 				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
 				4997DA3D2A3C3B6200A377A9 /* GameScene.sks */,
 				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
@@ -71,6 +86,33 @@
 				FA36697F2A40970F00B451DA /* MazeTileSet.sks */,
 			);
 			path = NethersTrap;
+			sourceTree = "<group>";
+		};
+		FAA4A8822A41FF8D00A820AA /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A8782A4169BB00A820AA /* CharEntity.swift */,
+				FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		FAA4A8832A41FF9700A820AA /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A87A2A4184D200A820AA /* CharacterNode.swift */,
+				FAA4A8802A41F7D100A820AA /* TriggerNode.swift */,
+			);
+			path = Node;
+			sourceTree = "<group>";
+		};
+		FAA4A8842A41FFA700A820AA /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */,
+				FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +189,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
+				FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */,
+				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
+				FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
+				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
+				FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */,
+				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
