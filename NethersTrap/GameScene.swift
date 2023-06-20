@@ -14,19 +14,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     var hero = SKSpriteNode()
+    var chaser = SKSpriteNode()
     var cameraNode: SKCameraNode!
     var wallMap: SKSpriteNode!
     var triggerLamp: SKSpriteNode!
+    var hit: String = ""
+    var deathAnimting: Bool = false
     
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    private var goLeft: Bool = false
-    private var goRight: Bool = false
+    
+    // Up 1 Down 2 Left 3 Right 4
+    private var lastMovement: Int = 2
     private var goUp: Bool = false
     private var goDown: Bool = false
+    private var goLeft: Bool = false
+    private var goRight: Bool = false
     private var characterTextures: [SKTexture] = []
+    
+    private var characterDownTexture: [SKTexture] = []
+    private var characterDown: SKAction = SKAction()
+    private var characterUpTexture: [SKTexture] = []
+    private var characterUp: SKAction = SKAction()
+    private var characterRightTexture: [SKTexture] = []
+    private var characterRight: SKAction = SKAction()
+    private var characterLeftTexture: [SKTexture] = []
+    private var characterLeft: SKAction = SKAction()
     
     override func sceneDidLoad() {
         
@@ -51,11 +66,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
+        
+        for i in 0...11 {
+            characterDownTexture.append(SKTexture(imageNamed: "GhostADown/\(i)"))
+        }
+        characterDown = SKAction.animate(with: characterDownTexture, timePerFrame: 0.1)
+        
+        for i in 0...11 {
+            characterUpTexture.append(SKTexture(imageNamed: "GhostAUp/\(i)"))
+        }
+        characterUp = SKAction.animate(with: characterUpTexture, timePerFrame: 0.1)
+        
+        for i in 0...11 {
+            characterRightTexture.append(SKTexture(imageNamed: "GhostARight/\(i)"))
+        }
+        characterRight = SKAction.animate(with: characterRightTexture, timePerFrame: 0.1)
+        
+        for i in 0...11 {
+            characterLeftTexture.append(SKTexture(imageNamed: "GhostALeft/\(i)"))
+        }
+        characterLeft = SKAction.animate(with: characterLeftTexture, timePerFrame: 0.1)
     }
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         makerPlayer()
+        makeChaser()
         makeCamera()
         makeTriggerLamp()
 //        makeWallMap()
@@ -73,25 +109,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func makerPlayer() {
-        hero = SKSpriteNode(imageNamed: "Ghost_A_Down__3")
+        let texture = SKTexture(imageNamed: "GhostADown/0")
+        hero = SKSpriteNode(texture: texture)
+        hero.run(SKAction.repeatForever(characterDown))
         hero.zPosition = 100
         hero.position = CGPoint(x: 0, y: 0)
         hero.setScale(0.4)
 //        print(hero.size)
-        hero.physicsBody = SKPhysicsBody(rectangleOf: hero.size)
+        hero.physicsBody = SKPhysicsBody(texture: texture, size: hero.size)
         hero.physicsBody?.isDynamic = true
         hero.physicsBody?.affectedByGravity = false
         hero.physicsBody?.allowsRotation = false
         hero.physicsBody?.categoryBitMask = 0x10
 //        print("x: \(0x1 << 0)")
         hero.physicsBody?.collisionBitMask = 0x1
-        hero.physicsBody?.contactTestBitMask = 0x100
+        hero.physicsBody?.contactTestBitMask = 0x100 | 0x1000
         
 //        characterTextures.append(SKTexture(imageNamed: "dummy"))
 //        let animation = SKAction.animate(with: characterTextures, timePerFrame: 0.1)
 //        let animationRepeat = SKAction.repeatForever(animation)
         addChild(hero)
 //        hero.run(animationRepeat)
+    }
+    
+    func makeChaser() {
+        let texture = SKTexture(imageNamed: "GhostADown/0")
+        chaser = SKSpriteNode(texture: texture)
+        chaser.run(SKAction.repeatForever(characterDown))
+        chaser.zPosition = 100
+        chaser.position = CGPoint(x: 0, y: 0)
+        chaser.setScale(0.4)
+//        print(chaser.size)
+        chaser.physicsBody = SKPhysicsBody(texture: texture, size: chaser.size)
+        chaser.physicsBody?.isDynamic = true
+        chaser.physicsBody?.affectedByGravity = false
+        chaser.physicsBody?.allowsRotation = false
+        chaser.physicsBody?.categoryBitMask = 0x1000
+//        print("x: \(0x1 << 0)")
+        chaser.physicsBody?.collisionBitMask = 0x1
+        chaser.physicsBody?.contactTestBitMask = 0x10
+        addChild(chaser)
     }
     
     func makeTriggerLamp() {
@@ -167,11 +224,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
-//        print("\(3 | 2)")
-        
-        if collision == 0x10 | 0x100 {
-            print("yes")
+        //        print("\(3 | 2)")
+        if hit.isEmpty {
+            if collision == 0x10 | 0x100 {
+                print("yes")
+                hit = "Switch"
+            }
+            else if collision == 0x10 | 0x1000 && !deathAnimting {
+                print("Catch")
+                hit = "Catch"
+                deathAnimting = true
+                animateDeath()
+            }
         }
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        hit = ""
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -341,6 +410,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func animateDeath() {
+        run(SKAction.wait(forDuration: 5)) {
+            self.deathAnimting = false
+            print("Animation Done")
+        }
+    }
+    
+    func animateMove(arrowPress: Int, movement: SKAction) {
+        if arrowPress != lastMovement {
+            hero.run(SKAction.repeatForever(movement))
+            print("Ubah Arah")
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
@@ -352,20 +435,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
 //        print("dt: \(dt)")
-        if goLeft {
-            hero.position.x -= 40.0 * CGFloat(dt)
-        }
-        
-        if goRight {
-            hero.position.x += 40.0 * CGFloat(dt)
-        }
-        
-        if goDown {
-            hero.position.y -= 40.0 * CGFloat(dt)
-        }
-        
         if goUp {
             hero.position.y += 40.0 * CGFloat(dt)
+            animateMove(arrowPress: 1, movement: characterUp)
+            lastMovement = 1
+        }
+        else if goDown {
+            hero.position.y -= 40.0 * CGFloat(dt)
+            animateMove(arrowPress: 2, movement: characterDown)
+            lastMovement = 2
+        }
+        else if goLeft {
+            hero.position.x -= 40.0 * CGFloat(dt)
+            animateMove(arrowPress: 3, movement: characterLeft)
+            lastMovement = 3
+        }
+        else if goRight {
+            hero.position.x += 40.0 * CGFloat(dt)
+            animateMove(arrowPress: 4, movement: characterRight)
+            lastMovement = 4
         }
         
         cameraNode.position = hero.position
