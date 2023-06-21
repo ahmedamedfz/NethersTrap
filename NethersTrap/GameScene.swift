@@ -15,19 +15,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    var TriggerEntities = [GKEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
-    var wallMap: SKSpriteNode!
-    var triggerLamp: SKSpriteNode!
-    var playerSpeed: CGFloat = 0.0
+//    var triggerLamp: SKSpriteNode!
+    
     
     private var lastUpdateTime : TimeInterval = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+//    private var label : SKLabelNode?
+//    private var spinnyNode : SKShapeNode?
     
-    private var goLeft: Bool = false
-    private var goRight: Bool = false
-    private var goUp: Bool = false
-    private var goDown: Bool = false
-    private var characterTextures: [SKTexture] = []
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
     
@@ -35,7 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func sceneDidLoad() {
         
         self.lastUpdateTime = 0
-        
     }
     
     override func didMove(to view: SKView) {
@@ -45,12 +38,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        let playerEntity = CharEntity(name: "Ghost_A_Down__3", role: .Player)
+        let playerEntity = CharEntity(name: "GhostADown/0", role: .Player)
         addChild(playerEntity.objCharacter)
+        
+        let enemyEntity = CharEntity(name: "GhostADown/5", role: .Enemy)
+        addChild(enemyEntity.objCharacter)
 //        let switchEntity = makeSwitch()
         let switchEntity = TriggerEntity(name: "Cobblestone_Grid_Center", role: .Switch)
         addChild(switchEntity.objTrigger)
-        CharacterEntities = [playerEntity]
+        
+        CharacterEntities = [playerEntity, enemyEntity]
         TriggerEntities = [switchEntity]
         makeCamera()
     }
@@ -83,14 +80,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func animateDeath() {
+        CharacterEntities[0].objCharacter.run(SKAction.wait(forDuration: 5)) {
+            print("Animation Done")
+            self.CharacterEntities[0].objCharacter.deathAnimating = false
+            
+        }
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
-        print("collision: \(collision)")
         
-        if collision == 0x10 | 0x100 {
-            print("yes")
+        if CharacterEntities[0].objCharacter.hit.isEmpty {
+            if collision == 0x10 | 0x100 {
+                print("yes")
+                CharacterEntities[0].objCharacter.hit = "Switch"
+                CharacterEntities[0].objCharacter.isHidden = true
+            } else if collision == 0x10 | 0x1000 && !CharacterEntities[0].objCharacter.deathAnimating {
+                print("Catched")
+                CharacterEntities[0].objCharacter.hit = "Catched"
+                CharacterEntities[0].objCharacter.deathAnimating = true
+                animateDeath()
+//                for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
+//                    CharacterEntities[0].objCharacter.deathAnimating = component.animateDeath()
+//                }
+                
+            }
         }
+        
+        
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        CharacterEntities[0].objCharacter.hit = ""
+        CharacterEntities[0].objCharacter.isHidden = false
     }
     
     override func keyDown(with event: NSEvent) {

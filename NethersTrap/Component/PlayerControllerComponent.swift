@@ -13,17 +13,29 @@ class PlayerControllerComponent: GKComponent {
     var geometryComponent: GeometryComponent? {
         return entity?.component(ofType: GeometryComponent.self)
     }
+    var characterDownTexture: [SKTexture] = []
+    var characterDown: SKAction = SKAction()
+    var characterUpTexture: [SKTexture] = []
+    var characterUp: SKAction = SKAction()
+    var characterRightTexture: [SKTexture] = []
+    var characterRight: SKAction = SKAction()
+    var characterLeftTexture: [SKTexture] = []
+    var characterLeft: SKAction = SKAction()
     
-    var characterTexturesGoDown: [SKTexture] = []
-    var characterTexturesGoUp: [SKTexture] = []
-//    var animationRepeat: SKAction
+    var lastMovement: lastMove = .none
     
     override init() {
         super.init()
         for i in 0...11 {
-            characterTexturesGoDown.append(SKTexture(imageNamed: "Ghost_A_Down__\(i)"))
-            characterTexturesGoUp.append(SKTexture(imageNamed: "Ghost_A_Up__\(i)"))
+            characterDownTexture.append(SKTexture(imageNamed: "GhostADown/\(i)"))
+            characterUpTexture.append(SKTexture(imageNamed: "GhostAUp/\(i)"))
+            characterLeftTexture.append(SKTexture(imageNamed: "GhostALeft/\(i)"))
+            characterRightTexture.append(SKTexture(imageNamed: "GhostARight/\(i)"))
         }
+        characterDown = SKAction.animate(with: characterDownTexture, timePerFrame: 0.1)
+        characterUp = SKAction.animate(with: characterUpTexture, timePerFrame: 0.1)
+        characterRight = SKAction.animate(with: characterRightTexture, timePerFrame: 0.1)
+        characterLeft = SKAction.animate(with: characterLeftTexture, timePerFrame: 0.1)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,52 +43,78 @@ class PlayerControllerComponent: GKComponent {
     }
     
     func movement(moveLeft: Bool, moveRight: Bool, moveUp: Bool, moveDown: Bool, dt: TimeInterval, camera: SKCameraNode, speed: CGFloat) {
-        if moveLeft {
-            geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
-        }
         
-        if moveRight {
-            geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
-        }
-        
-        if moveDown {
-            let animation = SKAction.animate(with: characterTexturesGoDown, timePerFrame: 0.1)
-//            let animationRepeat = SKAction.repeatForever(animation)
-//            print(animationRepeat)
-            geometryComponent?.geometryNode.run(animation)
+        if (moveRight && moveDown) {
             geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+        } else if (moveLeft && moveDown) {
+            geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+        }else if moveDown && moveUp {
+            if lastMovement == .down {
+                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+                animateMove(arrowPress: .down, movement: characterDown)
+                lastMovement = .down
+            } else if lastMovement == .up {
+                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+                animateMove(arrowPress: .up, movement: characterUp)
+                lastMovement = .up
+            }
+            
+        } else if (moveRight && moveUp) {
+            geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+        } else if (moveLeft && moveUp) {
+            geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+        } else if moveDown {
+            geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+            animateMove(arrowPress: .down, movement: characterDown)
+            lastMovement = .down
+        } else if moveUp {
+            geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+            animateMove(arrowPress: .up, movement: characterUp)
+            lastMovement = .up
         }
         
-        if moveUp {
-//            let animation = SKAction.animate(with: characterTexturesGoUp, timePerFrame: 0.1)
-//            let animationRepeat = SKAction.repeatForever(animation)
-//            geometryComponent?.geometryNode.run(animationRepeat)
-            geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+        if moveLeft && moveRight {
+            if lastMovement == .left {
+                geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+                animateMove(arrowPress: .left, movement: characterLeft)
+                lastMovement = .left
+            } else if lastMovement == .right {
+                geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+                animateMove(arrowPress: .right, movement: characterRight)
+                lastMovement = .right
+            }
+        } else if moveLeft {
+//            print("masuk left")
+            geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+            animateMove(arrowPress: .left, movement: characterLeft)
+            lastMovement = .left
+        } else if moveRight {
+//            print("masuk right")
+            geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+            animateMove(arrowPress: .right, movement: characterRight)
+            lastMovement = .right
         }
+        
         
         camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
     }
     
-//    func animationMovement(moveLeft: Bool, moveRight: Bool, moveUp: Bool, moveDown: Bool) {
-//        if moveLeft {
-//
+//    func animateDeath() -> Bool {
+//        geometryComponent?.geometryNode.run(SKAction.wait(forDuration: 5)) {
+//            print("Animation done")
 //        }
 //
-//        if moveRight {
-//
-//        }
-//
-//        if moveDown {
-//            let animation = SKAction.animate(with: characterTexturesGoDown, timePerFrame: 0.1)
-//            let animationRepeat = SKAction.repeatForever(animation)
-//            print(animationRepeat)
-//            geometryComponent?.geometryNode.run(animationRepeat)
-//        }
-//
-//        if moveUp {
-//            let animation = SKAction.animate(with: characterTexturesGoUp, timePerFrame: 0.1)
-//            let animationRepeat = SKAction.repeatForever(animation)
-//            geometryComponent?.geometryNode.run(animationRepeat)
-//        }
+//        return false
 //    }
+
+    func animateMove(arrowPress: lastMove, movement: SKAction) {
+        if arrowPress != lastMovement {
+            geometryComponent?.geometryNode.run(SKAction.repeatForever(movement))
+//            print("Ubah Arah")
+        }
+    }
+}
+
+enum lastMove {
+    case left, right, down, up, none
 }
