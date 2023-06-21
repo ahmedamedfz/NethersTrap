@@ -28,11 +28,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Up 1 Down 2 Left 3 Right 4
     private var lastMovement: Int = 2
+    private var playerMovement: Bool = true
     private var goUp: Bool = false
     private var goDown: Bool = false
     private var goLeft: Bool = false
     private var goRight: Bool = false
     private var characterTextures: [SKTexture] = []
+    private var isHiding: Bool = false
     
     private var characterDownTexture: [SKTexture] = []
     private var characterDown: SKAction = SKAction()
@@ -94,6 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeChaser()
         makeCamera()
         makeTriggerLamp()
+        makeTriggerHide()
 //        makeWallMap()
 //        makeColliderTileMap()
 //        physicsWorld.contactDelegate = self
@@ -156,6 +159,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        print("masuk")
 //        print("trigger: \(String(describing: triggerLamp))")
         triggerLamp.physicsBody?.categoryBitMask = 0x100
+        triggerLamp.physicsBody?.contactTestBitMask = 0x10
+    }
+    
+    func makeTriggerHide() {
+        triggerLamp = childNode(withName: "triggerHide") as? SKSpriteNode
+//        print("masuk")
+//        print("trigger: \(String(describing: triggerLamp))")
+        triggerLamp.physicsBody?.categoryBitMask = 0x10000
         triggerLamp.physicsBody?.contactTestBitMask = 0x10
     }
     
@@ -229,6 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if collision == 0x10 | 0x100 {
                 print("yes")
                 hit = "Switch"
+                hero.isHidden = true
             }
             else if collision == 0x10 | 0x1000 && !deathAnimting {
                 print("Catch")
@@ -236,11 +248,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 deathAnimting = true
                 animateDeath()
             }
+            else if collision == 0x10 | 0x10000 {
+                print("hide")
+                isHiding = true
+            }
         }
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
         hit = ""
+        isHiding = false
+        hero.isHidden = false
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -286,7 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let label = self.label {
                 label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
             }
-        case 123:
+        case 0:
             goLeft = true
 //            let x: CGFloat = hero.position.x - 5.0
 //            let y: CGFloat = hero.position.y + 0.0
@@ -302,7 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
             
-        case 124:
+        case 2:
             goRight = true
 //            let x: CGFloat = hero.position.x + 5.0
 //            let y: CGFloat = hero.position.y + 0.0
@@ -316,7 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
         
-        case 125:
+        case 1:
             goDown = true
 //            let x: CGFloat = hero.position.x + 0.0
 //            let y: CGFloat = hero.position.y - 5.0
@@ -329,7 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
-        case 126:
+        case 13:
             goUp = true
 //            let x: CGFloat = hero.position.x + 0.0
 //            let y: CGFloat = hero.position.y + 5.0
@@ -342,6 +360,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
+        case 3:
+            if isHiding == true{
+                hero.isHidden = true
+                playerMovement = false
+                isHiding = false
+            }
+            else{
+                hero.isHidden = false
+                playerMovement = true
+                
+            }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -349,7 +378,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 123:
+        case 0:
             goLeft = false
 //            let x: CGFloat = hero.position.x - 5.0
 //            let y: CGFloat = hero.position.y + 0.0
@@ -365,7 +394,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
             
-        case 124:
+        case 2:
             goRight = false
 //            let x: CGFloat = hero.position.x + 5.0
 //            let y: CGFloat = hero.position.y + 0.0
@@ -379,7 +408,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
         
-        case 125:
+        case 1:
             goDown = false
 //            let x: CGFloat = hero.position.x + 0.0
 //            let y: CGFloat = hero.position.y - 5.0
@@ -392,7 +421,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //            let group = SKAction.group([xMove, yMove])
 //            hero.run(group)
-        case 126:
+        case 13:
             goUp = false
 //            let x: CGFloat = hero.position.x + 0.0
 //            let y: CGFloat = hero.position.y + 5.0
@@ -435,25 +464,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
 //        print("dt: \(dt)")
-        if goUp {
-            hero.position.y += 40.0 * CGFloat(dt)
-            animateMove(arrowPress: 1, movement: characterUp)
-            lastMovement = 1
-        }
-        else if goDown {
-            hero.position.y -= 40.0 * CGFloat(dt)
-            animateMove(arrowPress: 2, movement: characterDown)
-            lastMovement = 2
-        }
-        else if goLeft {
-            hero.position.x -= 40.0 * CGFloat(dt)
-            animateMove(arrowPress: 3, movement: characterLeft)
-            lastMovement = 3
-        }
-        else if goRight {
-            hero.position.x += 40.0 * CGFloat(dt)
-            animateMove(arrowPress: 4, movement: characterRight)
-            lastMovement = 4
+        if playerMovement == true{
+            if goUp {
+                hero.position.y += 40.0 * CGFloat(dt)
+                animateMove(arrowPress: 1, movement: characterUp)
+                lastMovement = 1
+            }
+            else if goDown {
+                hero.position.y -= 40.0 * CGFloat(dt)
+                animateMove(arrowPress: 2, movement: characterDown)
+                lastMovement = 2
+            }
+            else if goLeft {
+                hero.position.x -= 40.0 * CGFloat(dt)
+                animateMove(arrowPress: 3, movement: characterLeft)
+                lastMovement = 3
+            }
+            else if goRight {
+                hero.position.x += 40.0 * CGFloat(dt)
+                animateMove(arrowPress: 4, movement: characterRight)
+                lastMovement = 4
+            }
         }
         
         cameraNode.position = hero.position
