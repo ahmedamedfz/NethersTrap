@@ -10,39 +10,51 @@ import SpriteKit
 
 class TriggerEntity: GKEntity {
     let spriteName: String
-    var role: RoleType
+    var type: EntityType
     var objTrigger: TriggerNode
-    init(name: String, role: RoleType) {
+    init(name: String, type: EntityType) {
         self.spriteName = name
-        self.role = role
+        self.type = type
         
         self.objTrigger = TriggerNode(imageNamed: self.spriteName)
         super.init()
-        if self.role == .Switch {
-            makeSwitch()
-        } else if self.role == .HideOut {
-            
-        } else if self.role == .Cage {
-            
-        } else if self.role == .Timer {
-            
-        }
+        makeTrigger()
+        
         
     }
     
-    func makeSwitch() {
+    func makeTrigger() {
         self.objTrigger.totalTrigger = 1
         self.objTrigger.physicsBody = SKPhysicsBody(rectangleOf: self.objTrigger.size)
         self.objTrigger.physicsBody?.isDynamic = false
         self.objTrigger.physicsBody?.affectedByGravity = false
         self.objTrigger.physicsBody?.allowsRotation = false
-        self.objTrigger.position = CGPoint(x: 0, y: 50)
-        self.objTrigger.physicsBody?.categoryBitMask = 0x100
+        self.objTrigger.alpha = 1
         self.objTrigger.physicsBody?.contactTestBitMask = 0x10
         self.objTrigger.setScale(0.1)
         
+        if self.type == .Switch {
+            defineSwitch()
+        } else if self.type == .HideOut {
+            defineHideOut()
+        } else if self.type == .Cage {
+            
+        } else if self.type == .Timer {
+            
+        }
+        
         let geometryComponent = GeometryComponent(geometryNode: self.objTrigger)
         self.addComponent(geometryComponent)
+    }
+    
+    func defineHideOut() {
+        self.objTrigger.position = CGPoint(x: 30, y: 50)
+        self.objTrigger.physicsBody?.categoryBitMask = 0x10000
+    }
+    
+    func defineSwitch() {
+        self.objTrigger.position = CGPoint(x: 0, y: 50)
+        self.objTrigger.physicsBody?.categoryBitMask = 0x100
     }
     
     required init?(coder: NSCoder) {
@@ -53,6 +65,6 @@ class TriggerEntity: GKEntity {
 
 
 
-enum RoleType {
+enum EntityType {
     case Switch, HideOut, Cage, Timer
 }

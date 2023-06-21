@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cameraNode: SKCameraNode!
 //    var triggerLamp: SKSpriteNode!
     
-    
+//    static public var instance: GameScene = GameScene()
     private var lastUpdateTime : TimeInterval = 0
 //    private var label : SKLabelNode?
 //    private var spinnyNode : SKShapeNode?
@@ -25,9 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
     
-    
     override func sceneDidLoad() {
-        
         self.lastUpdateTime = 0
     }
     
@@ -44,10 +42,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let enemyEntity = CharEntity(name: "GhostADown/5", role: .Enemy)
         addChild(enemyEntity.objCharacter)
 //        let switchEntity = makeSwitch()
-        let switchEntity = TriggerEntity(name: "Cobblestone_Grid_Center", role: .Switch)
+        let switchEntity = TriggerEntity(name: "Cobblestone_Grid_Center", type: .Switch)
         addChild(switchEntity.objTrigger)
         
-        CharacterEntities = [playerEntity, enemyEntity]
+        let hideOutEntity = TriggerEntity(name: "Water_Grid_Center", type: .HideOut)
+        addChild(hideOutEntity.objTrigger)
+        CharacterEntities = [enemyEntity, playerEntity]
         TriggerEntities = [switchEntity]
         makeCamera()
     }
@@ -81,9 +81,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func animateDeath() {
-        CharacterEntities[0].objCharacter.run(SKAction.wait(forDuration: 5)) {
+        CharacterEntities[1].objCharacter.run(SKAction.wait(forDuration: 5)) {
             print("Animation Done")
-            self.CharacterEntities[0].objCharacter.deathAnimating = false
+            self.CharacterEntities[1].objCharacter.deathAnimating = false
             
         }
     }
@@ -92,20 +92,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         
-        if CharacterEntities[0].objCharacter.hit.isEmpty {
+        if CharacterEntities[1].objCharacter.hit.isEmpty {
             if collision == 0x10 | 0x100 {
                 print("yes")
-                CharacterEntities[0].objCharacter.hit = "Switch"
-                CharacterEntities[0].objCharacter.isHidden = true
-            } else if collision == 0x10 | 0x1000 && !CharacterEntities[0].objCharacter.deathAnimating {
+                CharacterEntities[1].objCharacter.hit = "Switch"
+                CharacterEntities[1].objCharacter.isHidden = true
+            } else if collision == 0x10 | 0x1000 && !CharacterEntities[1].objCharacter.deathAnimating {
                 print("Catched")
-                CharacterEntities[0].objCharacter.hit = "Catched"
-                CharacterEntities[0].objCharacter.deathAnimating = true
+                CharacterEntities[1].objCharacter.hit = "Catched"
+                CharacterEntities[1].objCharacter.deathAnimating = true
                 animateDeath()
 //                for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-//                    CharacterEntities[0].objCharacter.deathAnimating = component.animateDeath()
+//                    CharacterEntities[1].objCharacter.deathAnimating = component.animateDeath()
 //                }
                 
+            } else if collision == 0x10 | 0x10000 {
+                print("hide")
+                CharacterEntities[1].objCharacter.hidingRange = true
             }
         }
         
@@ -113,20 +116,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
-        CharacterEntities[0].objCharacter.hit = ""
-        CharacterEntities[0].objCharacter.isHidden = false
+        CharacterEntities[1].objCharacter.hit = ""
+        CharacterEntities[1].objCharacter.isHidden = false
+        CharacterEntities[1].objCharacter.hidingRange = false
     }
     
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
-        case 123:
-            CharacterEntities[0].objCharacter.left = true
-        case 124:
-            CharacterEntities[0].objCharacter.right = true
-        case 125:
-            CharacterEntities[0].objCharacter.down = true
-        case 126:
-            CharacterEntities[0].objCharacter.up = true
+        case 0:
+            CharacterEntities[1].objCharacter.left = true
+        case 2:
+            CharacterEntities[1].objCharacter.right = true
+        case 1:
+            CharacterEntities[1].objCharacter.down = true
+        case 13:
+            CharacterEntities[1].objCharacter.up = true
+        case 3:
+            if CharacterEntities[1].objCharacter.hidingRange {
+                CharacterEntities[1].objCharacter.isHidden = true
+                CharacterEntities[1].objCharacter.isMovement = false
+//                CharacterEntities[1].objCharacter.hidingRange = false
+            } else {
+                CharacterEntities[1].objCharacter.isHidden = false
+                CharacterEntities[1].objCharacter.isMovement = false
+            }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -134,14 +147,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 123:
-            CharacterEntities[0].objCharacter.left = false
-        case 124:
-            CharacterEntities[0].objCharacter.right = false
-        case 125:
-            CharacterEntities[0].objCharacter.down = false
-        case 126:
-            CharacterEntities[0].objCharacter.up = false
+        case 0:
+            CharacterEntities[1].objCharacter.left = false
+        case 2:
+            CharacterEntities[1].objCharacter.right = false
+        case 1:
+            CharacterEntities[1].objCharacter.down = false
+        case 13:
+            CharacterEntities[1].objCharacter.up = false
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -159,7 +172,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let dt = currentTime - self.lastUpdateTime
         
         for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-            component.movement(moveLeft: CharacterEntities[0].objCharacter.left, moveRight: CharacterEntities[0].objCharacter.right, moveUp: CharacterEntities[0].objCharacter.up, moveDown: CharacterEntities[0].objCharacter.down, dt: dt, camera: cameraNode, speed: CharacterEntities[0].objCharacter.walkSpeed)
+            component.movement(moveLeft: CharacterEntities[1].objCharacter.left, moveRight: CharacterEntities[1].objCharacter.right, moveUp: CharacterEntities[1].objCharacter.up, moveDown: CharacterEntities[1].objCharacter.down, dt: dt, camera: cameraNode, speed: CharacterEntities[1].objCharacter.walkSpeed, isMovement: CharacterEntities[1].objCharacter.isMovement)
         }
         
         self.lastUpdateTime = currentTime

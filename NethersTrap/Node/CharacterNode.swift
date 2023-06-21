@@ -15,6 +15,8 @@ class CharacterNode: SKSpriteNode {
     var down = false
     var deathAnimating = false
     var hit = ""
+    var hidingRange = false
+    var isMovement = true
     
     var walkSpeed:CGFloat = 0.0
 }
