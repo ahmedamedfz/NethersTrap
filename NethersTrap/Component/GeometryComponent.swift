@@ -8,11 +8,11 @@
 import SpriteKit
 import GameplayKit
 
-class GeometryComponent: GKComponent {
+class GeometryComponent<T>: GKComponent {
     
-    let geometryNode: SKSpriteNode
+    let geometryNode: T
     
-    init(geometryNode: SKSpriteNode) {
+    init(geometryNode: T) {
         self.geometryNode = geometryNode
         super.init()
     }

@@ -45,7 +45,7 @@ class CharEntity: GKEntity {
             self.defineEnemy()
         }
         
-        let geometryComponent = GeometryComponent(geometryNode: self.objCharacter)
+        let geometryComponent = GeometryComponent<CharacterNode>(geometryNode: self.objCharacter)
         self.addComponent(geometryComponent)
     }
     

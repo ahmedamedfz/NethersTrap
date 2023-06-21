@@ -10,7 +10,7 @@ import GameplayKit
 
 class PlayerControllerComponent: GKComponent {
     
-    var geometryComponent: GeometryComponent? {
+    var geometryComponent: GeometryComponent<CharacterNode>? {
         return entity?.component(ofType: GeometryComponent.self)
     }
     var characterDownTexture: [SKTexture] = []
@@ -84,12 +84,10 @@ class PlayerControllerComponent: GKComponent {
                     lastMovement = .right
                 }
             } else if moveLeft {
-    //            print("masuk left")
                 geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
                 animateMove(arrowPress: .left, movement: characterLeft)
                 lastMovement = .left
             } else if moveRight {
-    //            print("masuk right")
                 geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
                 animateMove(arrowPress: .right, movement: characterRight)
                 lastMovement = .right
@@ -99,13 +97,13 @@ class PlayerControllerComponent: GKComponent {
         camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
     }
     
-//    func animateDeath() -> Bool {
-//        geometryComponent?.geometryNode.run(SKAction.wait(forDuration: 5)) {
-//            print("Animation done")
-//        }
-//
-//        return false
-//    }
+    func animateDeath() {
+        geometryComponent?.geometryNode.run(SKAction.wait(forDuration: 5)) {
+            self.geometryComponent?.geometryNode.deathAnimating = false
+            print("Animation done")
+        }
+
+    }
 
     func animateMove(arrowPress: lastMove, movement: SKAction) {
         if arrowPress != lastMovement {
@@ -113,6 +111,17 @@ class PlayerControllerComponent: GKComponent {
 //            print("Ubah Arah")
         }
     }
+    
+    func countDown() {
+        geometryComponent?.geometryNode.timeHiding -= 1
+//            print(timeHiding)
+            if (geometryComponent?.geometryNode.timeHiding == 0){
+                geometryComponent?.geometryNode.isMovement = true
+                geometryComponent?.geometryNode.isHidden = false
+                geometryComponent?.geometryNode.hidingRange = false
+                print("out")
+            }
+        }
 }
 
 enum lastMove {

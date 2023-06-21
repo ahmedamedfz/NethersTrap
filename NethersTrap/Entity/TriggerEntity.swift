@@ -43,7 +43,7 @@ class TriggerEntity: GKEntity {
             
         }
         
-        let geometryComponent = GeometryComponent(geometryNode: self.objTrigger)
+        let geometryComponent = GeometryComponent<TriggerNode>(geometryNode: self.objTrigger)
         self.addComponent(geometryComponent)
     }
     
