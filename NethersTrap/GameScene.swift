@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    var timeHiding: Int = 5
     
     
     // Up 1 Down 2 Left 3 Right 4
@@ -364,12 +365,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if isHiding == true{
                 hero.isHidden = true
                 playerMovement = false
-                isHiding = false
+//                timeHiding = 5
+                run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(countDown)]), count: 5)) {
+                    self.timeHiding = 5
+                }
+//                run(SKAction.wait(forDuration: 5)) {
+//                    self.hero.isHidden = false
+//                    self.playerMovement = true
+//                }
             }
             else{
                 hero.isHidden = false
                 playerMovement = true
-                
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
@@ -445,7 +452,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("Animation Done")
         }
     }
-    
+    func countDown() {
+        timeHiding -= 1
+        print(timeHiding)
+        if (timeHiding == 0){
+            playerMovement = true
+            hero.isHidden = false
+            isHiding = false
+            print("out")
+        }
+    }
+
     func animateMove(arrowPress: Int, movement: SKAction) {
         if arrowPress != lastMovement {
             hero.run(SKAction.repeatForever(movement))
