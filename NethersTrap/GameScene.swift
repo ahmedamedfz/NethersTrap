@@ -14,12 +14,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     var hero = SKSpriteNode()
+    var door = SKSpriteNode()
     var chaser = SKSpriteNode()
     var cameraNode: SKCameraNode!
     var wallMap: SKSpriteNode!
     var triggerLamp: SKSpriteNode!
     var hit: String = ""
     var deathAnimting: Bool = false
+    var triggerSwitchBool: Bool = false
+    var triggerSwitch: SKSpriteNode!
+    var triggerDoor: SKSpriteNode!
+    var triggerHide: SKSpriteNode!
     
     let spawnPositions: [CGPoint] = [
            CGPoint(x: 100, y: 100),
@@ -107,6 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeTriggerHide()
         generateRandomHideSpots()
         makeWin()
+        makeTriggerSwithWin()
         // Example usage
 //               let randomIndex = Int(arc4random_uniform(UInt32(spawnPositions.count)))
 //               let randomSpawnPosition = spawnPositions[randomIndex]
@@ -182,19 +188,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func makeTriggerHide() {
-        triggerLamp = childNode(withName: "triggerHide") as? SKSpriteNode
+        triggerHide = childNode(withName: "triggerHide") as? SKSpriteNode
 //        print("masuk")
 //        print("trigger: \(String(describing: triggerLamp))")
-        triggerLamp.physicsBody?.categoryBitMask = 0x10000
-        triggerLamp.physicsBody?.contactTestBitMask = 0x10
+        triggerHide.physicsBody?.categoryBitMask = 0x10000
+        triggerHide.physicsBody?.contactTestBitMask = 0x10
     }
     
     func makeWin() {
-        triggerLamp = childNode(withName: "triggerWin") as? SKSpriteNode
+        triggerDoor = childNode(withName: "triggerWin") as? SKSpriteNode
 //        print("masuk")
 //        print("trigger: \(String(describing: triggerLamp))")
-        triggerLamp.physicsBody?.categoryBitMask = 0x100000
-        triggerLamp.physicsBody?.contactTestBitMask = 0x10
+        triggerDoor.physicsBody?.categoryBitMask = 0x100000
+        triggerDoor.physicsBody?.contactTestBitMask = 0x10
+//        door.isHidden = false
+//        addChild(door)
+    }
+    
+    func makeTriggerSwithWin() {
+        triggerSwitch = childNode(withName: "triggerSwitchWin") as? SKSpriteNode
+//        print("masuk")
+//        print("trigger: \(String(describing: triggerLamp))")
+        triggerSwitch.physicsBody?.categoryBitMask = 0x1000000
+        triggerSwitch.physicsBody?.contactTestBitMask = 0x10
     }
     
     func generateRandomHideSpots() {
@@ -313,9 +329,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("hide")
                 isHiding = true
             }
-            else if collision == 0x10 | 0x100000 {
+            else if collision == 0x10 | 0x100000 && triggerSwitchBool == true{
                 print("win")
                 
+            }
+            else if collision == 0x10 | 0x1000000 {
+                print("TriggerSwitch")
+                triggerSwitchBool = true
             }
         }
     }
@@ -441,6 +461,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             else{
                 hero.isHidden = false
                 playerMovement = true
+            }
+            
+            if triggerSwitchBool == true {
+                triggerDoor.alpha = 1
+                
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
