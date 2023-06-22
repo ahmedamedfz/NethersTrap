@@ -106,6 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeTriggerLamp()
         makeTriggerHide()
         generateRandomHideSpots()
+        makeWin()
         // Example usage
 //               let randomIndex = Int(arc4random_uniform(UInt32(spawnPositions.count)))
 //               let randomSpawnPosition = spawnPositions[randomIndex]
@@ -185,6 +186,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        print("masuk")
 //        print("trigger: \(String(describing: triggerLamp))")
         triggerLamp.physicsBody?.categoryBitMask = 0x10000
+        triggerLamp.physicsBody?.contactTestBitMask = 0x10
+    }
+    
+    func makeWin() {
+        triggerLamp = childNode(withName: "triggerWin") as? SKSpriteNode
+//        print("masuk")
+//        print("trigger: \(String(describing: triggerLamp))")
+        triggerLamp.physicsBody?.categoryBitMask = 0x100000
         triggerLamp.physicsBody?.contactTestBitMask = 0x10
     }
     
@@ -303,6 +312,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             else if collision == 0x10 | 0x10000 {
                 print("hide")
                 isHiding = true
+            }
+            else if collision == 0x10 | 0x100000 {
+                print("win")
+                
             }
         }
     }
