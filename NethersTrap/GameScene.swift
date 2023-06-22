@@ -21,6 +21,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hit: String = ""
     var deathAnimting: Bool = false
     
+    let spawnPositions: [CGPoint] = [
+           CGPoint(x: 100, y: 100),
+           CGPoint(x: 50, y: 50),
+           CGPoint(x: 75, y: 75)
+           // Add more spawn positions as needed
+       ]
+    
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -98,6 +105,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeCamera()
         makeTriggerLamp()
         makeTriggerHide()
+        generateRandomHideSpots()
+        // Example usage
+//               let randomIndex = Int(arc4random_uniform(UInt32(spawnPositions.count)))
+//               let randomSpawnPosition = spawnPositions[randomIndex]
+//
+//               // Spawn an object at the random spawn position
+//               let objectNode = SKSpriteNode(color: .red, size: CGSize(width: 40, height: 40))
+//               objectNode.position = randomSpawnPosition
+//               addChild(objectNode)
+        
 //        makeWallMap()
 //        makeColliderTileMap()
 //        physicsWorld.contactDelegate = self
@@ -170,6 +187,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         triggerLamp.physicsBody?.categoryBitMask = 0x10000
         triggerLamp.physicsBody?.contactTestBitMask = 0x10
     }
+    
+    func generateRandomHideSpots() {
+        let hideSpotSize = CGSize(width: 20, height: 20)
+        let hideSpotTexture = SKTexture(imageNamed: "hide_spot_image")
+        
+        let hideSpotArea = CGRect(x: -200, y: -200, width: 400, height: 400) // Example area
+        
+        let numHideSpots = 5 // Number of hide spots to generate
+        
+        for _ in 1...numHideSpots {
+            let randomX = CGFloat(arc4random_uniform(UInt32(hideSpotArea.width))) + hideSpotArea.minX
+            let randomY = CGFloat(arc4random_uniform(UInt32(hideSpotArea.height))) + hideSpotArea.minY
+            let hideSpotPosition = CGPoint(x: randomX, y: randomY)
+            
+            let hideSpot = SKSpriteNode(texture: hideSpotTexture, size: hideSpotSize)
+            hideSpot.position = hideSpotPosition
+            hideSpot.physicsBody = SKPhysicsBody(rectangleOf: hideSpotSize)
+            hideSpot.physicsBody?.isDynamic = false
+            hideSpot.physicsBody?.categoryBitMask = 0x10000
+            hideSpot.physicsBody?.contactTestBitMask = 0x10// Adjust according to your collision detection setup
+            
+            addChild(hideSpot)
+        }
+    }
+
+    
     
     func makeWallMap() {
         var count = 0
