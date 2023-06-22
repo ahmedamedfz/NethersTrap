@@ -191,15 +191,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func generateRandomHideSpots() {
         let hideSpotSize = CGSize(width: 20, height: 20)
         let hideSpotTexture = SKTexture(imageNamed: "hide_spot_image")
+        // Example area
         
-        let hideSpotArea = CGRect(x: -200, y: -200, width: 400, height: 400) // Example area
+        let spawnPositions: [CGPoint] = [
+               CGPoint(x: 25, y: 25),
+               CGPoint(x: 50, y: 50),
+               CGPoint(x: 100, y: 50),
+               CGPoint(x: 50, y: 100),
+               CGPoint(x: 150, y: 50),
+               CGPoint(x: 50, y: 150)
+               // Add more spawn positions as needed
+           ]
         
-        let numHideSpots = 5 // Number of hide spots to generate
+        let numHideSpots = 2 // Number of hide spots to generate
         
         for _ in 1...numHideSpots {
-            let randomX = CGFloat(arc4random_uniform(UInt32(hideSpotArea.width))) + hideSpotArea.minX
-            let randomY = CGFloat(arc4random_uniform(UInt32(hideSpotArea.height))) + hideSpotArea.minY
-            let hideSpotPosition = CGPoint(x: randomX, y: randomY)
+            let randomIndex = Int(arc4random_uniform(UInt32(spawnPositions.count)))
+            let hideSpotPosition = spawnPositions[randomIndex]
             
             let hideSpot = SKSpriteNode(texture: hideSpotTexture, size: hideSpotSize)
             hideSpot.position = hideSpotPosition
