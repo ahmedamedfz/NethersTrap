@@ -203,9 +203,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                // Add more spawn positions as needed
            ]
         
-        let numHideSpots = 2 // Number of hide spots to generate
+        let numHideSpots = 3 // Number of hide spots to generate
         
-        for _ in 1...numHideSpots {
+        for _ in 0...numHideSpots {
             let randomIndex = Int(arc4random_uniform(UInt32(spawnPositions.count)))
             let hideSpotPosition = spawnPositions[randomIndex]
             
