@@ -22,6 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hit: String = ""
     var deathAnimting: Bool = false
     var triggerSwitchBool: Bool = false
+    var triggerSwitchDoor: Bool = false
     var triggerSwitch: SKSpriteNode!
     var triggerDoor: SKSpriteNode!
     var triggerHide: SKSpriteNode!
@@ -335,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             else if collision == 0x10 | 0x1000000 {
                 print("TriggerSwitch")
-                triggerSwitchBool = true
+                triggerSwitchDoor = true
             }
         }
     }
@@ -344,6 +345,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hit = ""
         isHiding = false
         hero.isHidden = false
+        triggerSwitchDoor = false
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -463,9 +465,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerMovement = true
             }
             
-            if triggerSwitchBool == true {
+            if triggerSwitchDoor == true {
                 triggerDoor.alpha = 1
-                
+                triggerSwitchBool = true
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
