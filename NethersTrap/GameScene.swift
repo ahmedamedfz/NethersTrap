@@ -133,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 characterEntities[1].objCharacter.isMovement = false
                 enemyEntity.agent.behavior = nil
                 run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5)) {
-                    if self.characterEntities[1].objCharacter.isHidden {
+                    if !self.characterEntities[1].objCharacter.isHidden {
                         self.enemyEntity.agent.behavior = self.chaseBehavior
                     }
                 }
