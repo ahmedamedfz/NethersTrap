@@ -19,8 +19,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    static public var instance: GameScene = GameScene()
     private var lastUpdateTime : TimeInterval = 0
     
-    var playerEntity: CharEntity = CharEntity(name: "", role: .Player)
     var enemyEntity: CharEntity = CharEntity(name: "Enemy", role: .Enemy)
+    var player1Entity: CharEntity = CharEntity(name: "", role: .Player)
+    var player2Entity: CharEntity = CharEntity(name: "", role: .Player)
+    var player3Entity: CharEntity = CharEntity(name: "", role: .Player)
+    var player4Entity: CharEntity = CharEntity(name: "", role: .Player)
     var agents: [GKAgent2D] = []
     var chaseBehavior: GKBehavior?
     
@@ -37,9 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        playerEntity = CharEntity(name: "GhostADown/0", role: .Player)
-        addChild(playerEntity.objCharacter)
-        addAgent(entityNode: playerEntity)
+        player1Entity = CharEntity(name: "GhostADown/0", role: .Player)
+        addChild(player1Entity.objCharacter)
+        addAgent(entityNode: player1Entity)
         
         enemyEntity = CharEntity(name: "GhostADown/5", role: .Enemy)
         addChild(enemyEntity.objCharacter)
@@ -50,7 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let hideOutEntity = TriggerEntity(name: "Water_Grid_Center", type: .HideOut)
         addChild(hideOutEntity.objTrigger)
-        characterEntities = [enemyEntity, playerEntity]
+        characterEntities = [enemyEntity, player1Entity]
         TriggerEntities = [switchEntity]
         makeCamera()
     }
@@ -70,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         entity?.addComponent(agent)
         
         if entityNode.role == .Enemy {
-            chaseBehavior = GKBehavior(goal: GKGoal(toSeekAgent: playerEntity.agent), weight: 1.0)
+            chaseBehavior = GKBehavior(goal: GKGoal(toSeekAgent: player1Entity.agent), weight: 1.0)
             agent.behavior = chaseBehavior
                 
             agent.mass = 0.01
@@ -92,7 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if collision == 0x10 | 0x100 {
                 print("Switch")
                 characterEntities[1].objCharacter.hit = "Switch"
-                characterEntities[1].objCharacter.isHidden = true
+//                characterEntities[1].objCharacter.isHidden = true
             } else if collision == 0x10 | 0x1000 && !characterEntities[1].objCharacter.deathAnimating {
                 print("Catched")
                 characterEntities[1].objCharacter.hit = "Catched"
@@ -186,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Agent Update
-        playerEntity.agent.update(deltaTime: dt)
+        player1Entity.agent.update(deltaTime: dt)
         enemyEntity.agent.update(deltaTime: dt)
             
         self.lastUpdateTime = currentTime
