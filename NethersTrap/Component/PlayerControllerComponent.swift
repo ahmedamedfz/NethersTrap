@@ -114,14 +114,18 @@ class PlayerControllerComponent: GKComponent {
     
     func countDown() {
         geometryComponent?.geometryNode.timeHiding -= 1
-//            print(timeHiding)
-            if (geometryComponent?.geometryNode.timeHiding == 0){
-                geometryComponent?.geometryNode.isMovement = true
-                geometryComponent?.geometryNode.isHidden = false
-                geometryComponent?.geometryNode.hidingRange = false
-                print("out")
-            }
+        if (geometryComponent?.geometryNode.timeHiding == 0){
+            geometryComponent?.geometryNode.hidingRange = false
+            unHide()
         }
+    }
+    
+    func unHide() {
+        geometryComponent?.geometryNode.isMovement = true
+        geometryComponent?.geometryNode.isHidden = false
+        geometryComponent?.geometryNode.timeHiding = 5
+        print("Out")
+    }
 }
 
 enum lastMove {

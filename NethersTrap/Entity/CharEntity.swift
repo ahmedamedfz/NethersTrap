@@ -9,11 +9,13 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class CharEntity: GKEntity {
+class CharEntity: GKEntity, GKAgentDelegate {
     let spriteName: String
     var role: Role
     var objCharacter: CharacterNode
     var texture: SKTexture
+    
+    var agent = GKAgent2D()
     
     init(name: String, role: Role) {
         self.spriteName = name
@@ -22,7 +24,6 @@ class CharEntity: GKEntity {
         self.objCharacter = CharacterNode(texture: texture)
         super.init()
         makeEntities()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -66,6 +67,18 @@ class CharEntity: GKEntity {
         
         let geometryComponent = GeometryComponent(geometryNode: self.objCharacter)
         self.addComponent(geometryComponent)
+    }
+    
+    func agentWillUpdate(_ agent: GKAgent) {
+        if let agent2D = agent as? GKAgent2D {
+            agent2D.position = SIMD2(Float(objCharacter.position.x), Float(objCharacter.position.y))
+        }
+    }
+    
+    func agentDidUpdate(_ agent: GKAgent) {
+        if let agent2D = agent as? GKAgent2D {
+            self.objCharacter.position = CGPoint(x: CGFloat(agent2D.position.x), y: CGFloat(agent2D.position.y))
+        }
     }
 }
 
