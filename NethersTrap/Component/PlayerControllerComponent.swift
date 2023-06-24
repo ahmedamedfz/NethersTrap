@@ -42,60 +42,114 @@ class PlayerControllerComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func movement(moveLeft: Bool, moveRight: Bool, moveUp: Bool, moveDown: Bool, dt: TimeInterval, camera: SKCameraNode, speed: CGFloat, isMovement: Bool) {
-        if isMovement {
-            if (moveRight && moveDown) {
-                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
-            } else if (moveLeft && moveDown) {
-                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
-            }else if moveDown && moveUp {
+    func movement(dt: TimeInterval, camera: SKCameraNode) {
+        if geometryComponent?.geometryNode.isMovement ?? true {
+            if (geometryComponent?.geometryNode.right ?? false && geometryComponent?.geometryNode.down ?? false) {
+                geometryComponent?.geometryNode.position.y -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
+            } else if (geometryComponent?.geometryNode.left ?? false && geometryComponent?.geometryNode.down ?? false) {
+                geometryComponent?.geometryNode.position.y -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
+            }else if geometryComponent?.geometryNode.down ?? false && geometryComponent?.geometryNode.up ?? false {
                 if lastMovement == .down {
-                    geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+                    geometryComponent?.geometryNode.position.y -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                     animateMove(arrowPress: .down, movement: characterDown)
                     lastMovement = .down
                 } else if lastMovement == .up {
-                    geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+                    geometryComponent?.geometryNode.position.y += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                     animateMove(arrowPress: .up, movement: characterUp)
                     lastMovement = .up
                 }
                 
-            } else if (moveRight && moveUp) {
-                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
-            } else if (moveLeft && moveUp) {
-                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
-            } else if moveDown {
-                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+            } else if (geometryComponent?.geometryNode.right ?? false && geometryComponent?.geometryNode.up ?? false) {
+                geometryComponent?.geometryNode.position.y += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
+            } else if (geometryComponent?.geometryNode.left ?? false && geometryComponent?.geometryNode.up ?? false) {
+                geometryComponent?.geometryNode.position.y += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
+            } else if geometryComponent?.geometryNode.down ?? false {
+                geometryComponent?.geometryNode.position.y -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                 animateMove(arrowPress: .down, movement: characterDown)
                 lastMovement = .down
-            } else if moveUp {
-                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+            } else if geometryComponent?.geometryNode.up ?? false {
+                geometryComponent?.geometryNode.position.y += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                 animateMove(arrowPress: .up, movement: characterUp)
                 lastMovement = .up
             }
             
-            if moveLeft && moveRight {
+            if geometryComponent?.geometryNode.left ?? false && geometryComponent?.geometryNode.right ?? false {
                 if lastMovement == .left {
-                    geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+                    geometryComponent?.geometryNode.position.x -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                     animateMove(arrowPress: .left, movement: characterLeft)
                     lastMovement = .left
                 } else if lastMovement == .right {
-                    geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+                    geometryComponent?.geometryNode.position.x += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                     animateMove(arrowPress: .right, movement: characterRight)
                     lastMovement = .right
                 }
-            } else if moveLeft {
-                geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+            } else if geometryComponent?.geometryNode.left ?? false {
+                geometryComponent?.geometryNode.position.x -= geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                 animateMove(arrowPress: .left, movement: characterLeft)
                 lastMovement = .left
-            } else if moveRight {
-                geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+            } else if geometryComponent?.geometryNode.right ?? false {
+                geometryComponent?.geometryNode.position.x += geometryComponent?.geometryNode.speed ?? 40.0 * CGFloat(dt)
                 animateMove(arrowPress: .right, movement: characterRight)
                 lastMovement = .right
             }
         }
-        
         camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
     }
+    
+//    func movement(moveLeft: Bool, moveRight: Bool, moveUp: Bool, moveDown: Bool, dt: TimeInterval, camera: SKCameraNode, speed: CGFloat, isMovement: Bool) {
+//        if isMovement {
+//            if (moveRight && moveDown) {
+//                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+//            } else if (moveLeft && moveDown) {
+//                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+//            }else if moveDown && moveUp {
+//                if lastMovement == .down {
+//                    geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+//                    animateMove(arrowPress: .down, movement: characterDown)
+//                    lastMovement = .down
+//                } else if lastMovement == .up {
+//                    geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+//                    animateMove(arrowPress: .up, movement: characterUp)
+//                    lastMovement = .up
+//                }
+//
+//            } else if (moveRight && moveUp) {
+//                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+//            } else if (moveLeft && moveUp) {
+//                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+//            } else if moveDown {
+//                geometryComponent?.geometryNode.position.y -= speed * CGFloat(dt)
+//                animateMove(arrowPress: .down, movement: characterDown)
+//                lastMovement = .down
+//            } else if moveUp {
+//                geometryComponent?.geometryNode.position.y += speed * CGFloat(dt)
+//                animateMove(arrowPress: .up, movement: characterUp)
+//                lastMovement = .up
+//            }
+//
+//            if moveLeft && moveRight {
+//                if lastMovement == .left {
+//                    geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+//                    animateMove(arrowPress: .left, movement: characterLeft)
+//                    lastMovement = .left
+//                } else if lastMovement == .right {
+//                    geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+//                    animateMove(arrowPress: .right, movement: characterRight)
+//                    lastMovement = .right
+//                }
+//            } else if moveLeft {
+//                geometryComponent?.geometryNode.position.x -= speed * CGFloat(dt)
+//                animateMove(arrowPress: .left, movement: characterLeft)
+//                lastMovement = .left
+//            } else if moveRight {
+//                geometryComponent?.geometryNode.position.x += speed * CGFloat(dt)
+//                animateMove(arrowPress: .right, movement: characterRight)
+//                lastMovement = .right
+//            }
+//        }
+//        
+//        camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
+//    }
     
     func animateDeath() {
         geometryComponent?.geometryNode.run(SKAction.wait(forDuration: 5)) {

@@ -10,18 +10,18 @@ import GameplayKit
 import SpriteKit
 
 class CharEntity: GKEntity, GKAgentDelegate {
-    let spriteName: String
+    let nameEntity: String
     var role: Role
     var objCharacter: CharacterNode
     var texture: SKTexture
     
     var agent = GKAgent2D()
     
-    init(name: String, role: Role) {
-        self.spriteName = name
+    init(name: String, role: Role, spriteImage: String) {
+        nameEntity = name
         self.role = role
-        texture = SKTexture(imageNamed: self.spriteName)
-        self.objCharacter = CharacterNode(texture: texture)
+        texture = SKTexture(imageNamed: spriteImage)
+        objCharacter = CharacterNode(texture: texture)
         super.init()
         makeEntities()
     }
@@ -31,42 +31,42 @@ class CharEntity: GKEntity, GKAgentDelegate {
     }
     
     func makeEntities() {
-        self.objCharacter.walkSpeed = 40.0
-        self.objCharacter.zPosition = 100
-        self.objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
-        self.objCharacter.setScale(0.4)
-        self.objCharacter.physicsBody?.isDynamic = true
-        self.objCharacter.physicsBody?.affectedByGravity = false
-        self.objCharacter.physicsBody?.allowsRotation = false
-        self.objCharacter.physicsBody?.collisionBitMask = 0x1
+        objCharacter.speed = 1.0
+        objCharacter.zPosition = 100
+        objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
+        objCharacter.setScale(0.4)
+        objCharacter.physicsBody?.isDynamic = true
+        objCharacter.physicsBody?.affectedByGravity = false
+        objCharacter.physicsBody?.allowsRotation = false
+        objCharacter.physicsBody?.collisionBitMask = 0x1
         
         if self.role == .Player {
-            self.definePlayer()
+            definePlayer()
         } else if self.role == .Enemy {
-            self.defineEnemy()
+            defineEnemy()
         }
         
         let geometryComponent = GeometryComponent<CharacterNode>(geometryNode: self.objCharacter)
-        self.addComponent(geometryComponent)
+        addComponent(geometryComponent)
     }
     
     func definePlayer() {
         
-        self.objCharacter.position = CGPoint(x: 0, y: 0)
-        self.objCharacter.physicsBody?.categoryBitMask = 0x10
-        self.objCharacter.physicsBody?.contactTestBitMask = 0x100 | 0x1000
+        objCharacter.position = CGPoint(x: 0, y: 0)
+        objCharacter.physicsBody?.categoryBitMask = 0x10
+        objCharacter.physicsBody?.contactTestBitMask = 0x100 | 0x1000
         
         let playerControllerComponent = PlayerControllerComponent()
-        self.addComponent(playerControllerComponent)
+        addComponent(playerControllerComponent)
     }
     
     func defineEnemy() {
-        self.objCharacter.position = CGPoint(x: 50, y: 0)
-        self.objCharacter.physicsBody?.categoryBitMask = 0x1000
-        self.objCharacter.physicsBody?.contactTestBitMask = 0x10
+        objCharacter.position = CGPoint(x: 50, y: 0)
+        objCharacter.physicsBody?.categoryBitMask = 0x1000
+        objCharacter.physicsBody?.contactTestBitMask = 0x10
         
-        let geometryComponent = GeometryComponent(geometryNode: self.objCharacter)
-        self.addComponent(geometryComponent)
+        let geometryComponent = GeometryComponent(geometryNode: objCharacter)
+        addComponent(geometryComponent)
     }
     
     func agentWillUpdate(_ agent: GKAgent) {
@@ -77,7 +77,7 @@ class CharEntity: GKEntity, GKAgentDelegate {
     
     func agentDidUpdate(_ agent: GKAgent) {
         if let agent2D = agent as? GKAgent2D {
-            self.objCharacter.position = CGPoint(x: CGFloat(agent2D.position.x), y: CGFloat(agent2D.position.y))
+            objCharacter.position = CGPoint(x: CGFloat(agent2D.position.x), y: CGFloat(agent2D.position.y))
         }
     }
 }

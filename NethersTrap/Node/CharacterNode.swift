@@ -18,6 +18,5 @@ class CharacterNode: SKSpriteNode {
     var hidingRange = false
     var isMovement = true
     var timeHiding = 5
-    
-    var walkSpeed:CGFloat = 0.0
+    var idxSwitchVisited = -1
 }

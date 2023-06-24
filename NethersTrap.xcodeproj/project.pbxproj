@@ -20,7 +20,6 @@
 		FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* CharEntity.swift */; };
 		FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* CharacterNode.swift */; };
 		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
-		FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8802A41F7D100A820AA /* TriggerNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		FAA4A8782A4169BB00A820AA /* CharEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharEntity.swift; sourceTree = "<group>"; };
 		FAA4A87A2A4184D200A820AA /* CharacterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterNode.swift; sourceTree = "<group>"; };
 		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
-		FAA4A8802A41F7D100A820AA /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +99,6 @@
 			isa = PBXGroup;
 			children = (
 				FAA4A87A2A4184D200A820AA /* CharacterNode.swift */,
-				FAA4A8802A41F7D100A820AA /* TriggerNode.swift */,
 			);
 			path = Node;
 			sourceTree = "<group>";
@@ -195,7 +192,6 @@
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
 				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
-				FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */,
 				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,7 +332,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = T872JMS8WL;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
