@@ -34,7 +34,7 @@ class CharEntity: GKEntity, GKAgentDelegate {
         self.objCharacter.walkSpeed = 40.0
         self.objCharacter.zPosition = 100
         self.objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
-        self.objCharacter.setScale(0.4)
+        self.objCharacter.setScale(1)
         self.objCharacter.physicsBody?.isDynamic = true
         self.objCharacter.physicsBody?.affectedByGravity = false
         self.objCharacter.physicsBody?.allowsRotation = false
