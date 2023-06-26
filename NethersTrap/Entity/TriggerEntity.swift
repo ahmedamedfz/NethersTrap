@@ -9,14 +9,16 @@ import GameplayKit
 import SpriteKit
 
 class TriggerEntity: GKEntity {
-    let spriteName: String
+//    let nameEntity: String
     var type: EntityType
-    var objTrigger: TriggerNode
-    init(name: String, type: EntityType) {
-        self.spriteName = name
+    var objTrigger: SKSpriteNode
+    var isOn: Bool = false
+    
+    init(name: String, type: EntityType, spriteImage: String, pos: CGPoint) {
         self.type = type
-        
-        self.objTrigger = TriggerNode(imageNamed: self.spriteName)
+        objTrigger = SKSpriteNode(imageNamed:spriteImage)
+        objTrigger.name = name
+        objTrigger.position = pos
         super.init()
         makeTrigger()
         
@@ -24,37 +26,41 @@ class TriggerEntity: GKEntity {
     }
     
     func makeTrigger() {
-        self.objTrigger.totalTrigger = 1
-        self.objTrigger.physicsBody = SKPhysicsBody(rectangleOf: self.objTrigger.size)
-        self.objTrigger.physicsBody?.isDynamic = false
-        self.objTrigger.physicsBody?.affectedByGravity = false
-        self.objTrigger.physicsBody?.allowsRotation = false
-        self.objTrigger.alpha = 1
-        self.objTrigger.physicsBody?.contactTestBitMask = 0x10
-        self.objTrigger.setScale(0.1)
+        objTrigger.size = CGSize(width: 20, height: 30)
+        objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
+        objTrigger.physicsBody?.isDynamic = false
+        objTrigger.physicsBody?.affectedByGravity = false
+        objTrigger.physicsBody?.allowsRotation = false
+        objTrigger.alpha = 1
+        objTrigger.physicsBody?.contactTestBitMask = 0x10
+        objTrigger.setScale(0.8)
         
-        if self.type == .Switch {
+        if type == .Switch {
             defineSwitch()
-        } else if self.type == .HideOut {
+        } else if type == .HideOut {
             defineHideOut()
-        } else if self.type == .Cage {
+        } else if type == .Cage {
             
-        } else if self.type == .Timer {
+        } else if type == .Timer {
             
+        } else if type == .Portal {
+            definePortal()
         }
         
-        let geometryComponent = GeometryComponent<TriggerNode>(geometryNode: self.objTrigger)
+        let geometryComponent = GeometryComponent<SKSpriteNode>(geometryNode: objTrigger)
         self.addComponent(geometryComponent)
     }
     
     func defineHideOut() {
-        self.objTrigger.position = CGPoint(x: 30, y: 50)
-        self.objTrigger.physicsBody?.categoryBitMask = 0x10000
+        objTrigger.physicsBody?.categoryBitMask = 0x10000
     }
     
     func defineSwitch() {
-        self.objTrigger.position = CGPoint(x: 0, y: 50)
-        self.objTrigger.physicsBody?.categoryBitMask = 0x100
+        objTrigger.physicsBody?.categoryBitMask = 0x100
+    }
+    
+    func definePortal() {
+        objTrigger.physicsBody?.categoryBitMask = 0x100000
     }
     
     required init?(coder: NSCoder) {
@@ -66,5 +72,5 @@ class TriggerEntity: GKEntity {
 
 
 enum EntityType {
-    case Switch, HideOut, Cage, Timer
+    case Switch, HideOut, Cage, Timer, Portal
 }

@@ -19,17 +19,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    static public var instance: GameScene = GameScene()
     private var lastUpdateTime : TimeInterval = 0
     
-    var enemyEntity: CharEntity = CharEntity(name: "Enemy", role: .Enemy)
-    var player1Entity: CharEntity = CharEntity(name: "", role: .Player)
-    var player2Entity: CharEntity = CharEntity(name: "", role: .Player)
-    var player3Entity: CharEntity = CharEntity(name: "", role: .Player)
-    var player4Entity: CharEntity = CharEntity(name: "", role: .Player)
+    var enemyEntity: CharEntity = CharEntity(name: "enemy", role: .Enemy, spriteImage: "")
+    var player1Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
+    var player2Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
+    var player3Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
+    var player4Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
     var agents: [GKAgent2D] = []
     var chaseBehavior: GKBehavior?
     
     var walls: [SKNode] = []
     var obstacles: [GKPolygonObstacle] = []
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
+    
+    let totalHideOut = 3
+    var totalSwitchOn = 0
+    
+    var spawnHideOutSpots: [[Int]:Bool] = [
+        [25,25]:false,
+        [50,50]:false,
+        [100,50]:false,
+        [50,100]:false,
+        [150,50]:false,
+        [50,150]:false,
+    ]
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
     
@@ -49,25 +61,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 60.0)
         
         setupEntities()
-        addComponentsToComponentSystems()
+//        addComponentsToComponentSystems()
     }
     
     func setupEntities() {
-        player1Entity = CharEntity(name: "GhostADown/0", role: .Player)
+        player1Entity = CharEntity(name: "player1", role: .Player, spriteImage: "GhostADown/0")
         addChild(player1Entity.objCharacter)
         addAgent(entityNode: player1Entity)
         
-        enemyEntity = CharEntity(name: "GhostADown/5", role: .Enemy)
+        enemyEntity = CharEntity(name: "enemy", role: .Enemy, spriteImage: "GhostADown/0")
         addChild(enemyEntity.objCharacter)
         addAgent(entityNode: enemyEntity)
         
-        let switchEntity = TriggerEntity(name: "Cobblestone_Grid_Center", type: .Switch)
+        let switchEntity = TriggerEntity(name: "switch1", type: .Switch, spriteImage: "Cobblestone_Grid_Center", pos: CGPoint(x: 0, y: 50))
         addChild(switchEntity.objTrigger)
+        TriggerEntities.append(switchEntity)
         
-        let hideOutEntity = TriggerEntity(name: "Water_Grid_Center", type: .HideOut)
-        addChild(hideOutEntity.objTrigger)
+        for i in 1...totalHideOut {
+            let specificElement = spawnHideOutSpots.filter { $0.value == false }.map { $0.key }
+            let selectedElement = specificElement.randomElement()
+            let posX = selectedElement?.first ?? 0
+            let posY = selectedElement?.last ?? 0
+            
+            let hideOutEntity = TriggerEntity(name: "hideOut\(i)", type: .HideOut, spriteImage: "hideOutAssets", pos: CGPoint(x: posX, y: posY))
+            addChild(hideOutEntity.objTrigger)
+            TriggerEntities.append(hideOutEntity)
+            spawnHideOutSpots[selectedElement ?? [0]] = true
+        }
+        
+        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: -50, y: 50))
+        addChild(portalEntity.objTrigger)
+        TriggerEntities.append(portalEntity)
         characterEntities = [enemyEntity, player1Entity]
-        TriggerEntities = [switchEntity]
+        
         makeCamera()
     }
     
@@ -136,17 +162,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleGraph.remove([startNode, endNode])
     }
     
-    func addComponentsToComponentSystems() {
-        for ent in characterEntities {
-            playerControlComponentSystem.addComponent(foundIn: ent)
-        }
-    }
+//    func addComponentsToComponentSystems() {
+//        for ent in characterEntities {
+//            playerControlComponentSystem.addComponent(foundIn: ent)
+//        }
+//    }
     
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        
         if characterEntities[1].objCharacter.hit.isEmpty {
             if collision == 0x10 | 0x100 {
+//                let entity = TriggerEntities.filter { $0.objTrigger.name == contact.bodyB.node?.name ?? "" }
+                let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
+                characterEntities[1].objCharacter.idxSwitchVisited = index ?? 0
+//                print(test.first?.objTrigger.name ?? "")
                 print("Switch")
                 characterEntities[1].objCharacter.hit = "Switch"
 //                characterEntities[1].objCharacter.isHidden = true
@@ -155,18 +184,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 characterEntities[1].objCharacter.hit = "Catched"
                 characterEntities[1].objCharacter.deathAnimating = true
 //                animateDeath()
-                for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-                    component.animateDeath()
-                }
+//                for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
+//                    component.animateDeath()
+//                }
+                characterEntities[1].component(ofType: PlayerControllerComponent.self)?.animateDeath()
             } else if collision == 0x10 | 0x10000 {
                 print("Hide")
                 characterEntities[1].objCharacter.hidingRange = true
+            } else if collision == 0x10 | 0x100000 && totalSwitchOn == 1 {
+                characterEntities[1].objCharacter.isMovement = false
+                characterEntities[1].objCharacter.isHidden = true
+                print("win")
+                enemyEntity.agent.behavior = nil
             }
         }
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
         characterEntities[1].objCharacter.hit = ""
+        characterEntities[1].objCharacter.idxSwitchVisited = -1
 //        characterEntities[1].objCharacter.isHidden = false
         characterEntities[1].objCharacter.hidingRange = false
     }
@@ -182,7 +218,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 13:
             characterEntities[1].objCharacter.up = true
         case 3:
-            if characterEntities[1].objCharacter.hidingRange {
+            if characterEntities[1].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn  {
+                TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn = true
+                totalSwitchOn += 1
+            }else if characterEntities[1].objCharacter.hidingRange {
                 characterEntities[1].objCharacter.isHidden = true
                 characterEntities[1].objCharacter.isMovement = false
                 enemyEntity.agent.behavior = nil
@@ -193,7 +232,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             } else {
                 self.enemyEntity.agent.behavior = self.chaseBehavior
-                unHide()
+                characterEntities[1].component(ofType: PlayerControllerComponent.self)?.unHide()
+//                unHide()
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
@@ -201,16 +241,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startCountDown() {
-        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-            component.countDown()
-        }
+        characterEntities[1].component(ofType: PlayerControllerComponent.self)?.countDown()
     }
     
-    func unHide() {
-        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-            component.unHide()
-        }
-    }
+//    func unHide() {
+//        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
+//            component.unHide()
+//        }
+//    }
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
@@ -237,10 +275,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
-        
-        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-            component.movement(moveLeft: characterEntities[1].objCharacter.left, moveRight: characterEntities[1].objCharacter.right, moveUp: characterEntities[1].objCharacter.up, moveDown: characterEntities[1].objCharacter.down, dt: dt, camera: cameraNode, speed: characterEntities[1].objCharacter.walkSpeed, isMovement: characterEntities[1].objCharacter.isMovement)
-        }
+        characterEntities[1].component(ofType: PlayerControllerComponent.self)?.movement(dt: dt, camera: cameraNode)
+//        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
+//            component.movement(moveLeft: characterEntities[1].objCharacter.left, moveRight: characterEntities[1].objCharacter.right, moveUp: characterEntities[1].objCharacter.up, moveDown: characterEntities[1].objCharacter.down, dt: dt, camera: cameraNode, speed: characterEntities[1].objCharacter.walkSpeed, isMovement: characterEntities[1].objCharacter.isMovement)
+//        }
         
         // Agent Update
         player1Entity.agent.update(deltaTime: dt)
