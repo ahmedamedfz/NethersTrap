@@ -24,15 +24,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player2Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
     var player3Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
     var player4Entity: CharEntity = CharEntity(name: "", role: .Player, spriteImage: "")
-    var agents: [GKAgent2D] = []
     var chaseBehavior: GKBehavior?
     
     var walls: [SKNode] = []
     var obstacles: [GKPolygonObstacle] = []
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
+    var lastPlayerPos: vector_float2!
     
     let totalHideOut = 3
     var totalSwitchOn = 0
+    
+    var countUpdate = 0
     
     var spawnHideOutSpots: [[Int]:Bool] = [
         [25,25]:false,
@@ -44,8 +46,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     ]
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
-    
-    
     
     override func sceneDidLoad() {
         self.lastUpdateTime = 0
@@ -68,6 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player1Entity = CharEntity(name: "player1", role: .Player, spriteImage: "GhostADown/0")
         addChild(player1Entity.objCharacter)
         addAgent(entityNode: player1Entity)
+        lastPlayerPos = player1Entity.agent.position
         
         enemyEntity = CharEntity(name: "enemy", role: .Enemy, spriteImage: "GhostADown/0")
         addChild(enemyEntity.objCharacter)
@@ -109,40 +110,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let entity = entityNode.objCharacter.entity
         let agent = entityNode.agent
         
-//        var mapBound: [SKNode] = []
-//        scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
-//            mapBound.append(node)
-//        }
-//        let obstacles = SKNode.obstacles(fromNodePhysicsBodies: mapBound)
-//        let mapGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 2)
-//        let mapNodes = mapGraph.nodes
-//        let mapPath = GKPath(graphNodes: mapNodes!, radius: 1.0)
-//
-//        print(mapNodes)
-        
         agent.delegate = entityNode
         agent.position = SIMD2(x: Float(entityNode.objCharacter.position.x), y: Float(entityNode.objCharacter.position.y))
-        
-//        if entityNode.role == .Enemy {
-//            chaseBehavior = GKBehavior(goals:
-//                                        [GKGoal(toAvoid: obstacles, maxPredictionTime: 2.0),
-//                                         GKGoal(toFollow: mapPath, maxPredictionTime: 2.0, forward: true),
-//                                         GKGoal(toStayOn: mapPath, maxPredictionTime: 2.0),
-//                                         GKGoal(toSeekAgent: player1Entity.agent),
-//                                         GKGoal(toWander: 2.0),
-//                                         GKGoal(toInterceptAgent: player1Entity.agent, maxPredictionTime: 2.0)])
-//
-//            agent.behavior = chaseBehavior
         agent.mass = 0.01
-        agent.maxSpeed = 200
+        agent.maxSpeed = 500
         agent.maxAcceleration = 1000
-//        }
         
         entity?.addComponent(agent)
     }
     
     func makePathFinding() {
-        let endNode = GKGraphNode2D(point: player1Entity.agent.position)
+        let direction = player1Entity.agent.position - lastPlayerPos
+        var positionXDif: Float = 0
+        var positionYDif: Float = 0
+        
+        if direction.x > 0 {
+            positionXDif = 80
+        } else if direction.x == 0 {
+            positionXDif = 0
+        } else {
+            positionXDif = -80
+        }
+        
+        if direction.y > 0 {
+            positionYDif = 80
+        } else if direction.y == 0 {
+            positionYDif = 0
+        } else {
+            positionYDif = -80
+        }
+        
+        let endNode = GKGraphNode2D(point: player1Entity.agent.position + SIMD2(x: positionXDif, y: positionYDif))
         obstacleGraph.connectUsingObstacles(node: endNode, ignoringBufferRadiusOf: obstacles)
         let startNode = GKGraphNode2D(point: enemyEntity.agent.position)
         obstacleGraph.connectUsingObstacles(node: startNode, ignoringBufferRadiusOf: obstacles)
@@ -161,12 +159,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         obstacleGraph.remove([startNode, endNode])
     }
-    
-//    func addComponentsToComponentSystems() {
-//        for ent in characterEntities {
-//            playerControlComponentSystem.addComponent(foundIn: ent)
-//        }
-//    }
     
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -221,19 +213,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if characterEntities[1].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn  {
                 TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn = true
                 totalSwitchOn += 1
-            }else if characterEntities[1].objCharacter.hidingRange {
+            } else if characterEntities[1].objCharacter.hidingRange {
                 characterEntities[1].objCharacter.isHidden = true
                 characterEntities[1].objCharacter.isMovement = false
                 enemyEntity.agent.behavior = nil
+                
                 run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5)) {
                     if !self.characterEntities[1].objCharacter.isHidden {
-                        self.enemyEntity.agent.behavior = self.chaseBehavior
+                        
                     }
                 }
             } else {
-                self.enemyEntity.agent.behavior = self.chaseBehavior
+                
                 characterEntities[1].component(ofType: PlayerControllerComponent.self)?.unHide()
-//                unHide()
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
@@ -243,12 +235,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startCountDown() {
         characterEntities[1].component(ofType: PlayerControllerComponent.self)?.countDown()
     }
-    
-//    func unHide() {
-//        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-//            component.unHide()
-//        }
-//    }
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
@@ -285,6 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemyEntity.agent.update(deltaTime: dt)
         
         makePathFinding()
+        lastPlayerPos = player1Entity.agent.position
             
         self.lastUpdateTime = currentTime
     }
