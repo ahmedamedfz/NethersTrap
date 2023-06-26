@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
     
+    
+    
     override func sceneDidLoad() {
         self.lastUpdateTime = 0
     }
@@ -60,6 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeCamera() {
         cameraNode = SKCameraNode()
+        cameraNode.xScale = 200 / 100
+        cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
     }
@@ -68,14 +72,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let entity = entityNode.objCharacter.entity
         let agent = entityNode.agent
         
+        var mapBound: [SKNode] = []
+        scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
+            mapBound.append(node)
+        }
+        let obstacles = SKNode.obstacles(fromNodePhysicsBodies: mapBound)
+        let mapGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 2)
+        let mapNodes = mapGraph.nodes
+        let mapPath = GKPath(graphNodes: mapNodes!, radius: 1.0)
+        
+        
         agent.delegate = entityNode
         agent.position = SIMD2(x: Float(entityNode.objCharacter.position.x), y: Float(entityNode.objCharacter.position.y))
         entity?.addComponent(agent)
         
         if entityNode.role == .Enemy {
-            chaseBehavior = GKBehavior(goal: GKGoal(toSeekAgent: player1Entity.agent), weight: 1.0)
+            chaseBehavior = GKBehavior(goals:
+                                        [GKGoal(toAvoid: obstacles, maxPredictionTime: 10.0),
+                                         GKGoal(toStayOn: mapPath, maxPredictionTime: 10.0),
+                                         GKGoal(toSeekAgent: player1Entity.agent),
+//                                         GKGoal(toWander: 10.0),
+                                         GKGoal(toInterceptAgent: player1Entity.agent, maxPredictionTime: 20)])
+                                        
             agent.behavior = chaseBehavior
-                
             agent.mass = 0.01
             agent.maxSpeed = 50
             agent.maxAcceleration = 1000

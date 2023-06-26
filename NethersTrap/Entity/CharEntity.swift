@@ -31,7 +31,7 @@ class CharEntity: GKEntity, GKAgentDelegate {
     }
     
     func makeEntities() {
-        self.objCharacter.walkSpeed = 40.0
+        self.objCharacter.walkSpeed = 60.0
         self.objCharacter.zPosition = 100
         self.objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
         self.objCharacter.setScale(1)
