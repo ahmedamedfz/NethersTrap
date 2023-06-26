@@ -108,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //            agent.behavior = chaseBehavior
         agent.mass = 0.01
-        agent.maxSpeed = 50
+        agent.maxSpeed = 200
         agent.maxAcceleration = 1000
 //        }
         
