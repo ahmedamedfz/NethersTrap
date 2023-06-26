@@ -27,6 +27,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var agents: [GKAgent2D] = []
     var chaseBehavior: GKBehavior?
     
+    var walls: [SKNode] = []
+    var obstacles: [GKPolygonObstacle] = []
+    var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
+    
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
     
     
@@ -37,6 +41,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
+        
+        scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
+            self.walls.append(node)
+        }
+        obstacles = SKNode.obstacles(fromNodePhysicsBodies: walls)
+        obstacleGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 60.0)
+        
         setupEntities()
         addComponentsToComponentSystems()
     }
@@ -72,33 +83,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let entity = entityNode.objCharacter.entity
         let agent = entityNode.agent
         
-        var mapBound: [SKNode] = []
-        scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
-            mapBound.append(node)
-        }
-        let obstacles = SKNode.obstacles(fromNodePhysicsBodies: mapBound)
-        let mapGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 2)
-        let mapNodes = mapGraph.nodes
-        let mapPath = GKPath(graphNodes: mapNodes!, radius: 1.0)
-        
+//        var mapBound: [SKNode] = []
+//        scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
+//            mapBound.append(node)
+//        }
+//        let obstacles = SKNode.obstacles(fromNodePhysicsBodies: mapBound)
+//        let mapGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 2)
+//        let mapNodes = mapGraph.nodes
+//        let mapPath = GKPath(graphNodes: mapNodes!, radius: 1.0)
+//
+//        print(mapNodes)
         
         agent.delegate = entityNode
         agent.position = SIMD2(x: Float(entityNode.objCharacter.position.x), y: Float(entityNode.objCharacter.position.y))
-        entity?.addComponent(agent)
         
-        if entityNode.role == .Enemy {
-            chaseBehavior = GKBehavior(goals:
-                                        [GKGoal(toAvoid: obstacles, maxPredictionTime: 10.0),
-                                         GKGoal(toStayOn: mapPath, maxPredictionTime: 10.0),
-                                         GKGoal(toSeekAgent: player1Entity.agent),
-//                                         GKGoal(toWander: 10.0),
-                                         GKGoal(toInterceptAgent: player1Entity.agent, maxPredictionTime: 20)])
-                                        
-            agent.behavior = chaseBehavior
-            agent.mass = 0.01
-            agent.maxSpeed = 50
-            agent.maxAcceleration = 1000
+//        if entityNode.role == .Enemy {
+//            chaseBehavior = GKBehavior(goals:
+//                                        [GKGoal(toAvoid: obstacles, maxPredictionTime: 2.0),
+//                                         GKGoal(toFollow: mapPath, maxPredictionTime: 2.0, forward: true),
+//                                         GKGoal(toStayOn: mapPath, maxPredictionTime: 2.0),
+//                                         GKGoal(toSeekAgent: player1Entity.agent),
+//                                         GKGoal(toWander: 2.0),
+//                                         GKGoal(toInterceptAgent: player1Entity.agent, maxPredictionTime: 2.0)])
+//
+//            agent.behavior = chaseBehavior
+        agent.mass = 0.01
+        agent.maxSpeed = 50
+        agent.maxAcceleration = 1000
+//        }
+        
+        entity?.addComponent(agent)
+    }
+    
+    func makePathFinding() {
+        let endNode = GKGraphNode2D(point: player1Entity.agent.position)
+        obstacleGraph.connectUsingObstacles(node: endNode, ignoringBufferRadiusOf: obstacles)
+        let startNode = GKGraphNode2D(point: enemyEntity.agent.position)
+        obstacleGraph.connectUsingObstacles(node: startNode, ignoringBufferRadiusOf: obstacles)
+        
+        let pathNodes = obstacleGraph.findPath(from: startNode, to: endNode) as? [GKGraphNode2D]
+        
+        if !pathNodes!.isEmpty {
+            let path = GKPath(graphNodes: pathNodes!, radius: 1.0)
+            let followPath = GKGoal(toFollow: path, maxPredictionTime: 1.0, forward: true)
+            let stayOnPath = GKGoal(toStayOn: path, maxPredictionTime: 1.0)
+            
+            let behaviors = GKBehavior(goals: [followPath, stayOnPath], andWeights: [1, 1])
+            
+            enemyEntity.agent.behavior = behaviors
         }
+        
+        obstacleGraph.remove([startNode, endNode])
     }
     
     func addComponentsToComponentSystems() {
@@ -210,6 +245,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Agent Update
         player1Entity.agent.update(deltaTime: dt)
         enemyEntity.agent.update(deltaTime: dt)
+        
+        makePathFinding()
             
         self.lastUpdateTime = currentTime
     }
