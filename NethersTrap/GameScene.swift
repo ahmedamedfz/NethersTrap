@@ -7,9 +7,94 @@
 
 import SpriteKit
 import GameplayKit
+import MultipeerConnectivity
+import GameKit
 
+class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate{
+    
+    var session: MCSession!
+    var peerID: MCPeerID!
+    var browser: MCBrowserViewController!
+    var assistant: MCAdvertiserAssistant!
+    
+    func startMultipeerConnectivity() {
+        // Create a peer ID using the host name of the local device
+        let deviceName = Host.current().localizedName ?? ""
+        peerID = MCPeerID(displayName: deviceName)
+        
+        // Create a session with the local peer ID
+        session = MCSession(peer: peerID)
+        session.delegate = self
+        
+        // Create a browser view controller for nearby devices
+        browser = MCBrowserViewController(serviceType: "my-game", session: session)
+        browser.delegate = self
+        
+        // Create an advertiser assistant to handle incoming connection requests
+        assistant = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+        // Start advertising and browsing for peers
+        assistant.start()
+        view?.window?.contentViewController?.presentAsModalWindow(browser)
+    }
+    
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        switch state {
+        case .connected:
+            print("Connected to peer: \(peerID.displayName)")
+            // You can perform any necessary actions when a peer is connected
+            if player2Entity.spriteName.isEmpty {
+                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                addChild(player2Entity.objCharacter)
+                addAgent(entityNode: player2Entity)
+            } else if player3Entity.spriteName.isEmpty {
+                player3Entity = CharEntity(name: "GhostADown/2", role: .Player)
+                addChild(player3Entity.objCharacter)
+                addAgent(entityNode: player3Entity)
+            } else if player4Entity.spriteName.isEmpty {
+                player4Entity = CharEntity(name: "GhostADown/3", role: .Player)
+                addChild(player4Entity.objCharacter)
+                addAgent(entityNode: player4Entity)
+            }
+        case .connecting:
+            print("Connecting to peer: \(peerID.displayName)")
+        case .notConnected:
+            print("Disconnected from peer: \(peerID.displayName)")
+        default:
+            break
+        }
+    }
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        // Process received data
+               let receivedText = String(data: data, encoding: .utf8)
+               print("Received data from \(peerID.displayName): \(receivedText ?? "")")
+               
+               // Handle received data accordingly
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        
+    }
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        
+    }
+    
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        
+    }
+    
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        // Called when the user finishes browsing for nearby devices
+        browserViewController.dismiss(true)
+    }
+    
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        // Called when the user cancels browsing for nearby devices
+        browserViewController.dismiss(true)
+    }
+    
     
     var characterEntities = [CharEntity]()
     var TriggerEntities = [TriggerEntity]()
@@ -37,6 +122,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         setupEntities()
         addComponentsToComponentSystems()
+        
+//        let browseButton = SKLabelNode(text: "Browse")
+//        browseButton.fontSize = 20
+//        browseButton.fontColor = .white
+//        browseButton.position = CGPoint(x: size.width - 80, y: size.height - 40)
+//        browseButton.name = "browseButton"
+//        addChild(browseButton)
     }
     
     func setupEntities() {
@@ -141,6 +233,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.enemyEntity.agent.behavior = self.chaseBehavior
                 unHide()
             }
+            
+        case 11:
+            print("multipeer")
+            startMultipeerConnectivity()
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
