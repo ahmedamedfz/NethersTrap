@@ -11,12 +11,12 @@ import SpriteKit
 class TriggerEntity: GKEntity {
 //    let nameEntity: String
     var type: EntityType
-    var objTrigger: SKSpriteNode
-    var isOn: Bool = false
+    var objTrigger: TriggerNode
+//    var isOn: Bool = false
     
     init(name: String, type: EntityType, spriteImage: String, pos: CGPoint) {
         self.type = type
-        objTrigger = SKSpriteNode(imageNamed:spriteImage)
+        objTrigger = TriggerNode(imageNamed:spriteImage)
         objTrigger.name = name
         objTrigger.position = pos
         super.init()

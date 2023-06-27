@@ -15,10 +15,14 @@
 		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
+		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
+		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
+		FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */; };
+		FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */; };
 		FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */; };
 		FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */; };
-		FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* CharEntity.swift */; };
-		FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* CharacterNode.swift */; };
+		FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */; };
+		FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* PlayerNode.swift */; };
 		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,10 +37,14 @@
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
+		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
+		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
+		FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyControllerComponent.swift; sourceTree = "<group>"; };
+		FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
 		FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryComponent.swift; sourceTree = "<group>"; };
 		FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControllerComponent.swift; sourceTree = "<group>"; };
-		FAA4A8782A4169BB00A820AA /* CharEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharEntity.swift; sourceTree = "<group>"; };
-		FAA4A87A2A4184D200A820AA /* CharacterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterNode.swift; sourceTree = "<group>"; };
+		FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
+		FAA4A87A2A4184D200A820AA /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
 		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,8 +97,9 @@
 		FAA4A8822A41FF8D00A820AA /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				FAA4A8782A4169BB00A820AA /* CharEntity.swift */,
+				FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */,
 				FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */,
+				FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -98,7 +107,9 @@
 		FAA4A8832A41FF9700A820AA /* Node */ = {
 			isa = PBXGroup;
 			children = (
-				FAA4A87A2A4184D200A820AA /* CharacterNode.swift */,
+				FAA4A87A2A4184D200A820AA /* PlayerNode.swift */,
+				FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */,
+				FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */,
 			);
 			path = Node;
 			sourceTree = "<group>";
@@ -108,6 +119,7 @@
 			children = (
 				FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */,
 				FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */,
+				FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -186,12 +198,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
-				FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */,
+				FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */,
+				FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */,
+				FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */,
+				FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */,
 				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
-				FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */,
+				FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
 				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
+				FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */,
 				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,7 +348,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = T872JMS8WL;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

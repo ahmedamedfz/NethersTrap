@@ -10,7 +10,7 @@ import GameplayKit
 
 class PlayerControllerComponent: GKComponent {
     
-    var geometryComponent: GeometryComponent<CharacterNode>? {
+    var geometryComponent: GeometryComponent<PlayerNode>? {
         return entity?.component(ofType: GeometryComponent.self)
     }
     var characterDownTexture: [SKTexture] = []
@@ -93,7 +93,7 @@ class PlayerControllerComponent: GKComponent {
                 lastMovement = .right
             }
         }
-        camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
+//        camera.position = geometryComponent?.geometryNode.position ?? CGPoint(x: 0.0, y: 0.0)
     }
     
 //    func movement(moveLeft: Bool, moveRight: Bool, moveUp: Bool, moveDown: Bool, dt: TimeInterval, camera: SKCameraNode, speed: CGFloat, isMovement: Bool) {
