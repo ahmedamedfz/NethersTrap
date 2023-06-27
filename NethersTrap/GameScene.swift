@@ -33,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let totalHideOut = 3
     var totalSwitchOn = 0
+    let totalSwitch = 4
     
     var countUpdate = 0
     
@@ -43,6 +44,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         [50,100]:false,
         [150,50]:false,
         [50,150]:false,
+    ]
+    
+    var spawnSwitchSpots: [[Int]:Bool] = [
+        [-25,-25]:false,
+        [-50,-50]:false,
+        [-100,-50]:false,
+        [-50,-100]:false,
+        [-150,-50]:false,
+        [-50,-150]:false,
+    ]
+    
+    var spawnPortal: [[Int]:Bool] = [
+        [10,40]:false,
+        [40,10]:false,
+        [100,20]:false,
+        [-20,-40]:false,
+        [-10,-10]:false,
+        [-70,-150]:false,
     ]
     
     let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
@@ -89,10 +108,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             TriggerEntities.append(hideOutEntity)
             spawnHideOutSpots[selectedElement ?? [0]] = true
         }
+        for j in 1...totalSwitch {
+            let specificElement = spawnSwitchSpots.filter { $0.value == false }.map { $0.key }
+            let selectedElement = specificElement.randomElement()
+            let posX = selectedElement?.first ?? 0
+            let posY = selectedElement?.last ?? 0
+            
+            let switchEntity = TriggerEntity(name: "switch\(j)", type: .HideOut, spriteImage: "Cobblestone_Grid_center", pos: CGPoint(x: posX, y: posY))
+            addChild(switchEntity.objTrigger)
+            TriggerEntities.append(switchEntity)
+            spawnSwitchSpots[selectedElement ?? [0]] = true
+        }
         
         let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: -50, y: 50))
         addChild(portalEntity.objTrigger)
         TriggerEntities.append(portalEntity)
+        portalEntity.objTrigger.isHidden = true
+        
+        
         characterEntities = [enemyEntity, player1Entity]
         
         makeCamera()
@@ -213,6 +246,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if characterEntities[1].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn  {
                 TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn = true
                 totalSwitchOn += 1
+                print(totalSwitchOn)
+                if (totalSwitchOn == totalSwitch){
+                    TriggerEntities.first{$0.type == .Portal}?.objTrigger.isHidden = false
+                }
             } else if characterEntities[1].objCharacter.hidingRange {
                 characterEntities[1].objCharacter.isHidden = true
                 characterEntities[1].objCharacter.isMovement = false
