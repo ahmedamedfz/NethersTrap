@@ -27,6 +27,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var agents: [GKAgent2D] = []
     var chaseBehavior: GKBehavior?
     
+    var trachCanLocation : [SKNode] = []
+    var paintingLocation : [SKNode] = []
+    
     var walls: [SKNode] = []
     var obstacles: [GKPolygonObstacle] = []
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
@@ -50,6 +53,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupEntities()
         addComponentsToComponentSystems()
+    }
+    
+    func setupMap() {
+        scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
+            self.trachCanLocation.append(node)
+            node.isHidden = true
+        }
+        scene?.enumerateChildNodes(withName: "Painting") { node, _ in
+            self.paintingLocation.append(node)
+        }
     }
     
     func setupEntities() {
