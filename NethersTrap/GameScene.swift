@@ -31,9 +31,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
     var lastPlayerPos: vector_float2!
     
-    let totalHideOut = 8
+    let totalHideOut = 12
     var totalSwitchOn = 0
     let totalSwitch = 4
+    
     
     var countUpdate = 0
     
@@ -62,8 +63,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupEntities()
         setupGameSceneInteractable()
 //        addComponentsToComponentSystems()
+        
     }
     
+        
     func setupGameSceneInteractable(){
         
         let paintingImage = ["PaintingHideOutA","PaintingHideOutB","PaintingHideOutC"]
@@ -108,16 +111,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         for j in 0..<totalSwitch {
-            let switchElement = spawnSwitchSpots
+            var switchElement = spawnSwitchSpots
+            
             let selectedSwitchElement = switchElement.randomElement()
             
-            let switchEntity = TriggerEntity(name: "switch\(j)", type: .HideOut, spriteImage: "Cobblestone_Grid_center", pos: selectedSwitchElement!.position)
+            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitchElement!.position)
             addChild(switchEntity.objTrigger)
             TriggerEntities.append(switchEntity)
             selectedSwitchElement?.isHidden = false
         }
         
-        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: -50, y: 50))
+        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: 50, y: 450))
         addChild(portalEntity.objTrigger)
         TriggerEntities.append(portalEntity)
         portalEntity.objTrigger.isHidden = true
@@ -127,8 +131,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        player1Entity = CharEntity(name: "player1", role: .Player, spriteImage: "GhostADown/0")
+        player1Entity = CharEntity(name: "sa", role: .Player, spriteImage: "GhostADown/0")
+        
+        let playerNameLabel = SKLabelNode(fontNamed: "Helvetica")
+        playerNameLabel.text = player1Entity.nameEntity
+        playerNameLabel.fontSize = 10
+        playerNameLabel.fontColor = SKColor.green
+        playerNameLabel.horizontalAlignmentMode = .center
+//        playerNameLabel.position = CGPoint(x: 0, y: player1Entity.size.height / 2 + playerNameLabel.frame.height)
+        playerNameLabel.position = CGPoint(x: player1Entity.objCharacter.position.x, y: player1Entity.objCharacter.position.y + player1Entity.objCharacter.size.height/2)
+
+        
         addChild(player1Entity.objCharacter)
+        player1Entity.objCharacter.addChild(playerNameLabel)
+        
+        let pressLabel = SKLabelNode(fontNamed: "Helvetica")
+        pressLabel.text = "Press F to hide"
+        pressLabel.name = "Press"
+        pressLabel.fontSize = 10
+        pressLabel.fontColor = SKColor.black
+        pressLabel.horizontalAlignmentMode = .left
+        pressLabel.isHidden = true
+//        playerNameLabel.position = CGPoint(x: 0, y: player1Entity.size.height / 2 + playerNameLabel.frame.height)
+        pressLabel.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
+        player1Entity.objCharacter.addChild(pressLabel)
+        
         addAgent(entityNode: player1Entity)
         lastPlayerPos = player1Entity.agent.position
         
@@ -136,9 +163,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(enemyEntity.objCharacter)
         addAgent(entityNode: enemyEntity)
         
-        let switchEntity = TriggerEntity(name: "switch1", type: .Switch, spriteImage: "Cobblestone_Grid_Center", pos: CGPoint(x: 0, y: 50))
-        addChild(switchEntity.objTrigger)
-        TriggerEntities.append(switchEntity)
+//        let switchEntity = TriggerEntity(name: "switch1", type: .Switch, spriteImage: "Cobblestone_Grid_Center", pos: CGPoint(x: 0, y: 50))
+//        addChild(switchEntity.objTrigger)
+//        TriggerEntities.append(switchEntity)
         
         
         characterEntities = [enemyEntity, player1Entity]
@@ -148,8 +175,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeCamera() {
         cameraNode = SKCameraNode()
-        cameraNode.xScale = 500 / 100
-        cameraNode.yScale = 500 / 100
+        cameraNode.xScale = 200 / 100
+        cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
     }
@@ -215,6 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                let entity = TriggerEntities.filter { $0.objTrigger.name == contact.bodyB.node?.name ?? "" }
                 let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
                 characterEntities[1].objCharacter.idxSwitchVisited = index ?? 0
+                
 //                print(test.first?.objTrigger.name ?? "")
                 print("Switch")
                 characterEntities[1].objCharacter.hit = "Switch"
@@ -230,6 +258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 characterEntities[1].component(ofType: PlayerControllerComponent.self)?.animateDeath()
             } else if collision == 0x10 | 0x10000 {
                 print("Hide")
+                player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = false
                 characterEntities[1].objCharacter.hidingRange = true
             } else if collision == 0x10 | 0x100000 && totalSwitchOn == 1 {
                 characterEntities[1].objCharacter.isMovement = false
@@ -245,6 +274,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         characterEntities[1].objCharacter.idxSwitchVisited = -1
 //        characterEntities[1].objCharacter.isHidden = false
         characterEntities[1].objCharacter.hidingRange = false
+        player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = true
     }
     
     override func keyDown(with event: NSEvent) {
@@ -261,6 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if characterEntities[1].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn  {
                 TriggerEntities[characterEntities[1].objCharacter.idxSwitchVisited].isOn = true
                 totalSwitchOn += 1
+                
                 print(totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
                     TriggerEntities.first{$0.type == .Portal}?.objTrigger.isHidden = false
