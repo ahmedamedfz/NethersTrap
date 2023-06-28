@@ -16,23 +16,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
     var match: GKMatch?
     var isMultiplayerGame = false
 
-//    func authenticateLocalPlayer() {
-//        let localPlayer = GKLocalPlayer.local
-//        localPlayer.authenticateHandler = { (viewController, error) in
-//            if let viewController = viewController {
-//                // Present the authentication view controller if needed
-//                if let window = NSApplication.shared.windows.first {
-//                    window.contentViewController?.presentAsSheet(viewController)
-//                }
-//            } else if localPlayer.isAuthenticated {
-//                // The local player is authenticated, set up the match
-//                self.setupMatchmaking()
-//            } else {
-//                // Authentication failed, handle the error
-//                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
-//            }
-//        }
-//    }
+    func authenticateLocalPlayer() {
+        let localPlayer = GKLocalPlayer.local
+        localPlayer.authenticateHandler = { (viewController, error) in
+            if let viewController = viewController {
+                // Present the authentication view controller if needed
+                if let window = NSApplication.shared.windows.first {
+                    window.contentViewController?.presentAsSheet(viewController)
+                }
+            } else if localPlayer.isAuthenticated {
+                // The local player is authenticated, set up the match
+                self.setupMatchmaking()
+            } else {
+                // Authentication failed, handle the error
+                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
+            }
+        }
+    }
 
 
     func setupMatchmaking() {
@@ -89,29 +89,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
 
 
 
-    func authenticateLocalPlayer() {
-           let localPlayer = GKLocalPlayer.local
-
-           localPlayer.authenticateHandler = { viewController, error in
-               if let error = error {
-                   print("Authentication failed: \(error.localizedDescription)")
-               } else if let viewController = viewController {
-                   if let window = self.view?.window {
-                       window.contentViewController?.presentAsSheet(viewController)
-                   }
-               } else if localPlayer.isAuthenticated {
-                   print("Local player authenticated!")
-                   self.findMatch()
-               }
-           }
-       }
-
-
     func findMatch() {
             let request = GKMatchRequest()
             request.minPlayers = 2
             request.maxPlayers = 4
-
+        
             GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in
                 if let error = error {
                     print("Failed to find match: \(error.localizedDescription)")
@@ -125,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
                     }
                 }
             })
+        
         }
 
     func startGame() {
@@ -326,7 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
         self.physicsWorld.contactDelegate = self
         setupEntities()
         addComponentsToComponentSystems()
-        authenticateLocalPlayer()
+//        authenticateLocalPlayer()
 //        let browseButton = SKLabelNode(text: "Browse")
 //        browseButton.fontSize = 20
 //        browseButton.fontColor = .white
@@ -440,6 +423,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
             
         case 11:
             print("multipeer")
+            authenticateLocalPlayer()
 //            startMultipeerConnectivity()
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
