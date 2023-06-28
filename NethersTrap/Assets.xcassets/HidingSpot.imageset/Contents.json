@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "TC2@1x.png",
+      "filename" : "HidingSpot@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "TC2@2x.png",
+      "filename" : "HidingSpot@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "TC2@3x.png",
+      "filename" : "HidingSpot@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
