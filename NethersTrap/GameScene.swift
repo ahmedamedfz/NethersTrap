@@ -16,23 +16,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
     var match: GKMatch?
     var isMultiplayerGame = false
 
-    func authenticateLocalPlayer() {
-        let localPlayer = GKLocalPlayer.local
-        localPlayer.authenticateHandler = { (viewController, error) in
-            if let viewController = viewController {
-                // Present the authentication view controller if needed
-                if let window = NSApplication.shared.windows.first {
-                    window.contentViewController?.presentAsSheet(viewController)
-                }
-            } else if localPlayer.isAuthenticated {
-                // The local player is authenticated, set up the match
-                self.setupMatchmaking()
-            } else {
-                // Authentication failed, handle the error
-                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
-            }
-        }
-    }
+//    func authenticateLocalPlayer() {
+//        let localPlayer = GKLocalPlayer.local
+//        localPlayer.authenticateHandler = { (viewController, error) in
+//            if let viewController = viewController {
+//                // Present the authentication view controller if needed
+//                if let window = NSApplication.shared.windows.first {
+//                    window.contentViewController?.presentAsSheet(viewController)
+//                }
+//            } else if localPlayer.isAuthenticated {
+//                // The local player is authenticated, set up the match
+//                self.setupMatchmaking()
+//            } else {
+//                // Authentication failed, handle the error
+//                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
+//            }
+//        }
+//    }
 
 
     func setupMatchmaking() {
@@ -89,22 +89,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
 
 
 
-//    func authenticateLocalPlayer() {
-//           let localPlayer = GKLocalPlayer.local
-//
-//           localPlayer.authenticateHandler = { viewController, error in
-//               if let error = error {
-//                   print("Authentication failed: \(error.localizedDescription)")
-//               } else if let viewController = viewController {
-//                   if let window = self.view?.window {
-//                       window.contentViewController?.presentAsSheet(viewController)
-//                   }
-//               } else if localPlayer.isAuthenticated {
-//                   print("Local player authenticated!")
-//                   self.findMatch()
-//               }
-//           }
-//       }
+    func authenticateLocalPlayer() {
+           let localPlayer = GKLocalPlayer.local
+
+           localPlayer.authenticateHandler = { viewController, error in
+               if let error = error {
+                   print("Authentication failed: \(error.localizedDescription)")
+               } else if let viewController = viewController {
+                   if let window = self.view?.window {
+                       window.contentViewController?.presentAsSheet(viewController)
+                   }
+               } else if localPlayer.isAuthenticated {
+                   print("Local player authenticated!")
+                   self.findMatch()
+               }
+           }
+       }
 
 
     func findMatch() {
@@ -138,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
 
             // Implement your game logic here
         }
-
+//
 //    func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {
 //        switch state {
 //        case .connected:
@@ -149,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKMatchDelegate/*, MCSession
 //            break
 //        }
 //    }
-
+//
 //        func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
 //            if let receivedString = String(data: data, encoding: .utf8) {
 //                print("Received data from player \(player.displayName): \(receivedString)")
