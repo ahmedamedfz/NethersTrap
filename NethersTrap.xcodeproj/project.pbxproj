@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		492AE3172A4C3CA0001550F1 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = 492AE3162A4C3CA0001550F1 /* MainMenu.sks */; };
+		492AE3192A4C3CB6001550F1 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3182A4C3CB6001550F1 /* MainMenu.swift */; };
 		4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */; };
 		4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3D2A3C3B6200A377A9 /* GameScene.sks */; };
 		4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3F2A3C3B6200A377A9 /* Actions.sks */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		492AE3162A4C3CA0001550F1 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
+		492AE3182A4C3CB6001550F1 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		4997DA382A3C3B6200A377A9 /* NethersTrap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NethersTrap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4997DA3D2A3C3B6200A377A9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -84,9 +88,11 @@
 				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
 				4997DA3D2A3C3B6200A377A9 /* GameScene.sks */,
 				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
+				492AE3162A4C3CA0001550F1 /* MainMenu.sks */,
 				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
 				E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */,
 				E7A454262A4AF4890039C874 /* MatchManager.swift */,
+				492AE3182A4C3CB6001550F1 /* MainMenu.swift */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
 				4997DA452A3C3B6300A377A9 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
@@ -182,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
+				492AE3172A4C3CA0001550F1 /* MainMenu.sks in Resources */,
 				4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */,
 				4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
@@ -203,6 +210,7 @@
 				FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
 				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
+				492AE3192A4C3CB6001550F1 /* MainMenu.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
 				FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */,
 				E7A454292A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift in Sources */,
