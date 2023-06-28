@@ -8,12 +8,14 @@
 import Foundation
 import GameplayKit
 import SpriteKit
+import MultipeerConnectivity
 
 class CharEntity: GKEntity, GKAgentDelegate {
     let spriteName: String
     var role: Role
     var objCharacter: CharacterNode
     var texture: SKTexture
+    var peerID: MCPeerID!
     
     var agent = GKAgent2D()
     
