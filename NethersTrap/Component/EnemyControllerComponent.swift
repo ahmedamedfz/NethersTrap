@@ -25,8 +25,6 @@ class EnemyControllerComponent: GKComponent {
     
     var lastMovement: lastMove = .none
     
-    
-    
     var obstacles: [GKPolygonObstacle] = []
     var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
     
@@ -34,6 +32,7 @@ class EnemyControllerComponent: GKComponent {
         obstacles = SKNode.obstacles(fromNodePhysicsBodies: walls)
         obstacleGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 60.0)
         super.init()
+        
         for i in 0...11 {
             AIDownTexture.append(SKTexture(imageNamed: "HumanDown/\(i)"))
             AIUpTexture.append(SKTexture(imageNamed: "HumanUp/\(i)"))
@@ -43,6 +42,7 @@ class EnemyControllerComponent: GKComponent {
             AILeftTexture.append(SKTexture(imageNamed: "HumanLeft/\(i)"))
             AIRightTexture.append(SKTexture(imageNamed: "HumanRight/\(i)"))
         }
+        
         AIDown = SKAction.animate(with: AIDownTexture, timePerFrame: 0.1)
         AIUp = SKAction.animate(with: AIUpTexture, timePerFrame: 0.1)
         AIRight = SKAction.animate(with: AIRightTexture, timePerFrame: 0.075)
@@ -128,12 +128,5 @@ class EnemyControllerComponent: GKComponent {
         
         obstacleGraph.remove([startNode, endNode])
     }
-    
-//    func animateMove(arrowPress: lastMove, movement: SKAction) {
-//        if arrowPress != lastMovement {
-//        geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(movement))
-//            print("Ubah Arah").obj
-//        }
-//    }
 }
 

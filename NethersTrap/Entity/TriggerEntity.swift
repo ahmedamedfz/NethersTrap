@@ -21,8 +21,6 @@ class TriggerEntity: GKEntity {
         objTrigger.position = pos
         super.init()
         makeTrigger()
-        
-        
     }
     
     func makeTrigger() {
@@ -67,10 +65,7 @@ class TriggerEntity: GKEntity {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
-
-
 
 enum EntityType {
     case Switch, HideOut, Cage, Timer, Portal

@@ -26,16 +26,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var walls: [SKNode] = []
     
-    let totalHideOut = 12
+    let totalHideOut = 10
     var totalSwitchOn = 0
     let totalSwitch = 4
     
-    var countUpdate = 0
-    
     var spawnPaintingSpots: [SKNode] = []
-    
     var spawnTrashCanSpots: [SKNode] = []
-    
     var spawnSwitchSpots: [SKNode] = []
     
     override func sceneDidLoad() {
@@ -49,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
             self.walls.append(node)
         }
+        
         setupGameSceneInteractable()
         setupEntities()
     }
@@ -56,51 +53,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupGameSceneInteractable() {
         let paintingImage = ["PaintingHideOutA","PaintingHideOutB","PaintingHideOutC"]
         let trashCanImage = ["TrashCanHideOutA","TrashCanHideOutB"]
-        let paintingHideOut = Int.random(in: 0...totalHideOut)
+        let paintingHideOut = Int.random(in: 1...totalHideOut)
         let trashCanHideOut = totalHideOut - paintingHideOut
         
-        
         scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
+            node.zPosition = 2
             self.spawnTrashCanSpots.append(node)
             node.isHidden = true
         }
         scene?.enumerateChildNodes(withName: "Painting") { node, _ in
+            node.zPosition = 3
             self.spawnPaintingSpots.append(node)
             node.isHidden = true
         }
         scene?.enumerateChildNodes(withName: "Switch") { node, _ in
+            node.zPosition = 4
             self.spawnSwitchSpots.append(node)
             node.isHidden = true
         }
         
-        for h in 1..<paintingHideOut+1 {
-            let paintingElement = spawnPaintingSpots
-            let selectedPaintingElement = paintingElement.randomElement()
+        for h in 0..<paintingHideOut {
+            let paintingCount = spawnPaintingSpots.count
+            let selectedPainting = spawnPaintingSpots.remove(at: Int.random(in: 0..<paintingCount))
             
-            let hideOutEntity = TriggerEntity(name: "hideOutPainting\(h)", type: .HideOut, spriteImage: paintingImage.randomElement()!, pos: selectedPaintingElement!.position)
+            let hideOutEntity = TriggerEntity(name: "Painting\(h)", type: .HideOut, spriteImage: paintingImage.randomElement()!, pos: selectedPainting.position)
             addChild(hideOutEntity.objTrigger)
             TriggerEntities.append(hideOutEntity)
-            selectedPaintingElement?.isHidden = false
+            selectedPainting.isHidden = false
         }
         
-        for i in 1..<trashCanHideOut+1 {
-            let trashCanElement = spawnTrashCanSpots
-            let selectedTrashCanElement = trashCanElement.randomElement()
+        for i in 0..<trashCanHideOut {
+            let trashCanCount = spawnTrashCanSpots.count
+            let selectedTrashCan = spawnTrashCanSpots.remove(at: Int.random(in: 0..<trashCanCount))
             
-            let hideOutEntity = TriggerEntity(name: "hideOutTrashCan\(i)", type: .HideOut, spriteImage: trashCanImage.randomElement()!, pos: selectedTrashCanElement!.position)
+            let hideOutEntity = TriggerEntity(name: "TrashCan\(i)", type: .HideOut, spriteImage: trashCanImage.randomElement()!, pos: selectedTrashCan.position)
             addChild(hideOutEntity.objTrigger)
             TriggerEntities.append(hideOutEntity)
-            selectedTrashCanElement?.isHidden = false
+            selectedTrashCan.isHidden = false
         }
         
         for j in 0..<totalSwitch {
-            let switchElement = spawnSwitchSpots
-            let selectedSwitchElement = switchElement.randomElement()
+            let switchCount = spawnSwitchSpots.count
+            let selectedSwitch = spawnSwitchSpots.remove(at: Int.random(in: 0..<switchCount))
             
-            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitchElement!.position)
+            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitch.position)
             addChild(switchEntity.objTrigger)
             TriggerEntities.append(switchEntity)
-            selectedSwitchElement?.isHidden = false
+            selectedSwitch.isHidden = false
         }
         
         let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: 50, y: 450))
@@ -112,6 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupEntities() {
         player1Entity = PlayerEntity(name: "player1", role: "Player", spriteImage: "GhostADown/0")
+        player1Entity.objCharacter.zPosition = 5
         addChild(player1Entity.objCharacter)
         
         let playerNameLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -144,6 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
+        enemyEntity.objCharacter.zPosition = 6
         addChild(enemyEntity.objCharacter)
         
         playerEntities = [player1Entity]
@@ -178,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("Hide")
                 player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = false
                 playerEntities[0].objCharacter.hidingRange = true
-            } else if collision == 0x10 | 0x100000 && totalSwitchOn == 1 {
+            } else if collision == 0x10 | 0x100000 && totalSwitchOn == totalSwitch {
                 playerEntities[0].objCharacter.isMovement = false
                 playerEntities[0].objCharacter.isHidden = true
                 print("win")

@@ -18,7 +18,7 @@ class SoundManager {
             }
             let player = try AVAudioPlayer(contentsOf: ambienceSound)
             player.numberOfLoops = -1
-            player.volume = 1.5
+            player.volume = 1
             return player
         }
         catch {
@@ -33,7 +33,7 @@ class SoundManager {
                 return nil
             }
             let player = try AVAudioPlayer(contentsOf: ambienceSound)
-            player.volume = 1
+            player.volume = 0.5
             return player
         }
         catch {
