@@ -11,217 +11,217 @@ import GameplayKit
 import MultipeerConnectivity
 import GameKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate/*, MCSessionDelegate, MCBrowserViewControllerDelegate*/{
+class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate{
     //gamekit
-    var match: GKMatch?
-    var otherPlayer: GKPlayer!
-    var localPlayer: GKLocalPlayer!
-    var isMultiplayerGame = false
-
-    func authenticateLocalPlayer() {
-        let localPlayer = GKLocalPlayer.local
-        localPlayer.authenticateHandler = { (viewController, error) in
-            if let viewController = viewController {
-                // Present the authentication view controller if needed
-                if let window = NSApplication.shared.windows.first {
-                    window.contentViewController?.presentAsSheet(viewController)
-                }
-            } else if localPlayer.isAuthenticated {
-                // The local player is authenticated, set up the match
-                self.setupMatchmaking()
-            } else {
-                // Authentication failed, handle the error
-                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
-            }
-        }
-    }
-
-
-    func setupMatchmaking() {
-        let request = GKMatchRequest()
-        request.minPlayers = 2
-        request.maxPlayers = 4
-
-        let matchmakerViewController = GKMatchmakerViewController(matchRequest: request)
-        matchmakerViewController?.matchmakerDelegate = self
-
-        if let window = view?.window {
-            window.contentViewController?.presentAsSheet(matchmakerViewController!)
-        }
-    }
-
-    func startGame(newMatch: GKMatch) {
-        isMultiplayerGame = true
-
-        // Implement your game logic here
-
-        // Example: Sending a start signal to the other player
-        let startSignal = "START".data(using: .utf8)
-        sendDataToOtherPlayer(data: startSignal!)
-
-        // Implement your game logic here
-    }
-
-    func sendPlayerPosition() {
-        guard let match = match, match.players.count > 1 else {
-            return
-        }
-
-        // Get the player's position (replace this with your actual player position retrieval logic)
-        let playerPosition = player1Entity.objCharacter.position
-
-        // Create a dictionary with the player's position data
-        let positionData = ["x": playerPosition.x, "y": playerPosition.y]
-
-        // Convert the position data to Data
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: positionData, options: [])
-
-            // Send the position data to other players
-            try match.send(jsonData, to: match.players, dataMode: .reliable)
-        } catch {
-            print("Failed to send player position: \(error.localizedDescription)")
-        }
-    }
+//    var match: GKMatch?
+//    var otherPlayer: GKPlayer!
+//    var localPlayer: GKLocalPlayer!
+//    var isMultiplayerGame = false
+//
+//    func authenticateLocalPlayer() {
+//        let localPlayer = GKLocalPlayer.local
+//        localPlayer.authenticateHandler = { (viewController, error) in
+//            if let viewController = viewController {
+//                // Present the authentication view controller if needed
+//                if let window = NSApplication.shared.windows.first {
+//                    window.contentViewController?.presentAsSheet(viewController)
+//                }
+//            } else if localPlayer.isAuthenticated {
+//                // The local player is authenticated, set up the match
+//                self.setupMatchmaking()
+//            } else {
+//                // Authentication failed, handle the error
+//                print("Failed to authenticate player: \(error?.localizedDescription ?? "")")
+//            }
+//        }
+//    }
+//
+//
+//    func setupMatchmaking() {
+//        let request = GKMatchRequest()
+//        request.minPlayers = 2
+//        request.maxPlayers = 2
+//
+//        let matchmakerViewController = GKMatchmakerViewController(matchRequest: request)
+//        matchmakerViewController?.matchmakerDelegate = self
+//
+//        if let window = view?.window {
+//            window.contentViewController?.presentAsSheet(matchmakerViewController!)
+//        }
+//    }
+//
+//    func startGame(newMatch: GKMatch) {
+//        isMultiplayerGame = true
+//
+//        // Implement your game logic here
+//
+//        // Example: Sending a start signal to the other player
+//        let startSignal = "START".data(using: .utf8)
+//        sendDataToOtherPlayer(data: startSignal!)
+//
+//        // Implement your game logic here
+//    }
+//
+//    func sendPlayerPosition() {
+//        guard let match = match, match.players.count > 1 else {
+//            return
+//        }
+//
+//        // Get the player's position (replace this with your actual player position retrieval logic)
+//        let playerPosition = player1Entity.objCharacter.position
+//
+//        // Create a dictionary with the player's position data
+//        let positionData = ["x": playerPosition.x, "y": playerPosition.y]
+//
+//        // Convert the position data to Data
+//        do {
+//            let jsonData = try JSONSerialization.data(withJSONObject: positionData, options: [])
+//
+//            // Send the position data to other players
+//            try match.send(jsonData, to: match.players, dataMode: .reliable)
+//        } catch {
+//            print("Failed to send player position: \(error.localizedDescription)")
+//        }
+//    }
     
     //multipeer
-//        var session: MCSession!
-//        var peerID: MCPeerID!
-//        var browser: MCBrowserViewController!
-//        var assistant: MCAdvertiserAssistant!
-//        var playerPositions: [MCPeerID: CGPoint] = [:]
-//
-//        func startMultipeerConnectivity() {
-//            // Create a peer ID using the host name of the local device
-//            let deviceName = Host.current().localizedName ?? ""
-//            peerID = MCPeerID(displayName: deviceName)
-//
-//            // Create a session with the local peer ID
-//            session = MCSession(peer: peerID)
-//            session.delegate = self
-//
-//            // Create a browser view controller for nearby devices
-//            browser = MCBrowserViewController(serviceType: "my-game", session: session)
-//            browser.delegate = self
-//
-//            // Create an advertiser assistant to handle incoming connection requests
-//            assistant = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
-//
-//            // Start advertising and browsing for peers
-//            assistant.start()
-//            view?.window?.contentViewController?.presentAsModalWindow(browser)
-//        }
-//
-//        func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-//            switch state {
-//            case .connected:
-//                print("Connected to peer: \(peerID.displayName)")
-//                // You can perform any necessary actions when a peer is connected
-//                if player2Entity.spriteName.isEmpty {
-//                    player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
-//                    addChild(player2Entity.objCharacter)
-//                    addAgent(entityNode: player2Entity)
-//                } else if player3Entity.spriteName.isEmpty {
-//                    player3Entity = CharEntity(name: "GhostADown/2", role: .Player)
-//                    addChild(player3Entity.objCharacter)
-//                    addAgent(entityNode: player3Entity)
-//                } else if player4Entity.spriteName.isEmpty {
-//                    player4Entity = CharEntity(name: "GhostADown/3", role: .Player)
-//                    addChild(player4Entity.objCharacter)
-//                    addAgent(entityNode: player4Entity)
-//                }
-//            case .connecting:
-//                print("Connecting to peer: \(peerID.displayName)")
-//            case .notConnected:
-//                print("Disconnected from peer: \(peerID.displayName)")
-//            default:
-//                break
-//            }
-//        }
-//
-//        func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-//            // Process received data
-//                   let receivedText = String(data: data, encoding: .utf8)
-//                   print("Received data from \(peerID.displayName): \(receivedText ?? "")")
-//
-//
-//            // Handle received data
-//                 handleReceivedPositionsData(data)
-//        }
-//
-//        func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-//
-//        }
-//
-//        func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-//
-//        }
-//
-//        func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-//
-//        }
-//
-//        func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-//            // Called when the user finishes browsing for nearby devices
-//            browserViewController.dismiss(true)
-//        }
-//
-//        func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-//            // Called when the user cancels browsing for nearby devices
-//            browserViewController.dismiss(true)
-//        }
-//
-//        // Method to update the position of a player entity and send the updated position to other peers
-//           func updatePlayerPosition(playerEntity: CharEntity) {
-//               // Update the position of the player entity based on its movement flags
-//               // ...
-//
-//               // Get the position of the player entity
-//               let playerPosition = playerEntity.objCharacter.position
-//
-//               // Update the playerPositions dictionary with the new position
-//               playerPositions[peerID] = playerPosition
-//
-//               // Convert the playerPositions dictionary to Data
-//               if let data = try? NSKeyedArchiver.archivedData(withRootObject: playerPositions, requiringSecureCoding: true) {
-//                   // Send the data to all connected peers
-//                   try? session.send(data, toPeers: session.connectedPeers, with: .reliable)
-//               }
-//           }
-//
-//        func handleReceivedPositionsData(_ data: Data) {
-//            // Convert the received data back to the playerPositions dictionary
-//            if let receivedPositions = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, MCPeerID.self, NSValue.self], from: data) as? [MCPeerID: CGPoint] {
-//                // Update the player positions based on the received data
-//                playerPositions = receivedPositions
-//
-//                // Update the positions of other player entities
-//                for (peerID, position) in playerPositions {
-//                    // Skip updating the position of the local player
-//                    if peerID == self.peerID {
-//                        continue
-//                    }
-//
-//                    // Find the corresponding player entity based on the peer ID
-//                    if let playerEntity = findPlayerEntity(for: peerID) {
-//                        // Update the position of the player entity
-//                        player2Entity.objCharacter.position = position
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//        func findPlayerEntity(for peerID: MCPeerID) -> CharEntity? {
-//            // Iterate over your player entities to find the entity corresponding to the given MCPeerID
-//            for playerEntity in characterEntities {
-//                if playerEntity.peerID == peerID {
-//                    return playerEntity
-//                }
-//            }
-//            return nil // Return nil if no player entity is found for the given MCPeerID
-//        }
-//
+        var session: MCSession!
+        var peerID: MCPeerID!
+        var browser: MCBrowserViewController!
+        var assistant: MCAdvertiserAssistant!
+        var playerPositions: [MCPeerID: CGPoint] = [:]
+
+        func startMultipeerConnectivity() {
+            // Create a peer ID using the host name of the local device
+            let deviceName = Host.current().localizedName ?? ""
+            peerID = MCPeerID(displayName: deviceName)
+
+            // Create a session with the local peer ID
+            session = MCSession(peer: peerID)
+            session.delegate = self
+
+            // Create a browser view controller for nearby devices
+            browser = MCBrowserViewController(serviceType: "my-game", session: session)
+            browser.delegate = self
+
+            // Create an advertiser assistant to handle incoming connection requests
+            assistant = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
+
+            // Start advertising and browsing for peers
+            assistant.start()
+            view?.window?.contentViewController?.presentAsModalWindow(browser)
+        }
+
+        func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+            switch state {
+            case .connected:
+                print("Connected to peer: \(peerID.displayName)")
+                // You can perform any necessary actions when a peer is connected
+                if player2Entity.spriteName.isEmpty {
+                    player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                    addChild(player2Entity.objCharacter)
+                    addAgent(entityNode: player2Entity)
+                } else if player3Entity.spriteName.isEmpty {
+                    player3Entity = CharEntity(name: "GhostADown/2", role: .Player)
+                    addChild(player3Entity.objCharacter)
+                    addAgent(entityNode: player3Entity)
+                } else if player4Entity.spriteName.isEmpty {
+                    player4Entity = CharEntity(name: "GhostADown/3", role: .Player)
+                    addChild(player4Entity.objCharacter)
+                    addAgent(entityNode: player4Entity)
+                }
+            case .connecting:
+                print("Connecting to peer: \(peerID.displayName)")
+            case .notConnected:
+                print("Disconnected from peer: \(peerID.displayName)")
+            default:
+                break
+            }
+        }
+
+        func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+            // Process received data
+                   let receivedText = String(data: data, encoding: .utf8)
+                   print("Received data from \(peerID.displayName): \(receivedText ?? "")")
+
+
+            // Handle received data
+                 handleReceivedPositionsData(data)
+        }
+
+        func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+
+        }
+
+        func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+
+        }
+
+        func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+
+        }
+
+        func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+            // Called when the user finishes browsing for nearby devices
+            browserViewController.dismiss(true)
+        }
+
+        func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+            // Called when the user cancels browsing for nearby devices
+            browserViewController.dismiss(true)
+        }
+
+        // Method to update the position of a player entity and send the updated position to other peers
+           func updatePlayerPosition(playerEntity: CharEntity) {
+               // Update the position of the player entity based on its movement flags
+               // ...
+
+               // Get the position of the player entity
+               let playerPosition = playerEntity.objCharacter.position
+
+               // Update the playerPositions dictionary with the new position
+               playerPositions[peerID] = playerPosition
+
+               // Convert the playerPositions dictionary to Data
+               if let data = try? NSKeyedArchiver.archivedData(withRootObject: playerPositions, requiringSecureCoding: true) {
+                   // Send the data to all connected peers
+                   try? session.send(data, toPeers: session.connectedPeers, with: .reliable)
+               }
+           }
+
+        func handleReceivedPositionsData(_ data: Data) {
+            // Convert the received data back to the playerPositions dictionary
+            if let receivedPositions = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, MCPeerID.self, NSValue.self], from: data) as? [MCPeerID: CGPoint] {
+                // Update the player positions based on the received data
+                playerPositions = receivedPositions
+
+                // Update the positions of other player entities
+                for (peerID, position) in playerPositions {
+                    // Skip updating the position of the local player
+                    if peerID == self.peerID {
+                        continue
+                    }
+
+                    // Find the corresponding player entity based on the peer ID
+                    if let playerEntity = findPlayerEntity(for: peerID) {
+                        // Update the position of the player entity
+                        player2Entity.objCharacter.position = position
+                    }
+                }
+            }
+        }
+
+
+        func findPlayerEntity(for peerID: MCPeerID) -> CharEntity? {
+            // Iterate over your player entities to find the entity corresponding to the given MCPeerID
+            for playerEntity in characterEntities {
+                if playerEntity.peerID == peerID {
+                    return playerEntity
+                }
+            }
+            return nil // Return nil if no player entity is found for the given MCPeerID
+        }
+
     
     
     var characterEntities = [CharEntity]()
@@ -364,8 +364,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate/*, MCSessionDelegate, MCBrows
             
         case 11:
             print("multipeer")
-            authenticateLocalPlayer()
-//                        startMultipeerConnectivity()
+//            authenticateLocalPlayer()
+                        startMultipeerConnectivity()
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -400,13 +400,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate/*, MCSessionDelegate, MCBrows
     
     override func update(_ currentTime: TimeInterval) {
         
-        if isMultiplayerGame {
-
-            // Example: Sending game updates to the other player
-            let gameData = "success".data(using: .utf8)
-            sendDataToOtherPlayer(data: gameData!)
-            sendPlayerPosition()
-        }
+//        if isMultiplayerGame {
+//
+//            // Example: Sending game updates to the other player
+//            let gameData = "success".data(using: .utf8)
+//            sendDataToOtherPlayer(data: gameData!)
+//            sendPlayerPosition()
+//        }
         // Called before each frame is rendered
         
         // Initialize _lastUpdateTime if it has not already been
