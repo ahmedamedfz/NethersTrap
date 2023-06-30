@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spawnSwitchSpots: [SKNode] = []
     
     override func sceneDidLoad() {
+        SoundManager.soundHelper.audioPlayer.play()
         self.lastUpdateTime = 0
     }
     
@@ -148,7 +149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
     }
     
-
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
@@ -252,6 +252,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
 
+        if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 120 && !SoundManager.soundHelper.sfxPlayer.isPlaying {
+//            print("SFX")
+            SoundManager.soundHelper.sfxPlayer.play()
+        }
+        
         self.lastUpdateTime = currentTime
     }
     
@@ -266,5 +271,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             cameraNode.position = playerEntities[0].objCharacter.position
         }
+    }
+    
+    func CGPointDistanceSquared(from: CGPoint, to: CGPoint) -> CGFloat {
+        return (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)
+    }
+
+    func CGPointDistance(from: CGPoint, to: CGPoint) -> CGFloat {
+        return sqrt(CGPointDistanceSquared(from: from, to: to))
     }
 }
