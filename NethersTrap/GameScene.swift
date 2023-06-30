@@ -153,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
                let position = receivedPosition.point
 
             // Handle received data
-            player2Entity.objCharacter.position = position
+           print(position)
             
         }
 
@@ -180,14 +180,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         }
 
         // Method to update the position of a player entity and send the updated position to other peers
-    func updatePlayerPosition(playerID: String, positionData: String) {
-           // Process the position data and update the position of the corresponding player entity
-           // Example: Update the position of the player entity with the specified playerID
-           
-           // ...
-
-           // Send the updated position data to other peers
-       }
        
     func sendPlayerPosition() {
         guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: player1Entity.objCharacter.position, requiringSecureCoding: true) else {
@@ -200,6 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
                   print("Error sending position data: \(error.localizedDescription)")
               }
        }
+
 
     
     var characterEntities = [CharEntity]()
