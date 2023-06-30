@@ -50,7 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGameSceneInteractable()
         setupEntities()
         
-        overlayShadow.zPosition = 7
+        overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
         overlayShadow.blendMode = .multiplyAlpha
 //        overlayShadow.alpha = 0.9
@@ -64,17 +64,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let trashCanHideOut = totalHideOut - paintingHideOut
         
         scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
-            node.zPosition = 2
             self.spawnTrashCanSpots.append(node)
             node.isHidden = true
         }
         scene?.enumerateChildNodes(withName: "Painting") { node, _ in
-            node.zPosition = 3
             self.spawnPaintingSpots.append(node)
             node.isHidden = true
         }
         scene?.enumerateChildNodes(withName: "Switch") { node, _ in
-            node.zPosition = 4
             self.spawnSwitchSpots.append(node)
             node.isHidden = true
         }
@@ -86,7 +83,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let hideOutEntity = TriggerEntity(name: "Painting\(h)", type: .HideOut, spriteImage: paintingImage.randomElement()!, pos: selectedPainting.position)
             addChild(hideOutEntity.objTrigger)
             TriggerEntities.append(hideOutEntity)
-            selectedPainting.isHidden = false
         }
         
         for i in 0..<trashCanHideOut {
@@ -96,7 +92,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let hideOutEntity = TriggerEntity(name: "TrashCan\(i)", type: .HideOut, spriteImage: trashCanImage.randomElement()!, pos: selectedTrashCan.position)
             addChild(hideOutEntity.objTrigger)
             TriggerEntities.append(hideOutEntity)
-            selectedTrashCan.isHidden = false
         }
         
         for j in 0..<totalSwitch {
@@ -106,7 +101,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitch.position)
             addChild(switchEntity.objTrigger)
             TriggerEntities.append(switchEntity)
-            selectedSwitch.isHidden = false
         }
         
         let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: 50, y: 450))
@@ -118,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupEntities() {
         player1Entity = PlayerEntity(name: "player1", role: "Player", spriteImage: "GhostADown/0")
-        player1Entity.objCharacter.zPosition = 5
+        player1Entity.objCharacter.zPosition = 4
         addChild(player1Entity.objCharacter)
         
         let playerNameLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -151,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
-        enemyEntity.objCharacter.zPosition = 6
+        enemyEntity.objCharacter.zPosition = 5
         addChild(enemyEntity.objCharacter)
         
         playerEntities = [player1Entity]

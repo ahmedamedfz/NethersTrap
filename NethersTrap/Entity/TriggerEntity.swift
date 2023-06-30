@@ -13,10 +13,12 @@ class TriggerEntity: GKEntity {
     var type: EntityType
     var objTrigger: TriggerNode
 //    var isOn: Bool = false
+    var texture: SKTexture
     
     init(name: String, type: EntityType, spriteImage: String, pos: CGPoint) {
         self.type = type
-        objTrigger = TriggerNode(imageNamed:spriteImage)
+        texture = SKTexture(imageNamed: spriteImage)
+        objTrigger = TriggerNode(texture: texture)
         objTrigger.name = name
         objTrigger.position = pos
         super.init()
@@ -24,10 +26,10 @@ class TriggerEntity: GKEntity {
     }
     
     func makeTrigger() {
-        objTrigger.size = CGSize(width: 20, height: 30)
-//        objTrigger.setScale(0.8)
-        objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
-//        objTrigger.physicsBody = SKPhysicsBody(texture: objTrigger.texture!, size: self.objTrigger.size)
+//        objTrigger.size = CGSize(width: 20, height: 30)
+        objTrigger.setScale(0.8)
+//        objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
+        objTrigger.physicsBody = SKPhysicsBody(texture: objTrigger.texture!, size: self.objTrigger.size)
         objTrigger.physicsBody?.isDynamic = false
         objTrigger.physicsBody?.affectedByGravity = false
         objTrigger.physicsBody?.allowsRotation = false
@@ -36,8 +38,10 @@ class TriggerEntity: GKEntity {
         
         if type == .Switch {
             defineSwitch()
+            objTrigger.zPosition = 3
         } else if type == .HideOut {
             defineHideOut()
+            objTrigger.zPosition = 2
         } else if type == .Cage {
             
         } else if type == .Timer {
