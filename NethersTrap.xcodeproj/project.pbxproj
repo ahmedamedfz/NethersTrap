@@ -17,6 +17,7 @@
 		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
 		E715D1012A4ECCB10030A460 /* SharedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E715D1002A4ECCB10030A460 /* SharedEntity.swift */; };
+		E715D1032A4EDB210030A460 /* PointWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E715D1022A4EDB210030A460 /* PointWrappers.swift */; };
 		E7A454292A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */; };
 		E7C056D92A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
@@ -41,6 +42,7 @@
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
 		E715D1002A4ECCB10030A460 /* SharedEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEntity.swift; sourceTree = "<group>"; };
+		E715D1022A4EDB210030A460 /* PointWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointWrappers.swift; sourceTree = "<group>"; };
 		E7A454252A4ACE640039C874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+GKMatchmakerViewControllerDelegate.swift"; sourceTree = "<group>"; };
 		E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+GKMatchDelegate.swift"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
 				E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */,
 				E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */,
+				E715D1022A4EDB210030A460 /* PointWrappers.swift */,
 				492AE3182A4C3CB6001550F1 /* MainMenu.swift */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
 				4997DA452A3C3B6300A377A9 /* Assets.xcassets */,
@@ -208,6 +211,7 @@
 			files = (
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
 				FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */,
+				E715D1032A4EDB210030A460 /* PointWrappers.swift in Sources */,
 				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
 				FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,

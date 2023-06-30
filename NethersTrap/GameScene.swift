@@ -144,9 +144,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
                    let receivedText = String(data: data, encoding: .utf8)
                    print("Received data from \(peerID.displayName): \(receivedText ?? "")")
 
+            guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
+                   return
+               }
+               
+               let position = receivedPosition.point
 
             // Handle received data
-            updatePlayerPosition(playerID: peerID.displayName, positionData: receivedText!)
+            player2Entity.objCharacter.position = position
             
         }
 
@@ -180,20 +185,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
            // ...
 
            // Send the updated position data to other peers
-           sendPlayerPosition(positionData: positionData)
        }
        
-       func sendPlayerPosition(positionData: String) {
-           guard let session = session, session.connectedPeers.count > 0 else {
-               print("No connected peers")
+    func sendPlayerPosition() {
+           guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: player1Entity.objCharacter.position, requiringSecureCoding: true) else {
                return
            }
            
-           let data = positionData.data(using: .utf8)
            do {
-               try session.send(data!, toPeers: session.connectedPeers, with: .reliable)
+               try session.send(positionData, toPeers: session.connectedPeers, with: .reliable)
            } catch {
-               print("Failed to send position data: \(error.localizedDescription)")
+               print("Failed to send player position: \(error.localizedDescription)")
            }
        }
 
@@ -339,7 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         case 11:
             print("multipeer")
 //            authenticateLocalPlayer()
-//                        startMultipeerConnectivity()
+                        startMultipeerConnectivity()
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
