@@ -19,7 +19,9 @@ class TriggerEntity: GKEntity {
         self.type = type
         texture = SKTexture(imageNamed: spriteImage)
         objTrigger = TriggerNode(texture: texture)
+//        objTrigger = TriggerNode(imageNamed: spriteImage)
         objTrigger.name = name
+        objTrigger.physicsBody?.node?.name = name
         objTrigger.position = pos
         super.init()
         makeTrigger()
@@ -27,9 +29,8 @@ class TriggerEntity: GKEntity {
     
     func makeTrigger() {
 //        objTrigger.size = CGSize(width: 20, height: 30)
-        objTrigger.setScale(0.8)
-//        objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
-        objTrigger.physicsBody = SKPhysicsBody(texture: objTrigger.texture!, size: self.objTrigger.size)
+        objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
+//        objTrigger.physicsBody = SKPhysicsBody(texture: objTrigger.texture!, size: self.objTrigger.size)
         objTrigger.physicsBody?.isDynamic = false
         objTrigger.physicsBody?.affectedByGravity = false
         objTrigger.physicsBody?.allowsRotation = false
@@ -50,16 +51,20 @@ class TriggerEntity: GKEntity {
             definePortal()
         }
         
-        let geometryComponent = GeometryComponent<SKSpriteNode>(geometryNode: objTrigger)
-        self.addComponent(geometryComponent)
+        let geometryComponent = GeometryComponent<TriggerNode>(geometryNode: objTrigger)
+        addComponent(geometryComponent)
     }
     
     func defineHideOut() {
+        objTrigger.setScale(0.8)
         objTrigger.physicsBody?.categoryBitMask = 0x10000
     }
     
     func defineSwitch() {
+        objTrigger.setScale(0.4)
         objTrigger.physicsBody?.categoryBitMask = 0x100
+//        let triggerControllerComponent = TriggerControllerComponent()
+//        addComponent(triggerControllerComponent)
     }
     
     func definePortal() {

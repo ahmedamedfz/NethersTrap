@@ -24,7 +24,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player4Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var chaseBehavior: GKBehavior?
     var overlayShadow = SKSpriteNode(imageNamed: "Shadow")
-    
+    var switchAnim: SKAction = SKAction()
+    var switchTexture: [SKTexture] = []
+    var currStatue: SKSpriteNode = SKSpriteNode(imageNamed: "00_Statue")
     var walls: [SKNode] = []
     
     let totalHideOut = 10
@@ -46,9 +48,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
             self.walls.append(node)
         }
-        
-        setupGameSceneInteractable()
+//        setupGameSceneInteractable()
         setupEntities()
+        setupGameSceneInteractable()
+        
+        for i in 0...4 {
+            switchTexture.append(SKTexture(imageNamed: "Statues/\(i)"))
+        }
+        print("Switchtexture: \(switchTexture)")
+        switchAnim = SKAction.animate(with: switchTexture, timePerFrame: 0.1)
         
         overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
@@ -98,7 +106,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let switchCount = spawnSwitchSpots.count
             let selectedSwitch = spawnSwitchSpots.remove(at: Int.random(in: 0..<switchCount))
             
-            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitch.position)
+            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "Statues/0", pos: selectedSwitch.position)
+//            print("switch: \(switchEntity.objTrigger.name ?? "")")
             addChild(switchEntity.objTrigger)
             TriggerEntities.append(switchEntity)
         }
@@ -165,22 +174,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
             if collision == 0x10 | 0x100 {
+//                print("contact: ", contact.bodyA.node?.name ?? "")
                 let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
+//                print("idx: ", index ?? 0)
+//                print("idx isOn: ", TriggerEntities[index ?? 0].objTrigger.isOn)
                 playerEntities[0].objCharacter.idxSwitchVisited = index ?? 0
                 print("Switch")
                 player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = false
                 playerEntities[0].objCharacter.hit = "Switch"
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
+//                print("contact: ", contact.bodyB.node?.name ?? "")
                 print("Catched")
                 playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
                 playerEntities[0].objCharacter.hit = "Catched"
                 playerEntities[0].objCharacter.deathAnimating = true
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
             } else if collision == 0x10 | 0x10000 {
+//                print("contact: ", contact.bodyA.node?.name ?? "")
                 print("Hide")
                 player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = false
                 playerEntities[0].objCharacter.hidingRange = true
             } else if collision == 0x10 | 0x100000 && totalSwitchOn == totalSwitch {
+//                print("contact: ", contact.bodyA.node?.name ?? "")
                 playerEntities[0].objCharacter.isMovement = false
                 playerEntities[0].objCharacter.isHidden = true
                 print("win")
@@ -212,7 +227,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
-                print(totalSwitchOn)
+                currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
+//                currStatue.run((TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.switchAnim)!)
+//                currStatue.texture = SKTexture(imageNamed: "04_Statue")
+//                print("curr: \(currStatue)")
+                currStatue.run(switchAnim)
+//                TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.statueOnAnim(statueOnImage: "Statue/4")
+//                run(switchAnim)
+                print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
                     //Win condition for collation elevator
                 }

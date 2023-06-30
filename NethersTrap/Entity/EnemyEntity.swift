@@ -23,6 +23,7 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
         texture = SKTexture(imageNamed: spriteImage)
         objCharacter = EnemyNode(texture: texture)
         objCharacter.wallObstacles = walls
+        objCharacter.name = name
         super.init()
         makeEnemy()
     }
