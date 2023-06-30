@@ -89,6 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         var peerID: MCPeerID!
         var browser: MCBrowserViewController!
         var assistant: MCAdvertiserAssistant!
+    var multipeer: Bool = false
 //        var playerPositions: [MCPeerID: CGPoint] = [:]
 
         func startMultipeerConnectivity() {
@@ -124,6 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
             switch state {
             case .connected:
                 print("Connected to peer: \(peerID.displayName)")
+                multipeer = true
                 // You can perform any necessary actions when a peer is connected
                 if player2Entity.spriteName.isEmpty {
                     player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
@@ -188,15 +190,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
        }
        
     func sendPlayerPosition() {
-           guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: player1Entity.objCharacter.position, requiringSecureCoding: true) else {
-               return
-           }
-           
-           do {
-               try session.send(positionData, toPeers: session.connectedPeers, with: .reliable)
-           } catch {
-               print("Failed to send player position: \(error.localizedDescription)")
-           }
+        guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: player1Entity.objCharacter.position, requiringSecureCoding: true) else {
+                  return
+              }
+
+              do {
+                  try session.send(positionData, toPeers: session.connectedPeers, with: .reliable)
+              } catch {
+                  print("Error sending position data: \(error.localizedDescription)")
+              }
        }
 
     
@@ -375,7 +377,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
+        if multipeer == true{
+            sendPlayerPosition()
+        }
 //        if isMultiplayerGame {
 //
 //            // Example: Sending game updates to the other player
