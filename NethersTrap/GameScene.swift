@@ -14,9 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerEntities = [PlayerEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
-//    var triggerLamp: SKSpriteNode!
-    
-//    static public var instance: GameScene = GameScene()
+
     private var lastUpdateTime : TimeInterval = 0
     
     var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [])
@@ -27,25 +25,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var chaseBehavior: GKBehavior?
     
     var walls: [SKNode] = []
-//    var obstacles: [GKPolygonObstacle] = []
-//    var obstacleGraph: GKObstacleGraph<GKGraphNode2D>!
-//    var lastPlayerPos: vector_float2!
     
-    let totalHideOut = 3
+    let totalHideOut = 12
     var totalSwitchOn = 0
+    let totalSwitch = 4
     
     var countUpdate = 0
     
-    var spawnHideOutSpots: [[Int]:Bool] = [
-        [25,25]:false,
-        [50,50]:false,
-        [100,50]:false,
-        [50,100]:false,
-        [150,50]:false,
-        [50,150]:false,
-    ]
+    var spawnPaintingSpots: [SKNode] = []
     
-//    let playerControlComponentSystem = GKComponentSystem(componentClass: PlayerControllerComponent.self)
+    var spawnTrashCanSpots: [SKNode] = []
+    
+    var spawnSwitchSpots: [SKNode] = []
     
     override func sceneDidLoad() {
         self.lastUpdateTime = 0
@@ -57,42 +48,98 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
             self.walls.append(node)
         }
-//        obstacles = SKNode.obstacles(fromNodePhysicsBodies: walls)
-//        obstacleGraph = GKObstacleGraph(obstacles: obstacles, bufferRadius: 60.0)
-        
+        setupGameSceneInteractable()
         setupEntities()
-//        addComponentsToComponentSystems()
+        
+    }
+    
+    func setupGameSceneInteractable(){
+        
+        let paintingImage = ["PaintingHideOutA","PaintingHideOutB","PaintingHideOutC"]
+        let trashCanImage = ["TrashCanHideOutA","TrashCanHideOutB"]
+        let paintingHideOut = Int.random(in: 0...totalHideOut)
+        let trashCanHideOut = totalHideOut - paintingHideOut
+        
+        
+        scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
+                    self.spawnTrashCanSpots.append(node)
+                    node.isHidden = true
+                }
+        scene?.enumerateChildNodes(withName: "Painting") { node, _ in
+                    self.spawnPaintingSpots.append(node)
+                    node.isHidden = true
+                }
+        scene?.enumerateChildNodes(withName: "Switch") { node, _ in
+                    self.spawnSwitchSpots.append(node)
+                    node.isHidden = true
+                }
+        for h in 1..<paintingHideOut+1 {
+            
+            
+            let paintingElement = spawnPaintingSpots
+            let selectedPaintingElement = paintingElement.randomElement()
+            
+            let hideOutEntity = TriggerEntity(name: "hideOutPainting\(h)", type: .HideOut, spriteImage: paintingImage.randomElement()!, pos: selectedPaintingElement!.position)
+            addChild(hideOutEntity.objTrigger)
+            TriggerEntities.append(hideOutEntity)
+            selectedPaintingElement?.isHidden = false
+        }
+        
+        for i in 1..<trashCanHideOut+1 {
+            
+            let trashCanElement = spawnTrashCanSpots
+            let selectedTrashCanElement = trashCanElement.randomElement()
+            
+            let hideOutEntity = TriggerEntity(name: "hideOutTrashCan\(i)", type: .HideOut, spriteImage: trashCanImage.randomElement()!, pos: selectedTrashCanElement!.position)
+            addChild(hideOutEntity.objTrigger)
+            TriggerEntities.append(hideOutEntity)
+            selectedTrashCanElement?.isHidden = false
+        }
+        
+        for j in 0..<totalSwitch {
+            let switchElement = spawnSwitchSpots
+            
+            let selectedSwitchElement = switchElement.randomElement()
+            
+            let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitchElement!.position)
+            addChild(switchEntity.objTrigger)
+            TriggerEntities.append(switchEntity)
+            selectedSwitchElement?.isHidden = false
+        }
+        
+        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: 50, y: 450))
+        addChild(portalEntity.objTrigger)
+        TriggerEntities.append(portalEntity)
+        portalEntity.objTrigger.isHidden = true
+        
     }
     
     func setupEntities() {
         player1Entity = PlayerEntity(name: "player1", role: "Player", spriteImage: "GhostADown/0")
         addChild(player1Entity.objCharacter)
-//        addAgent(entityNode: player1Entity)
-//        lastPlayerPos = player1Entity.agent.position
+        
+        let playerNameLabel = SKLabelNode(fontNamed: "Helvetica")
+        playerNameLabel.text = player1Entity.nameEntity
+        playerNameLabel.fontSize = 10
+        playerNameLabel.fontColor = SKColor.green
+        playerNameLabel.horizontalAlignmentMode = .center
+        playerNameLabel.position = CGPoint(x: player1Entity.objCharacter.position.x, y: player1Entity.objCharacter.position.y + player1Entity.objCharacter.size.height/2)
+        player1Entity.objCharacter.addChild(playerNameLabel)
+        
+        let pressLabel = SKLabelNode(fontNamed: "Helvetica")
+        pressLabel.text = "Press F to hide"
+        pressLabel.name = "Press"
+        pressLabel.fontSize = 10
+        pressLabel.fontColor = SKColor.green
+        pressLabel.horizontalAlignmentMode = .left
+        pressLabel.isHidden = true
+        pressLabel.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
+        player1Entity.objCharacter.addChild(pressLabel)
+        
         
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
         addChild(enemyEntity.objCharacter)
-//        addAgent(entityNode: enemyEntity)
         
-        let switchEntity = TriggerEntity(name: "switch1", type: .Switch, spriteImage: "Cobblestone_Grid_Center", pos: CGPoint(x: 0, y: 50))
-        addChild(switchEntity.objTrigger)
-        TriggerEntities.append(switchEntity)
-        
-        for i in 1...totalHideOut {
-            let specificElement = spawnHideOutSpots.filter { $0.value == false }.map { $0.key }
-            let selectedElement = specificElement.randomElement()
-            let posX = selectedElement?.first ?? 0
-            let posY = selectedElement?.last ?? 0
-            
-            let hideOutEntity = TriggerEntity(name: "hideOut\(i)", type: .HideOut, spriteImage: "hideOutAssets", pos: CGPoint(x: posX, y: posY))
-            addChild(hideOutEntity.objTrigger)
-            TriggerEntities.append(hideOutEntity)
-            spawnHideOutSpots[selectedElement ?? [0]] = true
-        }
-        
-        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: -50, y: 50))
-        addChild(portalEntity.objTrigger)
-        TriggerEntities.append(portalEntity)
         playerEntities = [player1Entity]
         
         makeCamera()
@@ -106,79 +153,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
     }
     
-//    func addAgent(entityNode: PlayerEntity) {
-//        let entity = entityNode.objCharacter.entity
-//        let agent = entityNode.agent
-//        
-//        agent.delegate = entityNode
-//        agent.position = SIMD2(x: Float(entityNode.objCharacter.position.x), y: Float(entityNode.objCharacter.position.y))
-//        agent.mass = 0.01
-//        agent.maxSpeed = 500
-//        agent.maxAcceleration = 1000
-//        
-//        entity?.addComponent(agent)
-//    }
-    
-//    func makePathFinding() {
-//        let direction = player1Entity.agent.position - lastPlayerPos
-//        var positionXDif: Float = 0
-//        var positionYDif: Float = 0
-//        
-//        if direction.x > 0 {
-//            positionXDif = 80
-//        } else if direction.x == 0 {
-//            positionXDif = 0
-//        } else {
-//            positionXDif = -80
-//        }
-//        
-//        if direction.y > 0 {
-//            positionYDif = 80
-//        } else if direction.y == 0 {
-//            positionYDif = 0
-//        } else {
-//            positionYDif = -80
-//        }
-//        
-//        let endNode = GKGraphNode2D(point: player1Entity.agent.position + SIMD2(x: positionXDif, y: positionYDif))
-//        obstacleGraph.connectUsingObstacles(node: endNode, ignoringBufferRadiusOf: obstacles)
-//        let startNode = GKGraphNode2D(point: enemyEntity.agent.position)
-//        obstacleGraph.connectUsingObstacles(node: startNode, ignoringBufferRadiusOf: obstacles)
-//        
-//        let pathNodes = obstacleGraph.findPath(from: startNode, to: endNode) as? [GKGraphNode2D]
-//        
-//        if !pathNodes!.isEmpty {
-//            let path = GKPath(graphNodes: pathNodes!, radius: 1.0)
-//            let followPath = GKGoal(toFollow: path, maxPredictionTime: 1.0, forward: true)
-//            let stayOnPath = GKGoal(toStayOn: path, maxPredictionTime: 1.0)
-//            
-//            let behaviors = GKBehavior(goals: [followPath, stayOnPath], andWeights: [1, 1])
-//            
-//            enemyEntity.agent.behavior = behaviors
-//        }
-//        
-//        obstacleGraph.remove([startNode, endNode])
-//    }
-    
+
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
             if collision == 0x10 | 0x100 {
-//                let entity = TriggerEntities.filter { $0.objTrigger.name == contact.bodyB.node?.name ?? "" }
                 let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
                 playerEntities[0].objCharacter.idxSwitchVisited = index ?? 0
-//                print(test.first?.objTrigger.name ?? "")
                 print("Switch")
                 playerEntities[0].objCharacter.hit = "Switch"
-//                playerEntities[0].objCharacter.isHidden = true
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
                 print("Catched")
                 playerEntities[0].objCharacter.hit = "Catched"
                 playerEntities[0].objCharacter.deathAnimating = true
-//                animateDeath()
-//                for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-//                    component.animateDeath()
-//                }
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
             } else if collision == 0x10 | 0x10000 {
                 print("Hide")
@@ -262,19 +249,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.movement(dt: dt, camera: cameraNode)
-//        for case let component as PlayerControllerComponent in playerControlComponentSystem.components {
-//            component.movement(moveLeft: playerEntities[0].objCharacter.left, moveRight: playerEntities[0].objCharacter.right, moveUp: playerEntities[0].objCharacter.up, moveDown: playerEntities[0].objCharacter.down, dt: dt, camera: cameraNode, speed: playerEntities[0].objCharacter.walkSpeed, isMovement: playerEntities[0].objCharacter.isMovement)
-//        }
-        
+
         // Agent Update
         player1Entity.agent.update(deltaTime: dt)
         enemyEntity.agent.update(deltaTime: dt)
         
         enemyEntity.component(ofType: EnemyControllerComponent.self)?.makePathFinding(target: player1Entity)
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
-//        makePathFinding()
-//        lastPlayerPos = player1Entity.agent.position
-            
+
         self.lastUpdateTime = currentTime
     }
     
