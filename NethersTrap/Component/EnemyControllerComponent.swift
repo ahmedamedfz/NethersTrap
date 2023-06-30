@@ -62,7 +62,7 @@ class EnemyControllerComponent: GKComponent {
 //        print(direction.y)
         
         if direction.x > 0 && direction.y > 0 {
-            print("diagonal")
+//            print("diagonal")
             positionXDif = 80
             positionYDif = 80
         } else if direction.x > 0 && direction.y < 0{

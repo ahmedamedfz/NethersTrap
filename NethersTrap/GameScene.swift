@@ -131,6 +131,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pressLabel.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
         player1Entity.objCharacter.addChild(pressLabel)
         
+        let pressLabelStatue = SKLabelNode(fontNamed: "Helvetica")
+        pressLabelStatue.text = "Press F to activate"
+        pressLabelStatue.name = "PressStatue"
+        pressLabelStatue.fontSize = 10
+        pressLabelStatue.fontColor = SKColor.green
+        pressLabelStatue.horizontalAlignmentMode = .left
+        pressLabelStatue.isHidden = true
+        pressLabelStatue.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
+        player1Entity.objCharacter.addChild(pressLabelStatue)
+        
         
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
         addChild(enemyEntity.objCharacter)
@@ -156,6 +166,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
                 playerEntities[0].objCharacter.idxSwitchVisited = index ?? 0
                 print("Switch")
+                player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = false
                 playerEntities[0].objCharacter.hit = "Switch"
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
                 print("Catched")
@@ -165,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
             } else if collision == 0x10 | 0x10000 {
                 print("Hide")
+                player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = false
                 playerEntities[0].objCharacter.hidingRange = true
             } else if collision == 0x10 | 0x100000 && totalSwitchOn == 1 {
                 playerEntities[0].objCharacter.isMovement = false
@@ -180,6 +192,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerEntities[0].objCharacter.idxSwitchVisited = -1
 //        playerEntities[0].objCharacter.isHidden = false
         playerEntities[0].objCharacter.hidingRange = false
+        player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = true
+        player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = true
     }
     
     override func keyDown(with event: NSEvent) {
@@ -197,6 +211,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
                 print(totalSwitchOn)
+                if (totalSwitchOn == totalSwitch){
+                    //Win condition for collation elevator
+                }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
                 playerEntities[0].objCharacter.isHidden = true
                 playerEntities[0].objCharacter.isMovement = false
