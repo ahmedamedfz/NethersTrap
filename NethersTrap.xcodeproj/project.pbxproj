@@ -14,6 +14,9 @@
 		4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA412A3C3B6200A377A9 /* GameScene.swift */; };
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
+		D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6749B2D2A4ECA2B001E029B /* SoundManager.swift */; };
+		D6749B312A4ECBB5001E029B /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B302A4ECBB5001E029B /* ambience.mp3 */; };
+		D6749B332A4ECE42001E029B /* enemyHaunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
 		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
@@ -36,6 +39,9 @@
 		4997DA432A3C3B6200A377A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
+		D6749B2D2A4ECA2B001E029B /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		D6749B302A4ECBB5001E029B /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
+		D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = enemyHaunt.mp3; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
@@ -78,6 +84,7 @@
 		4997DA3A2A3C3B6200A377A9 /* NethersTrap */ = {
 			isa = PBXGroup;
 			children = (
+				D6749B2F2A4ECBA1001E029B /* SoundAsset */,
 				FAA4A8842A41FFA700A820AA /* Component */,
 				FAA4A8832A41FF9700A820AA /* Node */,
 				FAA4A8822A41FF8D00A820AA /* Entity */,
@@ -86,12 +93,22 @@
 				492AE31C2A4EA748001550F1 /* GameScene.sks */,
 				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
+				D6749B2D2A4ECA2B001E029B /* SoundManager.swift */,
 				492AE31A2A4EA71E001550F1 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
 				4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */,
 				FA36697F2A40970F00B451DA /* MazeTileSet.sks */,
 			);
 			path = NethersTrap;
+			sourceTree = "<group>";
+		};
+		D6749B2F2A4ECBA1001E029B /* SoundAsset */ = {
+			isa = PBXGroup;
+			children = (
+				D6749B302A4ECBB5001E029B /* ambience.mp3 */,
+				D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */,
+			);
+			path = SoundAsset;
 			sourceTree = "<group>";
 		};
 		FAA4A8822A41FF8D00A820AA /* Entity */ = {
@@ -186,6 +203,8 @@
 				492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
+				D6749B332A4ECE42001E029B /* enemyHaunt.mp3 in Resources */,
+				D6749B312A4ECBB5001E029B /* ambience.mp3 in Resources */,
 				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +220,7 @@
 				FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */,
 				FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */,
 				FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */,
+				D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */,
 				FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */,
 				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
 				FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */,
