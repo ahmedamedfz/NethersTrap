@@ -13,23 +13,26 @@ extension GameScene: GKMatchmakerViewControllerDelegate {
         // Matchmaking was cancelled
         viewController.dismiss(true)
     }
-    
+
     func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
         // Matchmaking failed
         print("Matchmaking error: \(error.localizedDescription)")
         viewController.dismiss(true)
     }
-    
+
     func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch) {
         // Match found
-        self.match = match
-        match.delegate = self
         isMultiplayerGame = true
-        
+
         viewController.dismiss(true)
-        
+//        self.match = match
+//        self.match?.delegate = self
+
+
         // Start the game or perform any necessary setup
-        self.startMultiplayerGame()
+        if match.expectedPlayerCount == 0 {
+                    startGame(newMatch: match)
+                }
     }
 
 }
