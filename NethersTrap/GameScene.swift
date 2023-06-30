@@ -13,6 +13,8 @@ import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
  
+    var rtg = RealTimeGame.shared
+    
     var characterEntities = [CharEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
@@ -153,7 +155,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             }
             
         case 11:
+            rtg.choosePlayer()
             print("multipeer")
+            
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
