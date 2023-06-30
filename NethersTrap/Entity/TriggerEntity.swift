@@ -27,13 +27,14 @@ class TriggerEntity: GKEntity {
     
     func makeTrigger() {
         objTrigger.size = CGSize(width: 20, height: 30)
+//        objTrigger.setScale(0.8)
         objTrigger.physicsBody = SKPhysicsBody(rectangleOf: objTrigger.size)
+//        objTrigger.physicsBody = SKPhysicsBody(texture: objTrigger.texture!, size: self.objTrigger.size)
         objTrigger.physicsBody?.isDynamic = false
         objTrigger.physicsBody?.affectedByGravity = false
         objTrigger.physicsBody?.allowsRotation = false
         objTrigger.alpha = 1
         objTrigger.physicsBody?.contactTestBitMask = 0x10
-        objTrigger.setScale(0.8)
         
         if type == .Switch {
             defineSwitch()

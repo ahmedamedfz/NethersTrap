@@ -19,5 +19,6 @@ class PlayerNode: SKSpriteNode {
     var isMovement = true
     var timeHiding = 5
     var idxSwitchVisited = -1
-    var lastPos: vector_float2!
+    var lastPos = vector_float2(arrayLiteral: 0, 0)
+    var isAlive = false
 }

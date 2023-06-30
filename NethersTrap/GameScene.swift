@@ -50,11 +50,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         setupGameSceneInteractable()
         setupEntities()
-        
     }
     
-    func setupGameSceneInteractable(){
-        
+    func setupGameSceneInteractable() {
         let paintingImage = ["PaintingHideOutA","PaintingHideOutB","PaintingHideOutC"]
         let trashCanImage = ["TrashCanHideOutA","TrashCanHideOutB"]
         let paintingHideOut = Int.random(in: 0...totalHideOut)
@@ -62,20 +60,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
-                    self.spawnTrashCanSpots.append(node)
-                    node.isHidden = true
-                }
+            self.spawnTrashCanSpots.append(node)
+            node.isHidden = true
+        }
         scene?.enumerateChildNodes(withName: "Painting") { node, _ in
-                    self.spawnPaintingSpots.append(node)
-                    node.isHidden = true
-                }
+            self.spawnPaintingSpots.append(node)
+            node.isHidden = true
+        }
         scene?.enumerateChildNodes(withName: "Switch") { node, _ in
-                    self.spawnSwitchSpots.append(node)
-                    node.isHidden = true
-                }
+            self.spawnSwitchSpots.append(node)
+            node.isHidden = true
+        }
+        
         for h in 1..<paintingHideOut+1 {
-            
-            
             let paintingElement = spawnPaintingSpots
             let selectedPaintingElement = paintingElement.randomElement()
             
@@ -86,7 +83,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         for i in 1..<trashCanHideOut+1 {
-            
             let trashCanElement = spawnTrashCanSpots
             let selectedTrashCanElement = trashCanElement.randomElement()
             
@@ -98,7 +94,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for j in 0..<totalSwitch {
             let switchElement = spawnSwitchSpots
-            
             let selectedSwitchElement = switchElement.randomElement()
             
             let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "00_Statue", pos: selectedSwitchElement!.position)
@@ -164,6 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerEntities[0].objCharacter.hit = "Switch"
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
                 print("Catched")
+                playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
                 playerEntities[0].objCharacter.hit = "Catched"
                 playerEntities[0].objCharacter.deathAnimating = true
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
@@ -200,18 +196,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
-            } else if playerEntities[0].objCharacter.hidingRange {
+                print(totalSwitchOn)
+            } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
                 playerEntities[0].objCharacter.isHidden = true
                 playerEntities[0].objCharacter.isMovement = false
                 enemyEntity.agent.behavior = nil
                 
-                run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5)) {
-                    if !self.playerEntities[0].objCharacter.isHidden {
-                        
-                    }
-                }
+                run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
             } else {
-                
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
         default:
@@ -254,7 +246,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player1Entity.agent.update(deltaTime: dt)
         enemyEntity.agent.update(deltaTime: dt)
         
-        enemyEntity.component(ofType: EnemyControllerComponent.self)?.makePathFinding(target: player1Entity)
+        if !playerEntities[0].objCharacter.isHidden {
+            enemyEntity.component(ofType: EnemyControllerComponent.self)?.makePathFinding(target: player1Entity)
+        }
+        
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
 
         self.lastUpdateTime = currentTime
@@ -271,6 +266,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             cameraNode.position = playerEntities[0].objCharacter.position
         }
-        
     }
 }

@@ -178,7 +178,7 @@ class PlayerControllerComponent: GKComponent {
         geometryComponent?.geometryNode.isMovement = true
         geometryComponent?.geometryNode.isHidden = false
         geometryComponent?.geometryNode.timeHiding = 5
-        print("Out")
+//        print("Out")
     }
 }
 

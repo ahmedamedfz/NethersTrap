@@ -37,11 +37,9 @@ class EnemyControllerComponent: GKComponent {
         for i in 0...11 {
             AIDownTexture.append(SKTexture(imageNamed: "HumanDown/\(i)"))
             AIUpTexture.append(SKTexture(imageNamed: "HumanUp/\(i)"))
-            
         }
         
         for i in 0...23 {
-            
             AILeftTexture.append(SKTexture(imageNamed: "HumanLeft/\(i)"))
             AIRightTexture.append(SKTexture(imageNamed: "HumanRight/\(i)"))
         }
@@ -60,43 +58,33 @@ class EnemyControllerComponent: GKComponent {
         var positionXDif: Float = 0
         var positionYDif: Float = 0
         
-        print(direction.x)
-        print(direction.y)
+//        print(direction.x)
+//        print(direction.y)
         
         if direction.x > 0 && direction.y > 0 {
             print("diagonal")
             positionXDif = 80
             positionYDif = 80
-
-            
-        }else if direction.x > 0 && direction.y < 0{
-            print("diagonal")
+        } else if direction.x > 0 && direction.y < 0{
+//            print("diagonal")
             positionXDif = 80
             positionYDif = -80
-
-            
-        }else if direction.x < 0 && direction.y < 0{
-            print("diagonal")
+        } else if direction.x < 0 && direction.y < 0{
+//            print("diagonal")
             positionXDif = -80
             positionYDif = -80
-
-            
-        }else if direction.x < 0 && direction.y > 0{
-            print("diagonal")
+        } else if direction.x < 0 && direction.y > 0{
+//            print("diagonal")
             positionXDif = -80
             positionYDif = 80
-
-            
-        }else if direction.x > 0 {
+        } else if direction.x > 0 {
             positionXDif = 80
             if lastMovement != .right {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AIRight))
                 lastMovement = .right
             }
-            
         } else if direction.x == 0 {
             positionXDif = 0
-            
         } else {
             positionXDif = -80
             if lastMovement != .left {
@@ -107,12 +95,10 @@ class EnemyControllerComponent: GKComponent {
         
         if direction.y > 0 {
             positionYDif = 80
-            
             if lastMovement != .up {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AIUp))
                 lastMovement = .up
             }
-            
         } else if direction.y == 0 {
             positionYDif = 0
         } else {

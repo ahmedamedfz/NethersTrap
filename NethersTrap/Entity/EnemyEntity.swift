@@ -42,7 +42,7 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
         objCharacter.physicsBody?.collisionBitMask = 0x1
         objCharacter.position = CGPoint(x: 50, y: 0)
         objCharacter.physicsBody?.categoryBitMask = 0x1000
-        objCharacter.physicsBody?.contactTestBitMask = 0x10
+//        objCharacter.physicsBody?.contactTestBitMask = 0x10
         
         let geometryComponent = GeometryComponent<EnemyEntity>(geometryNode: self)
         addComponent(geometryComponent)
@@ -66,8 +66,6 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
     }
     
     func addAgent() {
-//        let agent = agent
-        
         agent.delegate = self
         agent.position = SIMD2(x: Float(objCharacter.position.x), y: Float(objCharacter.position.y))
         agent.mass = 0.01

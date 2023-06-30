@@ -41,7 +41,8 @@ class PlayerEntity: GKEntity, GKAgentDelegate {
         objCharacter.physicsBody?.collisionBitMask = 0x1
         objCharacter.position = CGPoint(x: 0, y: 0)
         objCharacter.physicsBody?.categoryBitMask = 0x10
-        objCharacter.physicsBody?.contactTestBitMask = 0x100 | 0x1000
+//        objCharacter.physicsBody?.contactTestBitMask = 0x100 | 0x1000
+        objCharacter.physicsBody?.contactTestBitMask = 0x1000
         
         let playerControllerComponent = PlayerControllerComponent()
         addComponent(playerControllerComponent)
@@ -51,6 +52,7 @@ class PlayerEntity: GKEntity, GKAgentDelegate {
         
         addAgent()
         objCharacter.lastPos = agent.position
+        objCharacter.isAlive = true
     }
     
     func agentWillUpdate(_ agent: GKAgent) {
@@ -66,8 +68,6 @@ class PlayerEntity: GKEntity, GKAgentDelegate {
     }
     
     func addAgent() {
-//        let agent = agent
-        
         agent.delegate = self
         agent.position = SIMD2(x: Float(objCharacter.position.x), y: Float(objCharacter.position.y))
         agent.mass = 0.01
