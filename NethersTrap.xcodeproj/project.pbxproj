@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		492AE3172A4C3CA0001550F1 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = 492AE3162A4C3CA0001550F1 /* MainMenu.sks */; };
 		492AE3192A4C3CB6001550F1 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3182A4C3CB6001550F1 /* MainMenu.swift */; };
+		492AE3222A4ED0D6001550F1 /* GKViewController in Resources */ = {isa = PBXBuildFile; fileRef = 492AE3212A4ED0D6001550F1 /* GKViewController */; };
+		492AE3242A4ED152001550F1 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3232A4ED152001550F1 /* MatchManager.swift */; };
+		492AE32A2A4ED183001550F1 /* MM_MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3272A4ED183001550F1 /* MM_MatchData.swift */; };
+		492AE32B2A4ED183001550F1 /* MM_GKMatchMakerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3292A4ED183001550F1 /* MM_GKMatchMakerViewControllerDelegate.swift */; };
+		492AE32C2A4ED183001550F1 /* MM_GKMatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3262A4ED183001550F1 /* MM_GKMatchDelegate.swift */; };
+		492AE32D2A4ED183001550F1 /* MM_GameCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3252A4ED183001550F1 /* MM_GameCenterViewController.swift */; };
+		492AE32E2A4ED183001550F1 /* MM_GKLocalPlayerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AE3282A4ED183001550F1 /* MM_GKLocalPlayerListener.swift */; };
 		4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */; };
 		4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3D2A3C3B6200A377A9 /* GameScene.sks */; };
 		4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3F2A3C3B6200A377A9 /* Actions.sks */; };
@@ -17,8 +24,6 @@
 		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
 		E715D1012A4ECCB10030A460 /* SharedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E715D1002A4ECCB10030A460 /* SharedEntity.swift */; };
-		E7A454292A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */; };
-		E7C056D92A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 		FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */; };
 		FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */; };
@@ -31,6 +36,13 @@
 /* Begin PBXFileReference section */
 		492AE3162A4C3CA0001550F1 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
 		492AE3182A4C3CB6001550F1 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		492AE3212A4ED0D6001550F1 /* GKViewController */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GKViewController; sourceTree = "<group>"; };
+		492AE3232A4ED152001550F1 /* MatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
+		492AE3252A4ED183001550F1 /* MM_GameCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM_GameCenterViewController.swift; sourceTree = "<group>"; };
+		492AE3262A4ED183001550F1 /* MM_GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM_GKMatchDelegate.swift; sourceTree = "<group>"; };
+		492AE3272A4ED183001550F1 /* MM_MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM_MatchData.swift; sourceTree = "<group>"; };
+		492AE3282A4ED183001550F1 /* MM_GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM_GKLocalPlayerListener.swift; sourceTree = "<group>"; };
+		492AE3292A4ED183001550F1 /* MM_GKMatchMakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM_GKMatchMakerViewControllerDelegate.swift; sourceTree = "<group>"; };
 		4997DA382A3C3B6200A377A9 /* NethersTrap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NethersTrap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4997DA3D2A3C3B6200A377A9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -42,8 +54,6 @@
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
 		E715D1002A4ECCB10030A460 /* SharedEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEntity.swift; sourceTree = "<group>"; };
 		E7A454252A4ACE640039C874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+GKMatchmakerViewControllerDelegate.swift"; sourceTree = "<group>"; };
-		E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+GKMatchDelegate.swift"; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 		FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryComponent.swift; sourceTree = "<group>"; };
 		FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControllerComponent.swift; sourceTree = "<group>"; };
@@ -64,6 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		492AE31E2A4ECD83001550F1 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				492AE3232A4ED152001550F1 /* MatchManager.swift */,
+				492AE3252A4ED183001550F1 /* MM_GameCenterViewController.swift */,
+				492AE3282A4ED183001550F1 /* MM_GKLocalPlayerListener.swift */,
+				492AE3262A4ED183001550F1 /* MM_GKMatchDelegate.swift */,
+				492AE3292A4ED183001550F1 /* MM_GKMatchMakerViewControllerDelegate.swift */,
+				492AE3272A4ED183001550F1 /* MM_MatchData.swift */,
+				492AE3212A4ED0D6001550F1 /* GKViewController */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		4997DA2F2A3C3B6200A377A9 = {
 			isa = PBXGroup;
 			children = (
@@ -93,8 +117,7 @@
 				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
 				492AE3162A4C3CA0001550F1 /* MainMenu.sks */,
 				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
-				E7A454282A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift */,
-				E7C056D82A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift */,
+				492AE31E2A4ECD83001550F1 /* Shared */,
 				492AE3182A4C3CB6001550F1 /* MainMenu.swift */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
 				4997DA452A3C3B6300A377A9 /* Assets.xcassets */,
@@ -194,6 +217,7 @@
 				492AE3172A4C3CA0001550F1 /* MainMenu.sks in Resources */,
 				4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */,
 				4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */,
+				492AE3222A4ED0D6001550F1 /* GKViewController in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
 			);
@@ -206,19 +230,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				492AE32B2A4ED183001550F1 /* MM_GKMatchMakerViewControllerDelegate.swift in Sources */,
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
 				FAA4A87B2A4184D200A820AA /* CharacterNode.swift in Sources */,
 				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
+				492AE3242A4ED152001550F1 /* MatchManager.swift in Sources */,
 				FAA4A8792A4169BB00A820AA /* CharEntity.swift in Sources */,
+				492AE32E2A4ED183001550F1 /* MM_GKLocalPlayerListener.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
+				492AE32A2A4ED183001550F1 /* MM_MatchData.swift in Sources */,
+				492AE32C2A4ED183001550F1 /* MM_GKMatchDelegate.swift in Sources */,
 				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				E715D1012A4ECCB10030A460 /* SharedEntity.swift in Sources */,
 				492AE3192A4C3CB6001550F1 /* MainMenu.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
+				492AE32D2A4ED183001550F1 /* MM_GameCenterViewController.swift in Sources */,
 				FAA4A8812A41F7D100A820AA /* TriggerNode.swift in Sources */,
-				E7A454292A4B47460039C874 /* GameScene+GKMatchmakerViewControllerDelegate.swift in Sources */,
 				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
-				E7C056D92A4D85ED005599A2 /* GameScene+GKMatchDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
