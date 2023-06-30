@@ -23,6 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player3Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player4Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var chaseBehavior: GKBehavior?
+    var overlayShadow = SKSpriteNode(imageNamed: "Shadow")
     
     var walls: [SKNode] = []
     
@@ -48,6 +49,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupGameSceneInteractable()
         setupEntities()
+        
+        overlayShadow.zPosition = 7
+        overlayShadow.setScale(0.4)
+        overlayShadow.blendMode = .multiplyAlpha
+//        overlayShadow.alpha = 0.9
+        addChild(overlayShadow)
     }
     
     func setupGameSceneInteractable() {
@@ -276,6 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         self.lastUpdateTime = currentTime
+        overlayShadow.position = player1Entity.objCharacter.position
     }
     
     override func didEvaluateActions() {
