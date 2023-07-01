@@ -25,9 +25,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var chaseBehavior: GKBehavior?
     var overlayShadow = SKSpriteNode(imageNamed: "Shadow")
     var switchAnim: SKAction = SKAction()
+    var portalAnim: SKAction = SKAction()
     var switchTexture: [SKTexture] = []
+    var elevatorTexture: [SKTexture] = []
     var currStatue: SKSpriteNode = SKSpriteNode(imageNamed: "00_Statue")
+    var currPortal: SKSpriteNode = SKSpriteNode(imageNamed: "Elevators/0")
     var walls: [SKNode] = []
+    var lift: SKNode = SKNode()
     var statueCountLabel: SKLabelNode?
     
     let totalHideOut = 10
@@ -54,11 +58,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupEntities()
         setupGameSceneInteractable()
         
+        scene?.enumerateChildNodes(withName: "LiftCollider") { node, _ in
+            self.lift = node
+        }
+        
         for i in 0...4 {
             switchTexture.append(SKTexture(imageNamed: "Statues/\(i)"))
         }
         print("Switchtexture: \(switchTexture)")
         switchAnim = SKAction.animate(with: switchTexture, timePerFrame: 0.1)
+        
+        for j in 0...5 {
+            elevatorTexture.append(SKTexture(imageNamed: "Elevators/\(j)"))
+        }
+        print("Elevatortexture: \(elevatorTexture)")
+        portalAnim = SKAction.animate(with: elevatorTexture, timePerFrame: 0.2)
         
         overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
@@ -114,10 +128,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             TriggerEntities.append(switchEntity)
         }
         
-        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "Elevators/0", pos: CGPoint(x: 47, y: 450))
-        portalEntity.objTrigger.isHidden = false
-        TriggerEntities.append(portalEntity)
+        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "Elevators/0", pos: CGPoint(x: 36.519, y: 427.598))
+        portalEntity.objTrigger.size = CGSize(width: 186.521, height: 161.353)
+        portalEntity.objTrigger.zPosition = 2
+//        portalEntity.objTrigger.isHidden = false
         addChild(portalEntity.objTrigger)
+        TriggerEntities.append(portalEntity)
     }
     
     func setupEntities() {
@@ -258,20 +274,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
-//                makeCamera(totalSwitchOn: totalSwitchOn)
-//                counterstatue(totalSwitchOn: totalSwitchOn)
-                
+
                 updateStatueCount(count: totalSwitchOn, total: totalSwitch)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
-//                currStatue.run((TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.switchAnim)!)
-//                currStatue.texture = SKTexture(imageNamed: "04_Statue")
-//                print("curr: \(currStatue)")
+//
                 currStatue.run(switchAnim)
-//                TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.statueOnAnim(statueOnImage: "Statue/4")
-//                run(switchAnim)
+
                 print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
                     //Win condition for collation elevator
+                    self.lift.physicsBody?.categoryBitMask = 0x100000
+                    let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
+                    currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
+                    currPortal.run(portalAnim)
                 }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
                 playerEntities[0].objCharacter.isHidden = true

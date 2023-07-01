@@ -69,7 +69,7 @@ class TriggerEntity: GKEntity {
     }
     
     func definePortal() {
-        objTrigger.setScale(0.4)
+        objTrigger.setScale(0.2)
         objTrigger.physicsBody?.categoryBitMask = 0x100000
     }
     

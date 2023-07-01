@@ -19,7 +19,6 @@
 		D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B342A4FFFB4001E029B /* switch.mp3 */; };
 		D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B352A4FFFB4001E029B /* ambience.mp3 */; };
 		D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B362A4FFFB4001E029B /* hide.mp3 */; };
-		D6749B3E2A4FFFB5001E029B /* elevator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B372A4FFFB4001E029B /* elevator.mp3 */; };
 		D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B382A4FFFB4001E029B /* unhide.mp3 */; };
 		D6749B412A4FFFB5001E029B /* died.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B3A2A4FFFB5001E029B /* died.mp3 */; };
 		D6749B432A500067001E029B /* haunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B422A500067001E029B /* haunt.mp3 */; };
@@ -397,7 +396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = T872JMS8WL;
+				DEVELOPMENT_TEAM = Y26Y6AQK69;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
@@ -426,7 +425,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SW8Q2MFZT8;
+				DEVELOPMENT_TEAM = Y26Y6AQK69;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
