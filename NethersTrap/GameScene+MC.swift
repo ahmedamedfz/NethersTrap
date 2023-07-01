@@ -55,7 +55,6 @@ extension GameScene: MCSessionDelegate, MCBrowserViewControllerDelegate{
             
             // Update the position of the player entity
             player2Entity.objCharacter.position = position
-            updateAnimation(player2: player2Entity)
         } catch {
             print("Error unarchiving data: \(error)")
         }

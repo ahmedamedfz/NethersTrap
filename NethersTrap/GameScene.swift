@@ -392,6 +392,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let playerPosition = player1Entity.objCharacter.position
         if multipeer == true{
             sendPlayerPosition(position: playerPosition)
+            updateAnimation(player2: player2Entity)
         }
         
         // Calculate time since last update
