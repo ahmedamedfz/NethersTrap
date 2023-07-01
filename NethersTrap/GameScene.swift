@@ -20,38 +20,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     var multipeer: Bool = false
     var playerPositions: [MCPeerID: CGPoint] = [:]
     
-    func startMultipeerConnectivity() {
+    func setupMultipeerConnectivity() {
         // Create a peer ID using the host name of the local device
         let deviceName = Host.current().localizedName ?? ""
         peerID = MCPeerID(displayName: deviceName)
-        
+
         // Create a session with the local peer ID
         session = MCSession(peer: peerID)
         session.delegate = self
-        
+
         // Create a browser view controller for nearby devices
         browser = MCBrowserViewController(serviceType: "my-game", session: session)
         browser.delegate = self
-        
+
         // Create an advertiser assistant to handle incoming connection requests
         assistant = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
-        
+    }
+
+    func startMultipeerConnectivity() {
+        setupMultipeerConnectivity()
+
         // Start advertising and browsing for peers
         assistant.start()
-        view?.window?.contentViewController?.presentAsModalWindow(browser)
-        
+        if let window = view?.window {
+            window.contentViewController?.presentAsModalWindow(browser)
+        }
+
+        // Assign the correct MCPeerID to player2Entity and player3Entity
         let connectedPeers = session.connectedPeers
-           if connectedPeers.count > 0 {
-               if player2Entity.spriteName.isEmpty {
-                   player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                   addChild(player2Entity.objCharacter)
-                   addAgent(entityNode: player2Entity)
-               } else if player3Entity.spriteName.isEmpty {
-                   player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                   addChild(player3Entity.objCharacter)
-                   addAgent(entityNode: player3Entity)
-               }
-           }
+        if !connectedPeers.isEmpty {
+            if player2Entity.spriteName.isEmpty {
+                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                addChild(player2Entity.objCharacter)
+                addAgent(entityNode: player2Entity)
+            } else if player3Entity.spriteName.isEmpty {
+                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                addChild(player3Entity.objCharacter)
+                addAgent(entityNode: player3Entity)
+            }
+        }
     }
     
     func stopMultipeerConnectivity() {
@@ -68,15 +75,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
             print("Connected to peer: \(peerID.displayName)")
             multipeer = true
             // You can perform any necessary actions when a peer is connected
-            if player2Entity.spriteName.isEmpty {
-                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                addChild(player2Entity.objCharacter)
-                addAgent(entityNode: player2Entity)
-            } else if player3Entity.spriteName.isEmpty {
-                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                addChild(player3Entity.objCharacter)
-                addAgent(entityNode: player3Entity)
-            }
+//            if player2Entity.spriteName.isEmpty {
+//                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+//                addChild(player2Entity.objCharacter)
+//                addAgent(entityNode: player2Entity)
+//            } else if player3Entity.spriteName.isEmpty {
+//                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
+//                addChild(player3Entity.objCharacter)
+//                addAgent(entityNode: player3Entity)
+//            }
         case .connecting:
             print("Connecting to peer: \(peerID.displayName)")
         case .notConnected:
@@ -188,7 +195,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         self.physicsWorld.contactDelegate = self
         setupEntities()
         addComponentsToComponentSystems()
-        session.delegate = self
+//        session.delegate = self
         //        authenticateLocalPlayer()
         //        let browseButton = SKLabelNode(text: "Browse")
         //        browseButton.fontSize = 20
