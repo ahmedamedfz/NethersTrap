@@ -93,18 +93,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
            // Process received data
-           guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
-               print("Failed to receive data")
-               return
-           }
+        do {
+            guard let receivedPosition = try NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
+                print("Failed to receive data")
+                return
+            }
+            // Process the receivedPosition object
+            let position = receivedPosition.point
+            print("Received data from \(peerID.displayName): \(position)")
 
-           let position = receivedPosition.point
-           print("Received data from \(peerID.displayName): \(position)")
+            // Update the position of the player entity
+            if let playerEntity = getPlayerEntity(for: peerID) {
+                playerEntity.objCharacter.position = position
+            }
+        } catch {
+            print("Error unarchiving data: \(error)")
+        }
 
-           // Update the position of the player entity
-           if let playerEntity = getPlayerEntity(for: peerID) {
-               playerEntity.objCharacter.position = position
-           }
+           
        }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
