@@ -124,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player1Entity.objCharacter.zPosition = 4
         addChild(player1Entity.objCharacter)
         
-        let playerNameLabel = SKLabelNode(fontNamed: "Helvetica")
+        let playerNameLabel = SKLabelNode(fontNamed: "VT323-Regular")
         playerNameLabel.text = player1Entity.nameEntity
         playerNameLabel.fontSize = 10
         playerNameLabel.fontColor = SKColor.green
@@ -132,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerNameLabel.position = CGPoint(x: player1Entity.objCharacter.position.x, y: player1Entity.objCharacter.position.y + player1Entity.objCharacter.size.height/2)
         player1Entity.objCharacter.addChild(playerNameLabel)
         
-        let pressLabel = SKLabelNode(fontNamed: "Helvetica")
+        let pressLabel = SKLabelNode(fontNamed: "VT323-Regular")
         pressLabel.text = "Press F to hide"
         pressLabel.name = "Press"
         pressLabel.fontSize = 10
@@ -142,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pressLabel.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
         player1Entity.objCharacter.addChild(pressLabel)
         
-        let pressLabelStatue = SKLabelNode(fontNamed: "Helvetica")
+        let pressLabelStatue = SKLabelNode(fontNamed: "VT323-Regular")
         pressLabelStatue.text = "Press F to activate"
         pressLabelStatue.name = "PressStatue"
         pressLabelStatue.fontSize = 10
@@ -168,6 +168,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
+        
+        
+    }
+    
+    func counterstatue(totalSwitchOn : Int) -> SKNode{
+        let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
+        statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
+        statueCount.fontSize = 10
+        statueCount.horizontalAlignmentMode = .left
+        statueCount.fontColor = SKColor.white
+        statueCount.zPosition = 10
+        
+        return statueCount
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -227,6 +241,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
+//                makeCamera(totalSwitchOn: totalSwitchOn)
+//                counterstatue(totalSwitchOn: totalSwitchOn)
+                
+                let counterNode = counterstatue(totalSwitchOn: totalSwitchOn)
+                counterNode.removeFromParent()
+                    player1Entity.objCharacter.addChild(counterNode)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
 //                currStatue.run((TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.switchAnim)!)
 //                currStatue.texture = SKTexture(imageNamed: "04_Statue")
@@ -300,6 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.lastUpdateTime = currentTime
         overlayShadow.position = player1Entity.objCharacter.position
+        
     }
     
     override func didEvaluateActions() {
@@ -322,4 +343,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func CGPointDistance(from: CGPoint, to: CGPoint) -> CGFloat {
         return sqrt(CGPointDistanceSquared(from: from, to: to))
     }
+    
 }
