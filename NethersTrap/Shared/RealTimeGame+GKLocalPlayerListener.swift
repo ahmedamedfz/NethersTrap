@@ -18,11 +18,11 @@ extension RealTimeGame: GKLocalPlayerListener {
     /// Presents the matchmaker interface when the local player accepts an invitation from another player.
     func player(_ player: GKPlayer, didAccept invite: GKInvite) {
         // Present the matchmaker view controller in the invitation state.
-        if let window = NSApplication.shared.mainWindow,
-           let viewController = GKMatchmakerViewController(invite: invite) {
+        if let viewController = GKMatchmakerViewController(invite: invite) {
             viewController.matchmakerDelegate = self
-            window.contentViewController?.presentAsModalWindow(viewController)
+            let dialogController = GKDialogController.shared()
+                dialogController.parentWindow = NSApplication.shared.mainWindow
+                dialogController.present(viewController)
         }
     }
 }
-

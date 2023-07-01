@@ -16,7 +16,9 @@ extension RealTimeGame {
         let viewController = GKGameCenterViewController(achievementID: "1234")
         viewController.gameCenterDelegate = self
         
-        rootViewController?.present(viewController, animator: true as! NSViewControllerPresentationAnimator) 
+        let dialogController = GKDialogController.shared()
+            dialogController.parentWindow = NSApplication.shared.mainWindow
+            dialogController.present(viewController)
     }
     
     /// Presents the top score on the leaderboard in the dashboard.
@@ -24,13 +26,15 @@ extension RealTimeGame {
     func topScore() {
         let viewController = GKGameCenterViewController(leaderboardID: "123", playerScope: GKLeaderboard.PlayerScope.global,
                                                         timeScope: GKLeaderboard.TimeScope.allTime)
-        viewController.gameCenterDelegate = self
-        rootViewController?.present(viewController, animator: true as! NSViewControllerPresentationAnimator)
+        let dialogController = GKDialogController.shared()
+            dialogController.parentWindow = NSApplication.shared.mainWindow
+            dialogController.present(viewController)
     }
     
     /// Cleans up the view's state when the local player closes the dashboard.
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         // Dismiss the view controller.
-        gameCenterViewController.dismiss(true)
+        let dialogController = GKDialogController.shared()
+            dialogController.dismiss(self)
     }
 }

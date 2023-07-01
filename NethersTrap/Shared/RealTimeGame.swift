@@ -139,7 +139,10 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         // Present the interface where the player selects opponents and starts the game.
         if let viewController = GKMatchmakerViewController(matchRequest: request) {
             viewController.matchmakerDelegate = self
-            rootViewController?.presentAsSheet(viewController)
+            
+            let dialogController = GKDialogController.shared()
+                dialogController.parentWindow = NSApplication.shared.mainWindow
+                dialogController.present(viewController)
         }
     }
     
