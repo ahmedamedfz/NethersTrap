@@ -21,4 +21,5 @@ class PlayerNode: SKSpriteNode {
     var idxSwitchVisited = -1
     var lastPos = vector_float2(arrayLiteral: 0, 0)
     var isAlive = false
+    var statue: Int = 0
 }

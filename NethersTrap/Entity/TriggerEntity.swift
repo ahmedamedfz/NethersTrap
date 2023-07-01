@@ -23,6 +23,7 @@ class TriggerEntity: GKEntity {
         objTrigger.name = name
         objTrigger.physicsBody?.node?.name = name
         objTrigger.position = pos
+        
         super.init()
         makeTrigger()
     }

@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var switchTexture: [SKTexture] = []
     var currStatue: SKSpriteNode = SKSpriteNode(imageNamed: "00_Statue")
     var walls: [SKNode] = []
+    var statueCountLabel: SKLabelNode?
     
     let totalHideOut = 10
     var totalSwitchOn = 0
@@ -152,6 +153,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pressLabelStatue.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
         player1Entity.objCharacter.addChild(pressLabelStatue)
         
+        let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
+        statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
+        statueCount.fontSize = 10
+        statueCount.horizontalAlignmentMode = .left
+        statueCount.fontColor = SKColor.white
+        statueCount.zPosition = 10
+        player1Entity.objCharacter.addChild(statueCount)
+        self.statueCountLabel = statueCount
         
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
         enemyEntity.objCharacter.zPosition = 5
@@ -172,16 +181,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func counterstatue(totalSwitchOn : Int) -> SKNode{
-        let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
-        statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
-        statueCount.fontSize = 10
-        statueCount.horizontalAlignmentMode = .left
-        statueCount.fontColor = SKColor.white
-        statueCount.zPosition = 10
-        
-        return statueCount
-        
+    func updateStatueCount(count: Int, total: Int) {
+        guard let label = statueCountLabel else {
+            return
+        }
+
+        label.text = "\(count)/\(total)"
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -244,9 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                makeCamera(totalSwitchOn: totalSwitchOn)
 //                counterstatue(totalSwitchOn: totalSwitchOn)
                 
-                let counterNode = counterstatue(totalSwitchOn: totalSwitchOn)
-                counterNode.removeFromParent()
-                    player1Entity.objCharacter.addChild(counterNode)
+                updateStatueCount(count: totalSwitchOn, total: totalSwitch)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
 //                currStatue.run((TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].component(ofType: TriggerControllerComponent.self)?.switchAnim)!)
 //                currStatue.texture = SKTexture(imageNamed: "04_Statue")
