@@ -327,7 +327,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
-                    //Win condition for collation elevator
+                    self.lift.physicsBody?.categoryBitMask = 0x100000
+                                        let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
+                                        currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
+                                        currPortal.run(portalAnim)
                     SoundManager.soundHelper.elevatorOnSFX.play()
                 }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
