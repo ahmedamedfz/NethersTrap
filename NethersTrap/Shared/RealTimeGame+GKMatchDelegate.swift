@@ -7,7 +7,7 @@ An extension for real-time games that handles match delegate callbacks.
 
 import Foundation
 import GameKit
-import SwiftUI
+import SpriteKit
 
 extension RealTimeGame: GKMatchDelegate {
     /// Handles a connected, disconnected, or unknown player state.

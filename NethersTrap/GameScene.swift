@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
-        rtg.authenticatePlayer()
+        rtg.authenticatePlayer() 
         setupEntities()
         addComponentsToComponentSystems()
         //        authenticateLocalPlayer()

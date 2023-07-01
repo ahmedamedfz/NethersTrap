@@ -171,77 +171,29 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
                 }
             }
         }
-            
-        // Increment the achievement to play 10 games.
-        reportProgress()
     }
     
     /// Takes the player's turn.
     /// - Tag:takeAction
     func takeAction() {
-        // Take your turn by incrementing the counter.
-        myScore += 1
         
-        // If your score is 10 points higher or reaches the maximum, you win the match.
-        if (myScore - opponentScore == 10) || (myScore == 100) {
-            endMatch()
-            return
-        }
-        
-        // Otherwise, send the game data to the other player.
-        do {
-            let data = encode(score: myScore)
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
-        }
     }
     
     /// Quits a match and saves the game data.
     /// - Tag:endMatch
     func endMatch() {
-        let myOutcome = myScore >= opponentScore ? "won" : "lost"
-        let opponentOutcome = opponentScore > myScore ? "won" : "lost"
+        //var isAllPlayerDie:[Bool] = [false,false]
         
-        // Notify the opponent that they won or lost, depending on the score.
-        do {
-            let data = encode(outcome: opponentOutcome)
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
-        }
-        
-        // Notify the local player that they won or lost.
-        if myOutcome == "won" {
-            youWon = true
-        } else {
-            opponentWon = true
-        }
     }
     
     /// Forfeits a match without saving the score.
     /// - Tag:forfeitMatch
     func forfeitMatch() {
-        // Notify the opponent that you forfeit the game.
-        do {
-            let data = encode(outcome: "forfeit")
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
-        }
-
-        youForfeit = true
     }
     
     /// Saves the local player's score.
     /// - Tag:saveScore
     func saveScore() {
-        GKLeaderboard.submitScore(myScore, context: 0, player: GKLocalPlayer.local,
-            leaderboardIDs: ["123"]) { error in
-            if let error {
-                print("Error: \(error.localizedDescription).")
-            }
-        }
     }
     
     /// Resets a match after players reach an outcome or cancel the game.
@@ -252,52 +204,18 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         myMatch?.delegate = nil
         myMatch = nil
         opponent = nil
-        opponentAvatar = Image(systemName: "person.crop.circle")
         GKAccessPoint.shared.isActive = true
         youForfeit = false
         opponentForfeit = false
         youWon = false
         opponentWon = false
-        
-        // Reset the score.
-        myScore = 0
-        opponentScore = 0
     }
     
     // Rewarding players with achievements.
     
     /// Reports the local player's progress toward an achievement.
     func reportProgress() {
-        GKAchievement.loadAchievements(completionHandler: { (achievements: [GKAchievement]?, error: Error?) in
-            let achievementID = "1234"
-            var achievement: GKAchievement? = nil
-
-            // Find an existing achievement.
-            achievement = achievements?.first(where: { $0.identifier == achievementID })
-
-            // Otherwise, create a new achievement.
-            if achievement == nil {
-                achievement = GKAchievement(identifier: achievementID)
             }
-
-            // Create an array containing the achievement.
-            let achievementsToReport: [GKAchievement] = [achievement!]
-
-            // Set the progress for the achievement.
-            achievement?.percentComplete = achievement!.percentComplete + 10.0
-
-            // Report the progress to Game Center.
-            GKAchievement.report(achievementsToReport, withCompletionHandler: {(error: Error?) in
-                if let error {
-                    print("Error: \(error.localizedDescription).")
-                }
-            })
-
-            if let error {
-                print("Error: \(error.localizedDescription).")
-            }
-        })
-    }
 }
 
 
