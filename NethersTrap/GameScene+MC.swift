@@ -22,7 +22,14 @@ extension GameScene: MCSessionDelegate, MCBrowserViewControllerDelegate{
             multipeer = true
          //    You can perform any necessary actions when a peer is connected
             if player2Entity.nameEntity.isEmpty {
-                player2Entity = PlayerEntity(name: "GhostADown/1", role: "Player", spriteImage: "GhostADown/0")
+                player2Entity = PlayerEntity(name: "\(peerID.displayName)", role: "Player", spriteImage: "GhostADown/0")
+                let playerNameLabel = SKLabelNode(fontNamed: "VT323-Regular")
+                playerNameLabel.text = player1Entity.nameEntity
+                playerNameLabel.fontSize = 10
+                playerNameLabel.fontColor = SKColor.green
+                playerNameLabel.horizontalAlignmentMode = .center
+                playerNameLabel.position = CGPoint(x: player2Entity.objCharacter.position.x, y: player2Entity.objCharacter.position.y + player2Entity.objCharacter.size.height/2)
+                player2Entity.objCharacter.addChild(playerNameLabel)
                 addChild(player2Entity.objCharacter)
 //                addAgent(entityNode: player2Entity)
             }

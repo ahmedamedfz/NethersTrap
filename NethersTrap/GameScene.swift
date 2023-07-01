@@ -146,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        player1Entity = PlayerEntity(name: "player1", role: "Player", spriteImage: "GhostADown/0")
+        player1Entity = PlayerEntity(name: "Player 1", role: "Player", spriteImage: "GhostADown/0")
         player1Entity.objCharacter.zPosition = 4
         addChild(player1Entity.objCharacter)
         
@@ -254,6 +254,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                if player2Entity.peerID == nil {
                    player2Entity.peerID = connectedPeers[0]
                    player2Entity.objCharacter.name = connectedPeers[0].displayName
+               }else if player3Entity.peerID == nil {
+                   player3Entity.peerID = connectedPeers[0]
+                   player3Entity.objCharacter.name = connectedPeers[0].displayName
                }
            }
        }
