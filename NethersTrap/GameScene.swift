@@ -75,17 +75,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         // Process received data
-        let receivedText = String(data: data, encoding: .utf8)
-        print("Received data from \(peerID.displayName): \(receivedText ?? "")")
+//        let receivedText = String(data: data, encoding: .utf8)
+//        print("Received data from \(peerID.displayName): ")
         
         guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
+            print("fail receive data")
             return
         }
         
         let position = receivedPosition.point
-        
+        print("Received data from \(peerID.displayName): \(position)")
         // Handle received data
-        print(position)
         player2Entity.objCharacter.position = position
         
     }
@@ -114,12 +114,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     // Method to update the position of a player entity and send the updated position to other peers
     
-    func sendPlayerPosition() {
+    func sendPlayerPosition(position : CGPoint) {
         // Get the position of player1Entity
-        let position = player1Entity.objCharacter.position
+        let PlayerPosition = position
         
         // Create a PointWrapper object to encode the position
-        let pointWrapper = PointWrapper(point: position)
+        let pointWrapper = PointWrapper(point: PlayerPosition)
         
         // Convert the PointWrapper object to data
         guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: pointWrapper, requiringSecureCoding: true) else {
@@ -313,7 +313,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     override func update(_ currentTime: TimeInterval) {
         if multipeer == true{
-            sendPlayerPosition()
+            sendPlayerPosition(position: player2Entity.objCharacter.position)
         }
 //        if isMultiplayerGame {
 //
