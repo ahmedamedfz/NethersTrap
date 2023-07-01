@@ -172,15 +172,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pressLabelStatue.position = CGPoint(x: player1Entity.objCharacter.position.x + player1Entity.objCharacter.position.x + 10  , y: player1Entity.objCharacter.position.y )
         player1Entity.objCharacter.addChild(pressLabelStatue)
         
-        let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
-        statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
-        statueCount.fontSize = 10
-        statueCount.horizontalAlignmentMode = .left
-        statueCount.fontColor = SKColor.white
-        statueCount.zPosition = 10
-        player1Entity.objCharacter.addChild(statueCount)
-        self.statueCountLabel = statueCount
-        
         let path = GKPath(graphNodes: wanderGraph!, radius: 1.0)
         let followPath = GKGoal(toFollow: path, maxPredictionTime: 1.0, forward: true)
         let stayOnPath = GKGoal(toStayOn: path, maxPredictionTime: 1.0)
@@ -203,6 +194,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerEntities = [player1Entity]
         
         makeCamera()
+        
+        let statueImage = SKTexture(imageNamed: "CountStatue")
+        let statueNode = SKSpriteNode(texture: statueImage)
+        statueNode.size = CGSize(width: 50, height: 15)
+        statueNode.position = CGPoint(x: 0, y: 87)
+        statueNode.zPosition = 9
+        cameraNode.addChild(statueNode)
+        
+        let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
+        statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
+        statueCount.fontSize = 10
+        statueCount.horizontalAlignmentMode = .left
+        statueCount.fontColor = SKColor.white
+        statueCount.zPosition = 10
+//        statueCount.position = CGPoint(x: -10, y: 82)
+        statueCount.position = CGPoint(x: -10, y: -5)
+        statueNode.addChild(statueCount)
+        
+        self.statueCountLabel = statueCount
     }
     
     func makeCamera() {
@@ -211,6 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
+        
     }
     
     func updateStatueCount(count: Int, total: Int) {
