@@ -291,10 +291,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //                print("contact: ", contact.bodyA.node?.name ?? "")
                 playerEntities[0].objCharacter.isMovement = false
                 playerEntities[0].objCharacter.isHidden = true
-                let newScene = WinningScreen(size: self.size)
-                    newScene.scaleMode = self.scaleMode
-                    let transition = SKTransition.doorsCloseHorizontal(withDuration: 2) //
-                    self.view?.presentScene(newScene, transition: transition)
+                let newScene = WinningScreen(size: (view?.bounds.size)!)
+                newScene.scaleMode = self.scaleMode
+                let transition = SKTransition.fade(withDuration: 2) //
+                self.view?.presentScene(newScene, transition: transition)
                 print("win")
                 enemyEntity.agent.behavior = nil
             }

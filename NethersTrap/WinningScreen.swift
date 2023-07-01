@@ -13,19 +13,25 @@ class WinningScreen: SKScene {
     
     let returnButton = SKSpriteNode(imageNamed: "returnButton")
     let successText = SKSpriteNode(imageNamed: "successEscape")
-    
+    let backgroundImg = SKSpriteNode(imageNamed: "Winning screen")
 
     
     override func didMove(to view: SKView) {
         
-        
+        setBackground()
         setupReturnButton()
         successEscape()
 
     }
+    func setBackground() {
+        backgroundImg.position = CGPoint(x: frame.midX, y: frame.midY)
+        backgroundImg.size = CGSize(width: 1468.45, height: 1055.8)
+        backgroundImg.zPosition = 1
+        addChild(backgroundImg)
+    }
     
     func successEscape(){
-        successText.size = CGSize(width: 327, height: 72)
+        successText.size = CGSize(width: 654, height: 144)
         successText.position = CGPoint(x: frame.midX, y: frame.midY+180)
         successText.name = "successText"
         successText.zPosition = 2
@@ -35,7 +41,7 @@ class WinningScreen: SKScene {
    
     func setupReturnButton() {
       
-        returnButton.size = CGSize(width: 238, height: 38)
+        returnButton.size = CGSize(width: 476, height: 76)
         returnButton.position = CGPoint(x: frame.midX, y: frame.midY-180)
         returnButton.name = "returnButton"
         returnButton.zPosition = 2
