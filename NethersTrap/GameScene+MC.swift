@@ -24,7 +24,7 @@ extension GameScene: MCSessionDelegate, MCBrowserViewControllerDelegate{
             if player2Entity.nameEntity.isEmpty {
                 player2Entity = PlayerEntity(name: "\(peerID.displayName)", role: "Player", spriteImage: "GhostADown/0")
                 let playerNameLabel = SKLabelNode(fontNamed: "VT323-Regular")
-                playerNameLabel.text = player1Entity.nameEntity
+                playerNameLabel.text = player2Entity.nameEntity
                 playerNameLabel.fontSize = 10
                 playerNameLabel.fontColor = SKColor.green
                 playerNameLabel.horizontalAlignmentMode = .center

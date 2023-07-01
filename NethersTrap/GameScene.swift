@@ -146,7 +146,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        player1Entity = PlayerEntity(name: "Player 1", role: "Player", spriteImage: "GhostADown/0")
+        let deviceName = Host.current().localizedName ?? ""
+        player1Entity = PlayerEntity(name: "\(deviceName)", role: "Player", spriteImage: "GhostADown/0")
         player1Entity.objCharacter.zPosition = 4
         addChild(player1Entity.objCharacter)
         
