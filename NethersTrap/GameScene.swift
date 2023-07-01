@@ -22,17 +22,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player2Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player3Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player4Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
-    var chaseBehavior: GKBehavior?
+    
     var overlayShadow = SKSpriteNode(imageNamed: "Shadow")
     var switchAnim: SKAction = SKAction()
     var portalAnim: SKAction = SKAction()
     var switchTexture: [SKTexture] = []
     var elevatorTexture: [SKTexture] = []
-    var currStatue: SKSpriteNode = SKSpriteNode(imageNamed: "00_Statue")
+    var currStatue: SKSpriteNode = SKSpriteNode(imageNamed: "Statues/0")
     var currPortal: SKSpriteNode = SKSpriteNode(imageNamed: "Elevators/0")
     var walls: [SKNode] = []
     var lift: SKNode = SKNode()
     var statueCountLabel: SKLabelNode?
+    var wanderGraph: [GKGraphNode2D]?
+    var wanderBehavior = GKBehavior()
     
     let totalHideOut = 10
     var totalSwitchOn = 0
@@ -54,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
             self.walls.append(node)
         }
-//        setupGameSceneInteractable()
+        
         setupEntities()
         setupGameSceneInteractable()
         
@@ -77,7 +79,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
         overlayShadow.blendMode = .multiplyAlpha
-//        overlayShadow.alpha = 0.9
         addChild(overlayShadow)
     }
     
@@ -178,6 +179,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player1Entity.objCharacter.addChild(statueCount)
         self.statueCountLabel = statueCount
         
+        let path = GKPath(graphNodes: wanderGraph!, radius: 1.0)
+        let followPath = GKGoal(toFollow: path, maxPredictionTime: 1.0, forward: true)
+        let stayOnPath = GKGoal(toStayOn: path, maxPredictionTime: 1.0)
+        
+        wanderBehavior = GKBehavior(goals: [followPath, stayOnPath], andWeights: [1, 1])
+        
         scene?.enumerateChildNodes(withName: "Enemy") { node, _ in
             self.spawnEnemySpots.append(node)
             node.isHidden = true
@@ -188,6 +195,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("selectedEnemy: \(selectedEnemy.position)")
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls, pos: selectedEnemy.position)
         enemyEntity.objCharacter.zPosition = 5
+        enemyEntity.agent.behavior = wanderBehavior
         addChild(enemyEntity.objCharacter)
         
         playerEntities = [player1Entity]
@@ -201,8 +209,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
-        
-        
     }
     
     func updateStatueCount(count: Int, total: Int) {
@@ -232,6 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
 //                print("contact: ", contact.bodyB.node?.name ?? "")
                 print("Catched")
+                SoundManager.soundHelper.killedSFX.play()
                 playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
                 playerEntities[0].objCharacter.hit = "Catched"
                 playerEntities[0].objCharacter.deathAnimating = true
@@ -274,27 +281,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
-
+                SoundManager.soundHelper.switchOnSFX.play()
                 updateStatueCount(count: totalSwitchOn, total: totalSwitch)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
-//
                 currStatue.run(switchAnim)
 
                 print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
                     //Win condition for collation elevator
+                    SoundManager.soundHelper.elevatorOnSFX.play()
                     self.lift.physicsBody?.categoryBitMask = 0x100000
                     let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
                     currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
                     currPortal.run(portalAnim)
                 }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
+                SoundManager.soundHelper.hideSFX.play()
                 playerEntities[0].objCharacter.isHidden = true
                 playerEntities[0].objCharacter.isMovement = false
-                enemyEntity.agent.behavior = nil
-                
+                enemyEntity.agent.behavior = wanderBehavior
                 run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
-            } else {
+            } else if !playerEntities[0].objCharacter.isMovement {
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
         default:
@@ -343,14 +350,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
 
-        if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 120 && !SoundManager.soundHelper.hauntSFX.isPlaying {
-//            print("SFX")
+        if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 150 && !SoundManager.soundHelper.hauntSFX.isPlaying {
             SoundManager.soundHelper.hauntSFX.play()
         }
         
         self.lastUpdateTime = currentTime
         overlayShadow.position = player1Entity.objCharacter.position
-        
     }
     
     override func didEvaluateActions() {

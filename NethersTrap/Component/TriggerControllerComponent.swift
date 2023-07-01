@@ -22,7 +22,7 @@ class TriggerControllerComponent: GKComponent {
         for i in 0...4 {
             switchTexture.append(SKTexture(imageNamed: "Statues/\(i)"))
         }
-        print("Switchtexture: \(switchTexture)")
+//        print("Switchtexture: \(switchTexture)")
         switchAnim = SKAction.animate(with: switchTexture, timePerFrame: 0.1)
     }
     

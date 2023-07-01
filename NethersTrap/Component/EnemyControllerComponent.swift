@@ -109,9 +109,6 @@ class EnemyControllerComponent: GKComponent {
             }
         }
         
-//        let goal = GKGoal(toWander: 1)
-//        let behavior = GKBehavior(goal: goal, weight: 1)
-        
         let endNode = GKGraphNode2D(point: target.agent.position + SIMD2(x: positionXDif, y: positionYDif))
         obstacleGraph.connectUsingObstacles(node: endNode, ignoringBufferRadiusOf: obstacles)
         let startNode = GKGraphNode2D(point: geometryComponent?.geometryNode.agent.position ?? vector_float2(repeating: 0))
@@ -120,7 +117,6 @@ class EnemyControllerComponent: GKComponent {
         guard let pathNodes = obstacleGraph.findPath(from: startNode, to: endNode) as? [GKGraphNode2D] else {
             return
         }
-//        let pathNodes: [GKGraphNode2D] = []
         
         if !pathNodes.isEmpty {
             let path = GKPath(graphNodes: pathNodes, radius: 1.0)
@@ -133,8 +129,7 @@ class EnemyControllerComponent: GKComponent {
         }
         
         obstacleGraph.remove([startNode, endNode])
-        
-//        geometryComponent?.geometryNode.agent.behavior = behavior
     }
+    
 }
 

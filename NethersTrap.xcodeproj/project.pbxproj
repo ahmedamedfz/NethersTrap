@@ -22,6 +22,7 @@
 		D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B382A4FFFB4001E029B /* unhide.mp3 */; };
 		D6749B412A4FFFB5001E029B /* died.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B3A2A4FFFB5001E029B /* died.mp3 */; };
 		D6749B432A500067001E029B /* haunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B422A500067001E029B /* haunt.mp3 */; };
+		D6749B492A5037E5001E029B /* elevator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B482A5037E5001E029B /* elevator.mp3 */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
 		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
@@ -51,10 +52,10 @@
 		D6749B342A4FFFB4001E029B /* switch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = switch.mp3; sourceTree = "<group>"; };
 		D6749B352A4FFFB4001E029B /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
 		D6749B362A4FFFB4001E029B /* hide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hide.mp3; sourceTree = "<group>"; };
-		D6749B372A4FFFB4001E029B /* elevator.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = elevator.mp3; sourceTree = "<group>"; };
 		D6749B382A4FFFB4001E029B /* unhide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unhide.mp3; sourceTree = "<group>"; };
 		D6749B3A2A4FFFB5001E029B /* died.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = died.mp3; sourceTree = "<group>"; };
 		D6749B422A500067001E029B /* haunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = haunt.mp3; sourceTree = "<group>"; };
+		D6749B482A5037E5001E029B /* elevator.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = elevator.mp3; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
@@ -123,7 +124,7 @@
 			children = (
 				D6749B352A4FFFB4001E029B /* ambience.mp3 */,
 				D6749B3A2A4FFFB5001E029B /* died.mp3 */,
-				D6749B372A4FFFB4001E029B /* elevator.mp3 */,
+				D6749B482A5037E5001E029B /* elevator.mp3 */,
 				D6749B422A500067001E029B /* haunt.mp3 */,
 				D6749B362A4FFFB4001E029B /* hide.mp3 */,
 				D6749B342A4FFFB4001E029B /* switch.mp3 */,
@@ -229,6 +230,7 @@
 				492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
 				D6749B412A4FFFB5001E029B /* died.mp3 in Resources */,
+				D6749B492A5037E5001E029B /* elevator.mp3 in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
 				7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */,
 				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
@@ -396,7 +398,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y26Y6AQK69;
+				DEVELOPMENT_TEAM = T872JMS8WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
@@ -425,7 +427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y26Y6AQK69;
+				DEVELOPMENT_TEAM = T872JMS8WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;

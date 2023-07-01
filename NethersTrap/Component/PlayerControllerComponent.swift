@@ -112,13 +112,14 @@ class PlayerControllerComponent: GKComponent {
     
     func countDown() {
         geometryComponent?.geometryNode.timeHiding -= 1
-        if (geometryComponent?.geometryNode.timeHiding == 0){
+        if geometryComponent?.geometryNode.timeHiding == 0 && !(geometryComponent?.geometryNode.isMovement)! {
             geometryComponent?.geometryNode.hidingRange = false
             unHide()
         }
     }
     
     func unHide() {
+        SoundManager.soundHelper.unhideSFX.play()
         geometryComponent?.geometryNode.isMovement = true
         geometryComponent?.geometryNode.isHidden = false
         geometryComponent?.geometryNode.timeHiding = 5
