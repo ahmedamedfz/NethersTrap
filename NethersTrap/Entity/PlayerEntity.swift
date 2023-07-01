@@ -35,11 +35,12 @@ class PlayerEntity: GKEntity, GKAgentDelegate {
         objCharacter.zPosition = 100
         objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
         objCharacter.setScale(1)
+        objCharacter.position = CGPoint(x: 0, y: 0)
         objCharacter.physicsBody?.isDynamic = true
         objCharacter.physicsBody?.affectedByGravity = false
         objCharacter.physicsBody?.allowsRotation = false
         objCharacter.physicsBody?.collisionBitMask = 0x1
-        objCharacter.position = CGPoint(x: 0, y: 0)
+        
         objCharacter.physicsBody?.categoryBitMask = 0x10
 //        objCharacter.physicsBody?.contactTestBitMask = 0x100 | 0x1000
         objCharacter.physicsBody?.contactTestBitMask = 0x1000

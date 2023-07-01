@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private var lastUpdateTime : TimeInterval = 0
     
-    var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [])
+    var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [], pos: CGPoint(x: 0, y: 0))
     var player1Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player2Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player3Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
@@ -37,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spawnPaintingSpots: [SKNode] = []
     var spawnTrashCanSpots: [SKNode] = []
     var spawnSwitchSpots: [SKNode] = []
+    var spawnEnemySpots: [SKNode] = []
     
     override func sceneDidLoad() {
         SoundManager.soundHelper.audioPlayer.play()
@@ -113,11 +114,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             TriggerEntities.append(switchEntity)
         }
         
-        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "portalAssets", pos: CGPoint(x: 50, y: 450))
-        addChild(portalEntity.objTrigger)
+        let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "Elevators/0", pos: CGPoint(x: 47, y: 450))
+        portalEntity.objTrigger.isHidden = false
         TriggerEntities.append(portalEntity)
-        portalEntity.objTrigger.isHidden = true
-        
+        addChild(portalEntity.objTrigger)
     }
     
     func setupEntities() {
@@ -162,7 +162,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player1Entity.objCharacter.addChild(statueCount)
         self.statueCountLabel = statueCount
         
-        enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls)
+        scene?.enumerateChildNodes(withName: "Enemy") { node, _ in
+            self.spawnEnemySpots.append(node)
+            node.isHidden = true
+        }
+        print("count: \(spawnEnemySpots.count)")
+        let enemySpawnCount = spawnEnemySpots.count
+        let selectedEnemy = spawnEnemySpots.remove(at: Int.random(in: 0..<enemySpawnCount))
+        print("selectedEnemy: \(selectedEnemy.position)")
+        enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls, pos: selectedEnemy.position)
         enemyEntity.objCharacter.zPosition = 5
         addChild(enemyEntity.objCharacter)
         
@@ -199,8 +207,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                print("idx isOn: ", TriggerEntities[index ?? 0].objTrigger.isOn)
                 playerEntities[0].objCharacter.idxSwitchVisited = index ?? 0
                 print("Switch")
-                player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = false
-                playerEntities[0].objCharacter.hit = "Switch"
+                if !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn {
+                    print("masuk")
+                    player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = false
+                    playerEntities[0].objCharacter.hit = "Switch"
+                }
+                
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
 //                print("contact: ", contact.bodyB.node?.name ?? "")
                 print("Catched")

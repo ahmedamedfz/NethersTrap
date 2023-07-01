@@ -17,13 +17,14 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
     
     var agent = GKAgent2D()
     
-    init(name: String, role: String, spriteImage: String, walls: [SKNode]) {
+    init(name: String, role: String, spriteImage: String, walls: [SKNode], pos: CGPoint) {
         nameEntity = name
         self.role = role
         texture = SKTexture(imageNamed: spriteImage)
         objCharacter = EnemyNode(texture: texture)
         objCharacter.wallObstacles = walls
         objCharacter.name = name
+        objCharacter.position = pos
         super.init()
         makeEnemy()
     }
@@ -41,7 +42,7 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
         objCharacter.physicsBody?.affectedByGravity = false
         objCharacter.physicsBody?.allowsRotation = false
         objCharacter.physicsBody?.collisionBitMask = 0x1
-        objCharacter.position = CGPoint(x: 50, y: 0)
+//        objCharacter.position = CGPoint(x: 50, y: 0)
         objCharacter.physicsBody?.categoryBitMask = 0x1000
 //        objCharacter.physicsBody?.contactTestBitMask = 0x10
         
