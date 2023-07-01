@@ -111,18 +111,18 @@ class PlayerControllerComponent: GKComponent {
     }
     
     func countDown() {
-        geometryComponent?.geometryNode.timeHiding -= 1
-        if geometryComponent?.geometryNode.timeHiding == 0 && !(geometryComponent?.geometryNode.isMovement)! {
-            geometryComponent?.geometryNode.hidingRange = false
+        geometryComponent?.geometryNode.objCharacter.timeHiding -= 1
+        if geometryComponent?.geometryNode.objCharacter.timeHiding == 0 && !(geometryComponent?.geometryNode.objCharacter.isMovement)! {
+            geometryComponent?.geometryNode.objCharacter.hidingRange = false
             unHide()
         }
     }
     
     func unHide() {
         SoundManager.soundHelper.unhideSFX.play()
-        geometryComponent?.geometryNode.isMovement = true
-        geometryComponent?.geometryNode.isHidden = false
-        geometryComponent?.geometryNode.timeHiding = 5
+        geometryComponent?.geometryNode.objCharacter.isMovement = true
+        geometryComponent?.geometryNode.objCharacter.isHidden = false
+        geometryComponent?.geometryNode.objCharacter.timeHiding = 5
 //        print("Out")
     }
 }

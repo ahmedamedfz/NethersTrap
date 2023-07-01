@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerEntities = [PlayerEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
-
+    
     private var lastUpdateTime : TimeInterval = 0
     
     var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [], pos: CGPoint(x: 0, y: 0))
@@ -126,7 +126,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let selectedSwitch = spawnSwitchSpots.remove(at: Int.random(in: 0..<switchCount))
             
             let switchEntity = TriggerEntity(name: "switch\(j)", type: .Switch, spriteImage: "Statues/0", pos: selectedSwitch.position)
-//            print("switch: \(switchEntity.objTrigger.name ?? "")")
+            //            print("switch: \(switchEntity.objTrigger.name ?? "")")
             addChild(switchEntity.objTrigger)
             TriggerEntities.append(switchEntity)
         }
@@ -134,7 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let portalEntity = TriggerEntity(name: "portal", type: .Portal, spriteImage: "Elevators/0", pos: CGPoint(x: 36.519, y: 427.598))
         portalEntity.objTrigger.size = CGSize(width: 186.521, height: 161.353)
         portalEntity.objTrigger.zPosition = 2
-//        portalEntity.objTrigger.isHidden = false
+        //        portalEntity.objTrigger.isHidden = false
         addChild(portalEntity.objTrigger)
         TriggerEntities.append(portalEntity)
     }
@@ -242,10 +242,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
             if collision == 0x10 | 0x100 {
-//                print("contact: ", contact.bodyA.node?.name ?? "")
+                //                print("contact: ", contact.bodyA.node?.name ?? "")
                 let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == contact.bodyB.node?.name})
-//                print("idx: ", index ?? 0)
-//                print("idx isOn: ", TriggerEntities[index ?? 0].objTrigger.isOn)
+                //                print("idx: ", index ?? 0)
+                //                print("idx isOn: ", TriggerEntities[index ?? 0].objTrigger.isOn)
                 playerEntities[0].objCharacter.idxSwitchVisited = index ?? 0
                 print("Switch")
                 if !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn {
@@ -272,12 +272,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
                 }
             } else if collision == 0x10 | 0x10000 {
-//                print("contact: ", contact.bodyA.node?.name ?? "")
+                //                print("contact: ", contact.bodyA.node?.name ?? "")
                 print("Hide")
                 player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = false
                 playerEntities[0].objCharacter.hidingRange = true
             } else if collision == 0x10 | 0x100000 && totalSwitchOn == totalSwitch {
-//                print("contact: ", contact.bodyA.node?.name ?? "")
+                //                print("contact: ", contact.bodyA.node?.name ?? "")
                 playerEntities[0].objCharacter.isMovement = false
                 playerEntities[0].objCharacter.isHidden = true
                 print("win")
@@ -289,7 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didEnd(_ contact: SKPhysicsContact) {
         playerEntities[0].objCharacter.hit = ""
         playerEntities[0].objCharacter.idxSwitchVisited = -1
-//        playerEntities[0].objCharacter.isHidden = false
+        //        playerEntities[0].objCharacter.isHidden = false
         playerEntities[0].objCharacter.hidingRange = false
         player1Entity.objCharacter.childNode(withName: "Press")?.isHidden = true
         player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = true
@@ -313,11 +313,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 updateStatueCount(count: totalSwitchOn, total: totalSwitch)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
                 currStatue.run(switchAnim)
-
+                
                 print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
                     //Win condition for collation elevator
                     SoundManager.soundHelper.elevatorOnSFX.play()
+                }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
                 SoundManager.soundHelper.hideSFX.play()
                 playerEntities[0].objCharacter.isHidden = true
@@ -331,7 +332,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
     }
-    
+        
     func startCountDown() {
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
 //        if !playerEntities[0].objCharacter.isHidden {
@@ -339,7 +340,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            addChild(playerEntities[0].objCharacter)
 //        }
     }
-    
+        
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
         case 0:
@@ -354,7 +355,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
     }
-    
+        
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
@@ -366,7 +367,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.movement(dt: dt, camera: cameraNode)
-
+        
         // Agent Update
         player1Entity.agent.update(deltaTime: dt)
         enemyEntity.agent.update(deltaTime: dt)
@@ -376,7 +377,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
-
+        
         if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 150 && !SoundManager.soundHelper.hauntSFX.isPlaying {
             SoundManager.soundHelper.hauntSFX.play()
         }
@@ -384,7 +385,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.lastUpdateTime = currentTime
         overlayShadow.position = player1Entity.objCharacter.position
     }
-    
+        
     override func didEvaluateActions() {
         let dX = playerEntities[0].objCharacter.position.x - cameraNode.position.x
         let dY = playerEntities[0].objCharacter.position.y - cameraNode.position.y
@@ -401,7 +402,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func CGPointDistanceSquared(from: CGPoint, to: CGPoint) -> CGFloat {
         return (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)
     }
-
+    
     func CGPointDistance(from: CGPoint, to: CGPoint) -> CGFloat {
         return sqrt(CGPointDistanceSquared(from: from, to: to))
     }

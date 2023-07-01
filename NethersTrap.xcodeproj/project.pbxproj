@@ -14,9 +14,9 @@
 		4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA412A3C3B6200A377A9 /* GameScene.swift */; };
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
-		7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */; };
 		67F8AA932A4FF02000BC7E51 /* WinningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */; };
 		67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */ = {isa = PBXBuildFile; fileRef = 67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */; };
+		7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */; };
 		D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6749B2D2A4ECA2B001E029B /* SoundManager.swift */; };
 		D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B342A4FFFB4001E029B /* switch.mp3 */; };
 		D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B352A4FFFB4001E029B /* ambience.mp3 */; };
@@ -48,10 +48,10 @@
 		4997DA432A3C3B6200A377A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
-		7190C2912A4F48B4003DDD3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VT323-Regular.ttf"; sourceTree = "<group>"; };
 		67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningScreen.swift; sourceTree = "<group>"; };
 		67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = WinningScreen.sks; sourceTree = "<group>"; };
+		7190C2912A4F48B4003DDD3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VT323-Regular.ttf"; sourceTree = "<group>"; };
 		D6749B2D2A4ECA2B001E029B /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		D6749B342A4FFFB4001E029B /* switch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = switch.mp3; sourceTree = "<group>"; };
 		D6749B352A4FFFB4001E029B /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
@@ -233,7 +233,6 @@
 				D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */,
 				D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */,
 				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
-				FA98025C2A4F16D400EBF9FC /* ambience.mp3 in Resources */,
 				67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */,
 				492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
@@ -436,7 +435,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NXN8NQ7T5F;
+				DEVELOPMENT_TEAM = T872JMS8WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
