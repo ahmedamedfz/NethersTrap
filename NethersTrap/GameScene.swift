@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import MultipeerConnectivity
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -42,6 +43,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spawnTrashCanSpots: [SKNode] = []
     var spawnSwitchSpots: [SKNode] = []
     var spawnEnemySpots: [SKNode] = []
+    
+    //multipeer
+    var session: MCSession!
+    var peerID: MCPeerID!
+    var browser: MCBrowserViewController!
+    var assistant: MCAdvertiserAssistant!
+    var multipeer: Bool = false
+    var playerPositions: [MCPeerID: CGPoint] = [:]
     
     override func sceneDidLoad() {
         SoundManager.soundHelper.bgmPlayer.play()
@@ -213,6 +222,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         label.text = "\(count)/\(total)"
     }
     
+    func setupMultipeerConnectivity() {
+        // Create a peer ID using the host name of the local device
+        let deviceName = Host.current().localizedName ?? ""
+        peerID = MCPeerID(displayName: deviceName)
+
+        // Create a session with the local peer ID
+        session = MCSession(peer: peerID)
+        session.delegate = self
+
+        // Create a browser view controller for nearby devices
+        browser = MCBrowserViewController(serviceType: "my-game", session: session)
+        browser.delegate = self
+
+        // Create an advertiser assistant to handle incoming connection requests
+        assistant = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
+    }
+
+    func startMultipeerConnectivity() {
+           setupMultipeerConnectivity()
+
+           // Start advertising and browsing for peers
+           assistant.start()
+           if let window = view?.window {
+               window.contentViewController?.presentAsModalWindow(browser)
+           }
+
+           // Assign the correct MCPeerID to player2Entity and player3Entity
+           let connectedPeers = session.connectedPeers
+           if !connectedPeers.isEmpty {
+               if player2Entity.peerID == nil {
+                   player2Entity.peerID = connectedPeers[0]
+                   player2Entity.objCharacter.name = connectedPeers[0].displayName
+               }
+           }
+       }
+    
+    func stopMultipeerConnectivity() {
+        session?.disconnect()
+        session = nil
+        peerID = nil
+        browser = nil
+        assistant = nil
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
@@ -297,6 +350,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
+        case 11:
+            print("multipeer")
+            startMultipeerConnectivity()
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -327,6 +383,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {
             self.lastUpdateTime = currentTime
+        }
+        // Sending Data to other player
+        let playerPosition = player1Entity.objCharacter.position
+        if multipeer == true{
+            sendPlayerPosition(position: playerPosition)
         }
         
         // Calculate time since last update

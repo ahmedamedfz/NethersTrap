@@ -22,6 +22,8 @@
 		D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B382A4FFFB4001E029B /* unhide.mp3 */; };
 		D6749B412A4FFFB5001E029B /* died.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B3A2A4FFFB5001E029B /* died.mp3 */; };
 		D6749B432A500067001E029B /* haunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B422A500067001E029B /* haunt.mp3 */; };
+		E7A98E932A50363D0085C16B /* PointWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A98E922A50363D0085C16B /* PointWrappers.swift */; };
+		E7A98E952A50367F0085C16B /* GameScene+MC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A98E942A50367F0085C16B /* GameScene+MC.swift */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
 		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
@@ -55,6 +57,8 @@
 		D6749B382A4FFFB4001E029B /* unhide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unhide.mp3; sourceTree = "<group>"; };
 		D6749B3A2A4FFFB5001E029B /* died.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = died.mp3; sourceTree = "<group>"; };
 		D6749B422A500067001E029B /* haunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = haunt.mp3; sourceTree = "<group>"; };
+		E7A98E922A50363D0085C16B /* PointWrappers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointWrappers.swift; sourceTree = "<group>"; };
+		E7A98E942A50367F0085C16B /* GameScene+MC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+MC.swift"; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
 				492AE31C2A4EA748001550F1 /* GameScene.sks */,
 				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
+				E7A98E922A50363D0085C16B /* PointWrappers.swift */,
+				E7A98E942A50367F0085C16B /* GameScene+MC.swift */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
 				D6749B2D2A4ECA2B001E029B /* SoundManager.swift */,
 				7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */,
@@ -243,11 +249,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7A98E952A50367F0085C16B /* GameScene+MC.swift in Sources */,
 				FA98025A2A4F150400EBF9FC /* TriggerControllerComponent.swift in Sources */,
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
 				FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */,
 				FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */,
 				FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */,
+				E7A98E932A50363D0085C16B /* PointWrappers.swift in Sources */,
 				D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */,
 				FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */,
 				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
@@ -393,10 +401,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = NethersTrap/NethersTrap.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y26Y6AQK69;
+				DEVELOPMENT_TEAM = SW8Q2MFZT8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
@@ -422,10 +431,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = NethersTrap/NethersTrap.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y26Y6AQK69;
+				DEVELOPMENT_TEAM = SW8Q2MFZT8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
