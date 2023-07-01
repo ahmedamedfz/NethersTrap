@@ -84,7 +84,7 @@ class EnemyControllerComponent: GKComponent {
             positionXDif = -80
             positionYDif = 80
         } else if direction.x > 0 {
-            positionXDif = 90
+            positionXDif = 80
             if lastMovement != .right {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AIRight))
                 lastMovement = .right
@@ -92,7 +92,7 @@ class EnemyControllerComponent: GKComponent {
         } else if direction.x == 0 {
             positionXDif = 0
         } else {
-            positionXDif = -90
+            positionXDif = -80
             if lastMovement != .left {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AILeft))
                 lastMovement = .left
@@ -100,7 +100,7 @@ class EnemyControllerComponent: GKComponent {
         }
         
         if direction.y > 0 {
-            positionYDif = 90
+            positionYDif = 80
             if lastMovement != .up {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AIUp))
                 lastMovement = .up
@@ -108,7 +108,7 @@ class EnemyControllerComponent: GKComponent {
         } else if direction.y == 0 {
             positionYDif = 0
         } else {
-            positionYDif = -90
+            positionYDif = -80
             if lastMovement != .down {
                 geometryComponent?.geometryNode.objCharacter.run(SKAction.repeatForever(AIDown))
                 lastMovement = .down

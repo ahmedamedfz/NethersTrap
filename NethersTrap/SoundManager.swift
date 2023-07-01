@@ -33,7 +33,7 @@ class SoundManager {
                 return nil
             }
             let player = try AVAudioPlayer(contentsOf: killedSound)
-            player.volume = 0.5
+            player.volume = 1
             return player
         }
         catch {
@@ -63,7 +63,7 @@ class SoundManager {
                 return nil
             }
             let player = try AVAudioPlayer(contentsOf: hauntSound)
-            player.volume = 0.5
+            player.volume = 1
             return player
         }
         catch {
