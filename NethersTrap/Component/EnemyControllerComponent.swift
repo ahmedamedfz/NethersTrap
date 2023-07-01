@@ -58,23 +58,23 @@ class EnemyControllerComponent: GKComponent {
         var positionXDif: Float = 0
         var positionYDif: Float = 0
         
-//        print(direction.x)
-//        print(direction.y)
+        //        print(direction.x)
+        //        print(direction.y)
         
         if direction.x > 0 && direction.y > 0 {
-//            print("diagonal")
+            //            print("diagonal")
             positionXDif = 80
             positionYDif = 80
         } else if direction.x > 0 && direction.y < 0{
-//            print("diagonal")
+            //            print("diagonal")
             positionXDif = 80
             positionYDif = -80
         } else if direction.x < 0 && direction.y < 0{
-//            print("diagonal")
+            //            print("diagonal")
             positionXDif = -80
             positionYDif = -80
         } else if direction.x < 0 && direction.y > 0{
-//            print("diagonal")
+            //            print("diagonal")
             positionXDif = -80
             positionYDif = 80
         } else if direction.x > 0 {
@@ -109,8 +109,8 @@ class EnemyControllerComponent: GKComponent {
             }
         }
         
-//        let goal = GKGoal(toWander: 1)
-//        let behavior = GKBehavior(goal: goal, weight: 1)
+        //        let goal = GKGoal(toWander: 1)
+        //        let behavior = GKBehavior(goal: goal, weight: 1)
         
         let endNode = GKGraphNode2D(point: target.agent.position + SIMD2(x: positionXDif, y: positionYDif))
         obstacleGraph.connectUsingObstacles(node: endNode, ignoringBufferRadiusOf: obstacles)
@@ -120,7 +120,7 @@ class EnemyControllerComponent: GKComponent {
         guard let pathNodes = obstacleGraph.findPath(from: startNode, to: endNode) as? [GKGraphNode2D] else {
             return
         }
-//        let pathNodes: [GKGraphNode2D] = []
+        //        let pathNodes: [GKGraphNode2D] = []
         
         if !pathNodes.isEmpty {
             let path = GKPath(graphNodes: pathNodes, radius: 1.0)
@@ -134,7 +134,7 @@ class EnemyControllerComponent: GKComponent {
         
         obstacleGraph.remove([startNode, endNode])
         
-//        geometryComponent?.geometryNode.agent.behavior = behavior
+        //        geometryComponent?.geometryNode.agent.behavior = behavior
     }
 }
 
