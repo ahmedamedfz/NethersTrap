@@ -36,8 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var walls: [SKNode] = []
     var lift: SKNode = SKNode()
     var statueCountLabel: SKLabelNode?
+    var statusWinningLabel: SKLabelNode?
     var wanderGraph: [GKGraphNode2D]?
     var wanderBehavior = GKBehavior()
+    var isLose : Bool = false
     
     let totalHideOut = 10
     var totalSwitchOn = 0
@@ -140,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupEntities() {
-        player1Entity = PlayerEntity(name: "player1", role: "Player", spriteImage: "GhostADown/0")
+        player1Entity = PlayerEntity(name: "Aga Handsome", role: "Player", spriteImage: "GhostADown/0")
         player1Entity.objCharacter.zPosition = 4
         addChild(player1Entity.objCharacter)
         
@@ -204,15 +206,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let statueCount = SKLabelNode(fontNamed: "VT323-Regular")
         statueCount.text = "\(totalSwitchOn)/\(totalSwitch)"
-        statueCount.fontSize = 10
+        statueCount.fontSize = 8
         statueCount.horizontalAlignmentMode = .left
         statueCount.fontColor = SKColor.white
         statueCount.zPosition = 10
 //        statueCount.position = CGPoint(x: -10, y: 82)
-        statueCount.position = CGPoint(x: -10, y: -5)
+        statueCount.position = CGPoint(x: -7, y: -5)
         statueNode.addChild(statueCount)
         
         self.statueCountLabel = statueCount
+        
+        let statusWinning = SKLabelNode(fontNamed: "VT323-Regular")
+        statusWinning.text = "Find and Turn On All The Statue"
+        statusWinning.fontSize = 6
+        statusWinning.horizontalAlignmentMode = .center
+        statusWinning.fontColor = SKColor.white
+        statusWinning.zPosition = 10
+//        statueCount.position = CGPoint(x: -10, y: 82)
+        statusWinning.position = CGPoint(x: 0, y: -13)
+        statueNode.addChild(statusWinning)
+        
+        self.statusWinningLabel = statusWinning
+        
     }
     
     func makeCamera() {
@@ -230,6 +245,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         label.text = "\(count)/\(total)"
+    }
+    
+    func updateStatusWinning() {
+        guard let label = statusWinningLabel else {
+            return
+        }
+        
+        label.text = "Find The Elevator to Escape"
+        label.fontColor = SKColor.yellow
     }
     
     func setupLosingCondition() {
@@ -278,7 +302,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     enemyEntity.agent.maxSpeed = 0
                     enemyEntity.agent.maxAcceleration = 0
                     enemyEntity.objCharacter.run(enemyEntity.component(ofType: EnemyControllerComponent.self)!.AIDead)
+                    isLose = true
                     setupLosingCondition()
+                    
                     
                     playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
                 }
@@ -321,30 +347,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 13:
             playerEntities[0].objCharacter.up = true
         case 3:
-            if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
-                TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
-                totalSwitchOn += 1
-                SoundManager.soundHelper.switchOnSFX.play()
-                updateStatueCount(count: totalSwitchOn, total: totalSwitch)
-                currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
-                currStatue.run(switchAnim)
-                
-                print("total switch on: ",totalSwitchOn)
-                if (totalSwitchOn == totalSwitch){
-                    self.lift.physicsBody?.categoryBitMask = 0x100000
-                                        let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
-                                        currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
-                                        currPortal.run(portalAnim)
-                    SoundManager.soundHelper.elevatorOnSFX.play()
+            if (isLose == false){
+                if playerEntities[0].objCharacter.idxSwitchVisited != -1 && !TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn  {
+                    TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
+                    totalSwitchOn += 1
+                    SoundManager.soundHelper.switchOnSFX.play()
+                    updateStatueCount(count: totalSwitchOn, total: totalSwitch)
+                    currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
+                    currStatue.run(switchAnim)
+                    
+                    print("total switch on: ",totalSwitchOn)
+                    if (totalSwitchOn == totalSwitch){
+                        updateStatusWinning()
+                        self.lift.physicsBody?.categoryBitMask = 0x100000
+                                            let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
+                                            currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
+                                            currPortal.run(portalAnim)
+                        SoundManager.soundHelper.elevatorOnSFX.play()
+                    }
+                } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
+                    SoundManager.soundHelper.hideSFX.play()
+                    playerEntities[0].objCharacter.isHidden = true
+                    playerEntities[0].objCharacter.isMovement = false
+                    enemyEntity.agent.behavior = wanderBehavior
+                    run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
+                } else if !playerEntities[0].objCharacter.isMovement {
+                    playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
                 }
-            } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
-                SoundManager.soundHelper.hideSFX.play()
-                playerEntities[0].objCharacter.isHidden = true
-                playerEntities[0].objCharacter.isMovement = false
-                enemyEntity.agent.behavior = wanderBehavior
-                run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
-            } else if !playerEntities[0].objCharacter.isMovement {
-                playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
