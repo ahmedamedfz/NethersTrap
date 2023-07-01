@@ -15,14 +15,19 @@
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
 		D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6749B2D2A4ECA2B001E029B /* SoundManager.swift */; };
-		D6749B332A4ECE42001E029B /* enemyHaunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */; };
+		D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B342A4FFFB4001E029B /* switch.mp3 */; };
+		D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B352A4FFFB4001E029B /* ambience.mp3 */; };
+		D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B362A4FFFB4001E029B /* hide.mp3 */; };
+		D6749B3E2A4FFFB5001E029B /* elevator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B372A4FFFB4001E029B /* elevator.mp3 */; };
+		D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B382A4FFFB4001E029B /* unhide.mp3 */; };
+		D6749B412A4FFFB5001E029B /* died.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B3A2A4FFFB5001E029B /* died.mp3 */; };
+		D6749B432A500067001E029B /* haunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B422A500067001E029B /* haunt.mp3 */; };
 		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
 		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
 		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
 		FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */; };
 		FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */; };
 		FA98025A2A4F150400EBF9FC /* TriggerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */; };
-		FA98025C2A4F16D400EBF9FC /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FA98025B2A4F16D400EBF9FC /* ambience.mp3 */; };
 		FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */; };
 		FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */; };
 		FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */; };
@@ -41,14 +46,19 @@
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
 		D6749B2D2A4ECA2B001E029B /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = enemyHaunt.mp3; sourceTree = "<group>"; };
+		D6749B342A4FFFB4001E029B /* switch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = switch.mp3; sourceTree = "<group>"; };
+		D6749B352A4FFFB4001E029B /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
+		D6749B362A4FFFB4001E029B /* hide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hide.mp3; sourceTree = "<group>"; };
+		D6749B372A4FFFB4001E029B /* elevator.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = elevator.mp3; sourceTree = "<group>"; };
+		D6749B382A4FFFB4001E029B /* unhide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unhide.mp3; sourceTree = "<group>"; };
+		D6749B3A2A4FFFB5001E029B /* died.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = died.mp3; sourceTree = "<group>"; };
+		D6749B422A500067001E029B /* haunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = haunt.mp3; sourceTree = "<group>"; };
 		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
 		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
 		FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyControllerComponent.swift; sourceTree = "<group>"; };
 		FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
 		FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerControllerComponent.swift; sourceTree = "<group>"; };
-		FA98025B2A4F16D400EBF9FC /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
 		FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryComponent.swift; sourceTree = "<group>"; };
 		FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControllerComponent.swift; sourceTree = "<group>"; };
 		FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
@@ -107,8 +117,13 @@
 		D6749B2F2A4ECBA1001E029B /* SoundAsset */ = {
 			isa = PBXGroup;
 			children = (
-				FA98025B2A4F16D400EBF9FC /* ambience.mp3 */,
-				D6749B322A4ECE42001E029B /* enemyHaunt.mp3 */,
+				D6749B352A4FFFB4001E029B /* ambience.mp3 */,
+				D6749B3A2A4FFFB5001E029B /* died.mp3 */,
+				D6749B372A4FFFB4001E029B /* elevator.mp3 */,
+				D6749B422A500067001E029B /* haunt.mp3 */,
+				D6749B362A4FFFB4001E029B /* hide.mp3 */,
+				D6749B342A4FFFB4001E029B /* switch.mp3 */,
+				D6749B382A4FFFB4001E029B /* unhide.mp3 */,
 			);
 			path = SoundAsset;
 			sourceTree = "<group>";
@@ -202,13 +217,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */,
+				D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */,
+				D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */,
+				D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */,
 				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
-				FA98025C2A4F16D400EBF9FC /* ambience.mp3 in Resources */,
 				492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
+				D6749B412A4FFFB5001E029B /* died.mp3 in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
-				D6749B332A4ECE42001E029B /* enemyHaunt.mp3 in Resources */,
+				D6749B3E2A4FFFB5001E029B /* elevator.mp3 in Resources */,
 				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
+				D6749B432A500067001E029B /* haunt.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +392,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FPC4M9S2JR;
+				DEVELOPMENT_TEAM = T872JMS8WL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

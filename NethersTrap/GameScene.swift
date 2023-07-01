@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spawnSwitchSpots: [SKNode] = []
     
     override func sceneDidLoad() {
-        SoundManager.soundHelper.audioPlayer.play()
+        SoundManager.soundHelper.bgmPlayer.play()
         self.lastUpdateTime = 0
     }
     
@@ -293,9 +293,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player1Entity.objCharacter.lastPos = player1Entity.agent.position
 
-        if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 120 && !SoundManager.soundHelper.sfxPlayer.isPlaying {
+        if CGPointDistance(from: enemyEntity.objCharacter.position, to: player1Entity.objCharacter.position) <= 120 && !SoundManager.soundHelper.hauntSFX.isPlaying {
 //            print("SFX")
-            SoundManager.soundHelper.sfxPlayer.play()
+            SoundManager.soundHelper.hauntSFX.play()
         }
         
         self.lastUpdateTime = currentTime
