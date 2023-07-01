@@ -52,9 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
                if player2Entity.peerID == nil {
                    player2Entity.peerID = connectedPeers[0]
                    player2Entity.objCharacter.name = connectedPeers[0].displayName
-               } else if player3Entity.peerID == nil {
-                   player3Entity.peerID = connectedPeers[0]
-                   player3Entity.objCharacter.name = connectedPeers[0].displayName
                }
            }
        }
@@ -77,11 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
                 player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
                 addChild(player2Entity.objCharacter)
                 addAgent(entityNode: player2Entity)
-            } else if player3Entity.spriteName.isEmpty {
-                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                addChild(player3Entity.objCharacter)
-                addAgent(entityNode: player3Entity)
-            }
+            } 
         case .connecting:
             print("Connecting to peer: \(peerID.displayName)")
         case .notConnected:
@@ -104,7 +97,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
 
             // Update the position of the player entity
                 player2Entity.objCharacter.position = position
-            
         } catch {
             print("Error unarchiving data: \(error)")
         }
