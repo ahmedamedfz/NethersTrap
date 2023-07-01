@@ -48,7 +48,7 @@ class PlayerEntity: GKEntity, GKAgentDelegate {
         let playerControllerComponent = PlayerControllerComponent()
         addComponent(playerControllerComponent)
         
-        let geometryComponent = GeometryComponent<PlayerNode>(geometryNode: self.objCharacter)
+        let geometryComponent = GeometryComponent<PlayerEntity>(geometryNode: self)
         addComponent(geometryComponent)
         
         addAgent()

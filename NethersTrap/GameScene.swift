@@ -11,6 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let returnButton = SKSpriteNode(imageNamed: "returnButton")
+    let loseText = SKSpriteNode(imageNamed: "capturedText")
+    
     var playerEntities = [PlayerEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
@@ -67,7 +70,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0...4 {
             switchTexture.append(SKTexture(imageNamed: "Statues/\(i)"))
         }
-        print("Switchtexture: \(switchTexture)")
         switchAnim = SKAction.animate(with: switchTexture, timePerFrame: 0.1)
         
         for j in 0...5 {
@@ -215,8 +217,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let label = statueCountLabel else {
             return
         }
-
+        
         label.text = "\(count)/\(total)"
+    }
+    
+    func setupLosingCondition() {
+        loseText.size = CGSize(width: 423, height: 72)
+        loseText.position = player1Entity.objCharacter.position
+        loseText.position.y += 100
+        loseText.name = "loseText"
+        loseText.zPosition = 7
+        
+        
+        returnButton.size = CGSize(width: 238, height: 38)
+        returnButton.position = player1Entity.objCharacter.position
+        returnButton.position.y -= 100
+        returnButton.name = "returnButton"
+        returnButton.zPosition = 7
+        addChild(loseText)
+        addChild(returnButton)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -236,13 +255,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
-//                print("contact: ", contact.bodyB.node?.name ?? "")
-                print("Catched")
-                SoundManager.soundHelper.killedSFX.play()
-                playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
-                playerEntities[0].objCharacter.hit = "Catched"
-                playerEntities[0].objCharacter.deathAnimating = true
-                playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
+                if !playerEntities[0].objCharacter.isHidden {
+                    print("Catched")
+                    SoundManager.soundHelper.killedSFX.play()
+                    playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
+                    playerEntities[0].objCharacter.hit = "Catched"
+                    playerEntities[0].objCharacter.deathAnimating = true
+                    playerEntities[0].objCharacter.isMovement = false
+                    playerEntities[0].objCharacter.isHidden = true
+                    enemyEntity.agent.behavior = nil
+                    enemyEntity.agent.maxSpeed = 0
+                    enemyEntity.agent.maxAcceleration = 0
+                    enemyEntity.objCharacter.run(enemyEntity.component(ofType: EnemyControllerComponent.self)!.AIDead)
+                    setupLosingCondition()
+                    
+                    playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
+                }
             } else if collision == 0x10 | 0x10000 {
 //                print("contact: ", contact.bodyA.node?.name ?? "")
                 print("Hide")
@@ -290,11 +318,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (totalSwitchOn == totalSwitch){
                     //Win condition for collation elevator
                     SoundManager.soundHelper.elevatorOnSFX.play()
-                    self.lift.physicsBody?.categoryBitMask = 0x100000
-                    let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
-                    currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
-                    currPortal.run(portalAnim)
-                }
             } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
                 SoundManager.soundHelper.hideSFX.play()
                 playerEntities[0].objCharacter.isHidden = true
@@ -311,6 +334,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startCountDown() {
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
+//        if !playerEntities[0].objCharacter.isHidden {
+//            print("masuk pak eko")
+//            addChild(playerEntities[0].objCharacter)
+//        }
     }
     
     override func keyUp(with event: NSEvent) {

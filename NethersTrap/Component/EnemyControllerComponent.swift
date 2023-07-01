@@ -23,6 +23,9 @@ class EnemyControllerComponent: GKComponent {
     var AILeftTexture: [SKTexture] = []
     var AILeft: SKAction = SKAction()
     
+    var AIDeadTexture: [SKTexture] = []
+    var AIDead: SKAction = SKAction()
+    
     var lastMovement: lastMove = .none
     
     var obstacles: [GKPolygonObstacle] = []
@@ -41,8 +44,11 @@ class EnemyControllerComponent: GKComponent {
         for i in 0...23 {
             AILeftTexture.append(SKTexture(imageNamed: "HumanLeft/\(i)"))
             AIRightTexture.append(SKTexture(imageNamed: "HumanRight/\(i)"))
+            AIDeadTexture.append(SKTexture(imageNamed: "DeadAnimation/\(i)"))
         }
         
+        
+        AIDead = SKAction.animate(with: AIDeadTexture, timePerFrame: 0.075)
         AIDown = SKAction.animate(with: AIDownTexture, timePerFrame: 0.1)
         AIUp = SKAction.animate(with: AIUpTexture, timePerFrame: 0.1)
         AIRight = SKAction.animate(with: AIRightTexture, timePerFrame: 0.075)
