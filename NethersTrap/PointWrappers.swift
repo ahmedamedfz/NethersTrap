@@ -7,7 +7,11 @@
 
 import Foundation
 
-class PointWrapper: NSObject, NSCoding {
+class PointWrapper: NSObject, NSCoding, NSSecureCoding {
+    static var supportsSecureCoding: Bool {
+        return true
+    }
+    
     let point: CGPoint
     
     init(point: CGPoint) {
@@ -25,3 +29,4 @@ class PointWrapper: NSObject, NSCoding {
         aCoder.encode(Double(point.y), forKey: "y")
     }
 }
+
