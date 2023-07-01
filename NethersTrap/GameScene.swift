@@ -11,6 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let returnButton = SKSpriteNode(imageNamed: "returnButton")
+    let loseText = SKSpriteNode(imageNamed: "capturedText")
+    
     var playerEntities = [PlayerEntity]()
     var TriggerEntities = [TriggerEntity]()
     var cameraNode: SKCameraNode!
@@ -55,7 +58,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0...4 {
             switchTexture.append(SKTexture(imageNamed: "Statues/\(i)"))
         }
-        print("Switchtexture: \(switchTexture)")
         switchAnim = SKAction.animate(with: switchTexture, timePerFrame: 0.1)
         
         overlayShadow.zPosition = 6
@@ -170,6 +172,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
     }
     
+    func setupLosingCondition() {
+        
+        loseText.size = CGSize(width: 423, height: 72)
+        loseText.position = player1Entity.objCharacter.position
+        loseText.position.y += 100
+        loseText.name = "loseText"
+        loseText.zPosition = 7
+        
+        
+        returnButton.size = CGSize(width: 238, height: 38)
+        returnButton.position = player1Entity.objCharacter.position
+        returnButton.position.y -= 100
+        returnButton.name = "returnButton"
+        returnButton.zPosition = 7
+        addChild(loseText)
+        addChild(returnButton)
+        
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         let collision:UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         if playerEntities[0].objCharacter.hit.isEmpty {
@@ -183,12 +204,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player1Entity.objCharacter.childNode(withName: "PressStatue")?.isHidden = false
                 playerEntities[0].objCharacter.hit = "Switch"
             } else if collision == 0x10 | 0x1000 && !playerEntities[0].objCharacter.deathAnimating {
+                if !playerEntities[0].objCharacter.isHidden {
+                    print("Catched")
+                    playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
+                    playerEntities[0].objCharacter.hit = "Catched"
+                    playerEntities[0].objCharacter.deathAnimating = true
+                    playerEntities[0].objCharacter.isMovement = false
+                    playerEntities[0].objCharacter.isHidden = true
+                    enemyEntity.agent.behavior = nil
+                    enemyEntity.agent.maxSpeed = 0
+                    enemyEntity.agent.maxAcceleration = 0
+                    enemyEntity.objCharacter.run(enemyEntity.component(ofType: EnemyControllerComponent.self)!.AIDead)
+                    setupLosingCondition()
+                    
+                    playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
+                }
 //                print("contact: ", contact.bodyB.node?.name ?? "")
-                print("Catched")
-                playerEntities[0].objCharacter.physicsBody?.contactTestBitMask = 0
-                playerEntities[0].objCharacter.hit = "Catched"
-                playerEntities[0].objCharacter.deathAnimating = true
-                playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
+                
             } else if collision == 0x10 | 0x10000 {
 //                print("contact: ", contact.bodyA.node?.name ?? "")
                 print("Hide")
@@ -242,9 +274,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerEntities[0].objCharacter.isHidden = true
                 playerEntities[0].objCharacter.isMovement = false
                 enemyEntity.agent.behavior = nil
-                
                 run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
-            } else {
+            } else if playerEntities[0].objCharacter.isHidden {
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
         default:
@@ -254,6 +285,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startCountDown() {
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
+//        if !playerEntities[0].objCharacter.isHidden {
+//            print("masuk pak eko")
+//            addChild(playerEntities[0].objCharacter)
+//        }
     }
     
     override func keyUp(with event: NSEvent) {
