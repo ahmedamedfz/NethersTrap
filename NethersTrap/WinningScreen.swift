@@ -19,13 +19,13 @@ class WinningScreen: SKScene {
     override func didMove(to view: SKView) {
         
         
-//        setupPlayButton()
-//        successEscape()
+        setupReturnButton()
+        successEscape()
 
     }
     
     func successEscape(){
-        successText.size = CGSize(width: 654, height: 144)
+        successText.size = CGSize(width: 327, height: 72)
         successText.position = CGPoint(x: frame.midX, y: frame.midY+180)
         successText.name = "successText"
         successText.zPosition = 2
@@ -35,7 +35,7 @@ class WinningScreen: SKScene {
    
     func setupReturnButton() {
       
-        returnButton.size = CGSize(width: 476, height: 76)
+        returnButton.size = CGSize(width: 238, height: 38)
         returnButton.position = CGPoint(x: frame.midX, y: frame.midY-180)
         returnButton.name = "returnButton"
         returnButton.zPosition = 2
@@ -60,6 +60,7 @@ class WinningScreen: SKScene {
 //                        let transition = SKTransition.doorsCloseHorizontal(withDuration: 2) //
 //                        self.view?.presentScene(newScene, transition: transition)
 //
+                    
                     break
                 }
             }
