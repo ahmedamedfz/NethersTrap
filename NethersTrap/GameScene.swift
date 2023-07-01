@@ -39,6 +39,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         // Start advertising and browsing for peers
         assistant.start()
         view?.window?.contentViewController?.presentAsModalWindow(browser)
+        
+        let connectedPeers = session.connectedPeers
+           if connectedPeers.count > 0 {
+               if player2Entity.spriteName.isEmpty {
+                   player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                   addChild(player2Entity.objCharacter)
+                   addAgent(entityNode: player2Entity)
+               } else if player3Entity.spriteName.isEmpty {
+                   player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                   addChild(player3Entity.objCharacter)
+                   addAgent(entityNode: player3Entity)
+               }
+           }
     }
     
     func stopMultipeerConnectivity() {
@@ -75,18 +88,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         // Process received data
-//        let receivedText = String(data: data, encoding: .utf8)
-//        print("Received data from \(peerID.displayName): ")
-        
-        guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
-            print("fail receive data")
-            return
-        }
-        
-        let position = receivedPosition.point
-        print("Received data from \(peerID.displayName): \(position)")
-        // Handle received data
-        player2Entity.objCharacter.position = position
+               
+               // Decode the received position
+               guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
+                   print("Failed to receive data")
+                   return
+               }
+               
+               let position = receivedPosition.point
+               print("Received data from \(peerID.displayName): \(position)")
+               
+               // Handle received data
+               
+//               // Check which player entity corresponds to the received peer ID
+//               var playerEntity: CharEntity?
+//               if peerID == player2Entity.peerID {
+//                   playerEntity = player2Entity
+//               } else if peerID == player3Entity.peerID {
+//                   playerEntity = player3Entity
+//               } else {
+//                   return // Unknown peer ID
+//               }
+               
+               // Update the position of the player entity
+               player2Entity.objCharacter.position = position
         
     }
     
@@ -163,6 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         self.physicsWorld.contactDelegate = self
         setupEntities()
         addComponentsToComponentSystems()
+        session.delegate = self
         //        authenticateLocalPlayer()
         //        let browseButton = SKLabelNode(text: "Browse")
         //        browseButton.fontSize = 20
