@@ -38,28 +38,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     }
 
     func startMultipeerConnectivity() {
-        setupMultipeerConnectivity()
+           setupMultipeerConnectivity()
 
-        // Start advertising and browsing for peers
-        assistant.start()
-        if let window = view?.window {
-            window.contentViewController?.presentAsModalWindow(browser)
-        }
+           // Start advertising and browsing for peers
+           assistant.start()
+           if let window = view?.window {
+               window.contentViewController?.presentAsModalWindow(browser)
+           }
 
-        // Assign the correct MCPeerID to player2Entity and player3Entity
-        let connectedPeers = session.connectedPeers
-        if !connectedPeers.isEmpty {
-            if player2Entity.spriteName.isEmpty {
-                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                addChild(player2Entity.objCharacter)
-                addAgent(entityNode: player2Entity)
-            } else if player3Entity.spriteName.isEmpty {
-                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
-                addChild(player3Entity.objCharacter)
-                addAgent(entityNode: player3Entity)
-            }
-        }
-    }
+           // Assign the correct MCPeerID to player2Entity and player3Entity
+           let connectedPeers = session.connectedPeers
+           if !connectedPeers.isEmpty {
+               if player2Entity.peerID == nil {
+                   player2Entity.peerID = connectedPeers[0]
+                   player2Entity.objCharacter.name = connectedPeers[0].displayName
+               } else if player3Entity.peerID == nil {
+                   player3Entity.peerID = connectedPeers[0]
+                   player3Entity.objCharacter.name = connectedPeers[0].displayName
+               }
+           }
+       }
     
     func stopMultipeerConnectivity() {
         session?.disconnect()
@@ -74,16 +72,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
         case .connected:
             print("Connected to peer: \(peerID.displayName)")
             multipeer = true
-            // You can perform any necessary actions when a peer is connected
-//            if player2Entity.spriteName.isEmpty {
-//                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
-//                addChild(player2Entity.objCharacter)
-//                addAgent(entityNode: player2Entity)
-//            } else if player3Entity.spriteName.isEmpty {
-//                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
-//                addChild(player3Entity.objCharacter)
-//                addAgent(entityNode: player3Entity)
-//            }
+         //    You can perform any necessary actions when a peer is connected
+            if player2Entity.spriteName.isEmpty {
+                player2Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                addChild(player2Entity.objCharacter)
+                addAgent(entityNode: player2Entity)
+            } else if player3Entity.spriteName.isEmpty {
+                player3Entity = CharEntity(name: "GhostADown/1", role: .Player)
+                addChild(player3Entity.objCharacter)
+                addAgent(entityNode: player3Entity)
+            }
         case .connecting:
             print("Connecting to peer: \(peerID.displayName)")
         case .notConnected:
@@ -94,33 +92,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        // Process received data
-               
-               // Decode the received position
-               guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
-                   print("Failed to receive data")
-                   return
-               }
-               
-               let position = receivedPosition.point
-               print("Received data from \(peerID.displayName): \(position)")
-               
-               // Handle received data
-               
-//               // Check which player entity corresponds to the received peer ID
-//               var playerEntity: CharEntity?
-//               if peerID == player2Entity.peerID {
-//                   playerEntity = player2Entity
-//               } else if peerID == player3Entity.peerID {
-//                   playerEntity = player3Entity
-//               } else {
-//                   return // Unknown peer ID
-//               }
-               
-               // Update the position of the player entity
-               player2Entity.objCharacter.position = position
-        
-    }
+           // Process received data
+           guard let receivedPosition = try? NSKeyedUnarchiver.unarchivedObject(ofClass: PointWrapper.self, from: data) else {
+               print("Failed to receive data")
+               return
+           }
+
+           let position = receivedPosition.point
+           print("Received data from \(peerID.displayName): \(position)")
+
+           // Update the position of the player entity
+           if let playerEntity = getPlayerEntity(for: peerID) {
+               playerEntity.objCharacter.position = position
+           }
+       }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         
@@ -146,25 +131,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     
     // Method to update the position of a player entity and send the updated position to other peers
     
-    func sendPlayerPosition(position : CGPoint) {
-        // Get the position of player1Entity
-        let PlayerPosition = position
-        
-        // Create a PointWrapper object to encode the position
-        let pointWrapper = PointWrapper(point: PlayerPosition)
-        
-        // Convert the PointWrapper object to data
-        guard let positionData = try? NSKeyedArchiver.archivedData(withRootObject: pointWrapper, requiringSecureCoding: true) else {
-            return
-        }
-        
-        // Send the position data to connected peers
-        do {
-            try session.send(positionData, toPeers: session.connectedPeers, with: .reliable)
-        } catch {
-            print("Error sending position data: \(error.localizedDescription)")
-        }
-    }
+    func getPlayerEntity(for peerID: MCPeerID) -> CharEntity? {
+           if player2Entity.peerID == peerID {
+               return player2Entity
+           } else if player3Entity.peerID == peerID {
+               return player3Entity
+           }
+           return nil
+       }
+    
+    func sendPlayerPosition(position: CGPoint) {
+           // Create a wrapper object to send the position data
+           let positionWrapper = PointWrapper(point: position)
+
+           // Convert the wrapper object to data
+           guard let data = try? NSKeyedArchiver.archivedData(withRootObject: positionWrapper, requiringSecureCoding: false) else {
+               print("Failed to convert position data")
+               return
+           }
+
+           // Send the data to all connected peers
+           do {
+               try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+           } catch {
+               print("Failed to send position data")
+           }
+       }
 
 
 
@@ -345,8 +337,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
     }
     
     override func update(_ currentTime: TimeInterval) {
+        let playerPosition = player1Entity.objCharacter.position
         if multipeer == true{
-            sendPlayerPosition(position: player2Entity.objCharacter.position)
+            sendPlayerPosition(position: playerPosition)
         }
 //        if isMultiplayerGame {
 //
