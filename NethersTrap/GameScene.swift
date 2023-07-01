@@ -103,9 +103,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, MCSessionDelegate, MCBrowser
             print("Received data from \(peerID.displayName): \(position)")
 
             // Update the position of the player entity
-            if let playerEntity = getPlayerEntity(for: peerID) {
-                playerEntity.objCharacter.position = position
-            }
+                player2Entity.objCharacter.position = position
+            
         } catch {
             print("Error unarchiving data: \(error)")
         }
