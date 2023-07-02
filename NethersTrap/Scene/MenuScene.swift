@@ -85,6 +85,20 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupGameSceneInteractable() {
+        scene?.enumerateChildNodes(withName: "TrashCan") { node, _ in
+            let hideOutEntity = TriggerEntity(name: "TrashCan", type: .HideOut, spriteImage: "TrashCanHideOutB", pos: node.position)
+//            hideOutEntity.objTrigger.size = CGSize(width: 35.804, height: 45.427)
+            hideOutEntity.objTrigger.setScale(1)
+            self.addChild(hideOutEntity.objTrigger)
+            node.isHidden = true
+        }
+        scene?.enumerateChildNodes(withName: "Painting") { node, _ in
+            let hideOutEntity = TriggerEntity(name: "Painting", type: .HideOut, spriteImage: "PaintingHideOutC", pos: node.position)
+//            hideOutEntity.objTrigger.size = CGSize(width: 25.5, height: 37.5)
+            hideOutEntity.objTrigger.setScale(1)
+            self.addChild(hideOutEntity.objTrigger)
+            node.isHidden = true
+        }
         
         
         let switchEntity = TriggerEntity(name: "switchfirst", type: .Switch, spriteImage: "Statues/0", pos: CGPoint(x: -0.932, y: 15.03))
@@ -243,6 +257,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
                     currPortal.run(portalAnim)
                     SoundManager.soundHelper.elevatorOnSFX.play()
                 }
+            } else if playerEntities[0].objCharacter.hidingRange && playerEntities[0].objCharacter.isMovement {
+                SoundManager.soundHelper.hideSFX.play()
+                playerEntities[0].objCharacter.isHidden = true
+                playerEntities[0].objCharacter.isMovement = false
+                run(SKAction.repeat(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.run(startCountDown)]), count: 5))
             } else if !playerEntities[0].objCharacter.isMovement {
                 playerEntities[0].component(ofType: PlayerControllerComponent.self)?.unHide()
             }
@@ -250,10 +269,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
     }
-//
-//    func startCountDown() {
-//        playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
-//    }
+    
+    func startCountDown() {
+        playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
+    }
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {

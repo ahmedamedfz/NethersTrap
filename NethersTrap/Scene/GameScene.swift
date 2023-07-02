@@ -82,7 +82,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
         overlayShadow.blendMode = .multiplyAlpha
-//        addChild(overlayShadow)
+        addChild(overlayShadow)
+        run(SKAction.wait(forDuration: 2)) {
+            self.enemyEntity.agent.behavior = self.wanderBehavior
+        }
     }
     
     func setupGameSceneInteractable() {
@@ -191,7 +194,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls, pos: selectedEnemy.position)
         enemyEntity.objCharacter.zPosition = 5
         print("enemy pos: \(enemyEntity.objCharacter.position)")
-        enemyEntity.agent.behavior = wanderBehavior
         addChild(enemyEntity.objCharacter)
         
         playerEntities = [player1Entity]
@@ -233,8 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeCamera() {
         cameraNode = SKCameraNode()
-        cameraNode.xScale = 2000 / 100
-        cameraNode.yScale = 2000 / 100
+        cameraNode.xScale = 200 / 100
+        cameraNode.yScale = 200 / 100
         camera = cameraNode
         addChild(cameraNode)
         
@@ -384,10 +386,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     func startCountDown() {
         playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
-//        if !playerEntities[0].objCharacter.isHidden {
-//            print("masuk pak eko")
-//            addChild(playerEntities[0].objCharacter)
-//        }
     }
         
     override func keyUp(with event: NSEvent) {

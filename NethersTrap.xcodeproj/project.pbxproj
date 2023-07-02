@@ -39,6 +39,8 @@
 		FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* PlayerNode.swift */; };
 		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
 		FACB19212A51CF670053E951 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FACB19202A51CF670053E951 /* win.mp3 */; };
+		FACB19232A51DA120053E951 /* CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACB19222A51DA120053E951 /* CutScene.swift */; };
+		FACB19252A51DC6B0053E951 /* CutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FACB19242A51DC6B0053E951 /* CutScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +79,8 @@
 		FAA4A87A2A4184D200A820AA /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
 		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
 		FACB19202A51CF670053E951 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
+		FACB19222A51DA120053E951 /* CutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutScene.swift; sourceTree = "<group>"; };
+		FACB19242A51DC6B0053E951 /* CutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CutScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,21 +118,16 @@
 				FAA4A8842A41FFA700A820AA /* Component */,
 				FAA4A8832A41FF9700A820AA /* Node */,
 				FAA4A8822A41FF8D00A820AA /* Entity */,
-				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
-				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
-				492AE31C2A4EA748001550F1 /* GameScene.sks */,
-				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
+				FACB19272A51DD2D0053E951 /* Scene */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
 				D6749B2D2A4ECA2B001E029B /* SoundManager.swift */,
 				7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */,
-				67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */,
-				67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */,
-				49D656E52A51545B00F93865 /* MenuScene.swift */,
-				49D656E72A5154A400F93865 /* MenuScene.sks */,
 				492AE31A2A4EA71E001550F1 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
 				4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */,
 				FA36697F2A40970F00B451DA /* MazeTileSet.sks */,
+				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
+				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
 			);
 			path = NethersTrap;
 			sourceTree = "<group>";
@@ -177,6 +176,21 @@
 				FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		FACB19272A51DD2D0053E951 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				492AE31C2A4EA748001550F1 /* GameScene.sks */,
+				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
+				67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */,
+				67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */,
+				49D656E52A51545B00F93865 /* MenuScene.swift */,
+				49D656E72A5154A400F93865 /* MenuScene.sks */,
+				FACB19222A51DA120053E951 /* CutScene.swift */,
+				FACB19242A51DC6B0053E951 /* CutScene.sks */,
+			);
+			path = Scene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +264,7 @@
 				D6749B492A5037E5001E029B /* elevator.mp3 in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
 				7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */,
+				FACB19252A51DC6B0053E951 /* CutScene.sks in Resources */,
 				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
 				49D656E82A5154A400F93865 /* MenuScene.sks in Resources */,
 				D6749B432A500067001E029B /* haunt.mp3 in Resources */,
@@ -265,6 +280,7 @@
 			files = (
 				FA98025A2A4F150400EBF9FC /* TriggerControllerComponent.swift in Sources */,
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
+				FACB19232A51DA120053E951 /* CutScene.swift in Sources */,
 				FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */,
 				FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */,
 				FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */,

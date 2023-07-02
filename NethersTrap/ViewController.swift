@@ -18,7 +18,7 @@ class ViewController: NSViewController {
 
         if let view = self.skView {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = MenuScene(fileNamed: "MenuScene")
+            if let scene = CutScene(fileNamed: "CutScene")
                 //, let graphic = GKScene(fileNamed: "MenuScene")
             {
                 // Set the scale mode to scale to fit the window
