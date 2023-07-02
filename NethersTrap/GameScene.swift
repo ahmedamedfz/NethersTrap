@@ -339,13 +339,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
-        case 0:
+        case 0, 123:
             playerEntities[0].objCharacter.left = true
-        case 2:
+        case 2, 124:
             playerEntities[0].objCharacter.right = true
-        case 1:
+        case 1, 125:
             playerEntities[0].objCharacter.down = true
-        case 13:
+        case 13, 126:
             playerEntities[0].objCharacter.up = true
         case 3:
             if (isLose == false){
@@ -391,13 +391,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 0:
+        case 0, 123:
             playerEntities[0].objCharacter.left = false
-        case 2:
+        case 2, 124:
             playerEntities[0].objCharacter.right = false
-        case 1:
+        case 1, 125:
             playerEntities[0].objCharacter.down = false
-        case 13:
+        case 13, 126:
             playerEntities[0].objCharacter.up = false
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
