@@ -23,8 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [], pos: CGPoint(x: 0, y: 0))
     var player1Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player2Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
-    var player3Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
-    var player4Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
+    
     
     var overlayShadow = SKSpriteNode(imageNamed: "Shadow")
     var switchAnim: SKAction = SKAction()
@@ -455,4 +454,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return sqrt(CGPointDistanceSquared(from: from, to: to))
     }
     
+    override func mouseDown(with event: NSEvent) {
+        let location = event.location(in: self)
+        let nodes = nodes(at: location)
+        
+        for node in nodes {
+            if node.name == "returnButton" {
+                returnButton.isHidden = true
+                let newScene = MenuScene(size: (view?.bounds.size)!)
+                newScene.scaleMode = self.scaleMode
+                let transition = SKTransition.fade(withDuration: 2)
+                self.view?.presentScene(newScene, transition: transition)
+                break
+            }
+        }
+    }
 }

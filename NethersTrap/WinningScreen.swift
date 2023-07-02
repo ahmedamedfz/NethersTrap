@@ -14,14 +14,14 @@ class WinningScreen: SKScene {
     let returnButton = SKSpriteNode(imageNamed: "returnButton")
     let successText = SKSpriteNode(imageNamed: "successEscape")
     let backgroundImg = SKSpriteNode(imageNamed: "Winning screen")
-
+    
     
     override func didMove(to view: SKView) {
         
         setBackground()
         setupReturnButton()
         successEscape()
-
+        
     }
     func setBackground() {
         backgroundImg.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -38,9 +38,9 @@ class WinningScreen: SKScene {
         addChild(successText)
     }
     
-   
+    
     func setupReturnButton() {
-      
+        
         returnButton.size = CGSize(width: 476, height: 76)
         returnButton.position = CGPoint(x: frame.midX, y: frame.midY-180)
         returnButton.name = "returnButton"
@@ -50,27 +50,19 @@ class WinningScreen: SKScene {
     }
     
     override func mouseDown(with event: NSEvent) {
-            let location = event.location(in: self)
-            let nodes = nodes(at: location)
-
-            for node in nodes {
-                if node.name == "playButton" {
-                    returnButton.isHidden = true
-                    // Perform the desired action when the button is pressed
-                    // For example, transition to a new scene or start the game
-                    // Your code here...
-                    
-                    // Create and configure the new game scene
-//                        let newScene = AnotherScene(size: self.size)
-//                        newScene.scaleMode = self.scaleMode
-//                        let transition = SKTransition.doorsCloseHorizontal(withDuration: 2) //
-//                        self.view?.presentScene(newScene, transition: transition)
-//
-                    
-                    break
-                }
+        let location = event.location(in: self)
+        let nodes = nodes(at: location)
+        
+        for node in nodes {
+            if node.name == "returnButton" {
+                let newScene = MenuScene(size: (view?.bounds.size)!)
+                newScene.scaleMode = self.scaleMode
+                let transition = SKTransition.fade(withDuration: 2)
+                self.view?.presentScene(newScene, transition: transition)
+                break
             }
         }
+    }
     
     
     

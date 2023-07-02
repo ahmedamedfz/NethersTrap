@@ -18,10 +18,12 @@ class ViewController: NSViewController {
 
         if let view = self.skView {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = GameScene(fileNamed: "GameScene"), let graphic = GKScene(fileNamed: "GameScene") {
+            if let scene = MenuScene(fileNamed: "MenuScene")
+                //, let graphic = GKScene(fileNamed: "MenuScene")
+            {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
-                scene.wanderGraph = graphic.graphs["WanderGraph"]?.nodes as? [GKGraphNode2D]
+                //scene.wanderGraph = graphic.graphs["WanderGraph"]?.nodes as? [GKGraphNode2D]
                 
                 // Present the scene
                 view.presentScene(scene)

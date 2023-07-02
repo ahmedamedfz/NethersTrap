@@ -14,6 +14,8 @@
 		4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA412A3C3B6200A377A9 /* GameScene.swift */; };
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
+		49D656E62A51545B00F93865 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D656E52A51545B00F93865 /* MenuScene.swift */; };
+		49D656E82A5154A400F93865 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 49D656E72A5154A400F93865 /* MenuScene.sks */; };
 		67F8AA932A4FF02000BC7E51 /* WinningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */; };
 		67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */ = {isa = PBXBuildFile; fileRef = 67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */; };
 		7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */; };
@@ -48,6 +50,8 @@
 		4997DA432A3C3B6200A377A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
+		49D656E52A51545B00F93865 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		49D656E72A5154A400F93865 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningScreen.swift; sourceTree = "<group>"; };
 		67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = WinningScreen.sks; sourceTree = "<group>"; };
 		7190C2912A4F48B4003DDD3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */,
 				67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */,
 				67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */,
+				49D656E52A51545B00F93865 /* MenuScene.swift */,
+				49D656E72A5154A400F93865 /* MenuScene.sks */,
 				492AE31A2A4EA71E001550F1 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
 				4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */,
@@ -241,6 +247,7 @@
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
 				7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */,
 				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
+				49D656E82A5154A400F93865 /* MenuScene.sks in Resources */,
 				D6749B432A500067001E029B /* haunt.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +272,7 @@
 				67F8AA932A4FF02000BC7E51 /* WinningScreen.swift in Sources */,
 				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
+				49D656E62A51545B00F93865 /* MenuScene.swift in Sources */,
 				FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */,
 				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
 			);
@@ -406,7 +414,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FPC4M9S2JR;
+				DEVELOPMENT_TEAM = C5V5PAM88P;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
@@ -435,7 +443,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y26Y6AQK69;
+				DEVELOPMENT_TEAM = C5V5PAM88P;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;
