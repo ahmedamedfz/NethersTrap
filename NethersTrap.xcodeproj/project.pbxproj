@@ -38,6 +38,7 @@
 		FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */; };
 		FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* PlayerNode.swift */; };
 		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
+		FACB19212A51CF670053E951 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FACB19202A51CF670053E951 /* win.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
 		FAA4A87A2A4184D200A820AA /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
 		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
+		FACB19202A51CF670053E951 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				D6749B362A4FFFB4001E029B /* hide.mp3 */,
 				D6749B342A4FFFB4001E029B /* switch.mp3 */,
 				D6749B382A4FFFB4001E029B /* unhide.mp3 */,
+				FACB19202A51CF670053E951 /* win.mp3 */,
 			);
 			path = SoundAsset;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */,
 				D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */,
 				D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */,
+				FACB19212A51CF670053E951 /* win.mp3 in Resources */,
 				D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */,
 				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
 				67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */,
@@ -414,7 +418,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C5V5PAM88P;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NethersTrap/Info.plist;

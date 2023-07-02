@@ -11,6 +11,7 @@ import AVFoundation
 class SoundManager {
     static var soundHelper = SoundManager()
     
+    
     lazy var bgmPlayer: AVAudioPlayer! = {
         do {
             guard let ambienceSound = Bundle.main.url(forResource: "ambience", withExtension: "mp3") else {
@@ -105,6 +106,21 @@ class SoundManager {
     lazy var unhideSFX: AVAudioPlayer! = {
         do {
             guard let unhideSound = Bundle.main.url(forResource: "unhide", withExtension: "mp3") else {
+                return nil
+            }
+            let player = try AVAudioPlayer(contentsOf: unhideSound)
+            player.volume = 0.5
+            return player
+        }
+        catch {
+            print(error)
+            return nil
+        }
+    }()
+    
+    lazy var winSFX: AVAudioPlayer! = {
+        do {
+            guard let unhideSound = Bundle.main.url(forResource: "win", withExtension: "mp3") else {
                 return nil
             }
             let player = try AVAudioPlayer(contentsOf: unhideSound)

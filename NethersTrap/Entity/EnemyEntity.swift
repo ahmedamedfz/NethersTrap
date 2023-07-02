@@ -35,7 +35,7 @@ class EnemyEntity: GKEntity, GKAgentDelegate {
     
     func makeEnemy() {
         objCharacter.speed = 2.0
-        objCharacter.zPosition = 100
+//        objCharacter.zPosition = 100
         objCharacter.physicsBody = SKPhysicsBody(texture: texture, size: self.objCharacter.size)
         objCharacter.setScale(1)
         objCharacter.physicsBody?.isDynamic = true

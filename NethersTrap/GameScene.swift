@@ -82,7 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         overlayShadow.zPosition = 6
         overlayShadow.setScale(0.4)
         overlayShadow.blendMode = .multiplyAlpha
-        addChild(overlayShadow)
+//        addChild(overlayShadow)
     }
     
     func setupGameSceneInteractable() {
@@ -190,6 +190,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("selectedEnemy: \(selectedEnemy.position)")
         enemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "GhostADown/0", walls: walls, pos: selectedEnemy.position)
         enemyEntity.objCharacter.zPosition = 5
+        print("enemy pos: \(enemyEntity.objCharacter.position)")
         enemyEntity.agent.behavior = wanderBehavior
         addChild(enemyEntity.objCharacter)
         
@@ -232,8 +233,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeCamera() {
         cameraNode = SKCameraNode()
-        cameraNode.xScale = 200 / 100
-        cameraNode.yScale = 200 / 100
+        cameraNode.xScale = 2000 / 100
+        cameraNode.yScale = 2000 / 100
         camera = cameraNode
         addChild(cameraNode)
         
@@ -317,6 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //                print("contact: ", contact.bodyA.node?.name ?? "")
                 playerEntities[0].objCharacter.isMovement = false
                 playerEntities[0].objCharacter.isHidden = true
+                SoundManager.soundHelper.winSFX.play()
                 let newScene = WinningScreen(size: (view?.bounds.size)!)
                 newScene.scaleMode = self.scaleMode
                 let transition = SKTransition.fade(withDuration: 2) //
@@ -461,10 +463,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for node in nodes {
             if node.name == "returnButton" {
                 returnButton.isHidden = true
-                let newScene = MenuScene(size: (view?.bounds.size)!)
-                newScene.scaleMode = self.scaleMode
+                let newScene = MenuScene(fileNamed: "MenuScene")
+//                let newScene = MenuScene(size: (view?.bounds.size)!)
+                newScene!.scaleMode = self.scaleMode
                 let transition = SKTransition.fade(withDuration: 2)
-                self.view?.presentScene(newScene, transition: transition)
+                self.view?.presentScene(newScene!, transition: transition)
                 break
             }
         }

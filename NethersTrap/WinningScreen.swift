@@ -55,11 +55,23 @@ class WinningScreen: SKScene {
         
         for node in nodes {
             if node.name == "returnButton" {
-                let newScene = MenuScene(size: (view?.bounds.size)!)
-                newScene.scaleMode = self.scaleMode
+//                print(node.name)
+                let newScene = MenuScene(fileNamed: "MenuScene")
+//                let newScene = MenuScene(size: (view?.bounds.size)!)
+                newScene!.scaleMode = self.scaleMode
                 let transition = SKTransition.fade(withDuration: 2)
-                self.view?.presentScene(newScene, transition: transition)
+                self.view?.presentScene(newScene!, transition: transition)
                 break
+                
+//                if let parent = self.parent, parent is SKScene {
+//                   let pScene = parent as! SKScene
+//                   // do whatever you want with your scene
+//                    let newScene = pScene
+//                    newScene.size = (view?.bounds.size)!
+//                    newScene.scaleMode = self.scaleMode
+//                    let transition = SKTransition.fade(withDuration: 2)
+//                    self.view?.presentScene(newScene, transition: transition)
+//                }
             }
         }
     }

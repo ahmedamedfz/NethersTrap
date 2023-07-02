@@ -19,8 +19,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var cameraNode: SKCameraNode!
     
     private var lastUpdateTime : TimeInterval = 0
-    
-    var enemyEntity: EnemyEntity = EnemyEntity(name: "enemy", role: "Enemy", spriteImage: "", walls: [], pos: CGPoint(x: 0, y: 0))
     var player1Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     var player2Entity: PlayerEntity = PlayerEntity(name: "", role: "Player", spriteImage: "")
     
@@ -34,16 +32,14 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var walls: [SKNode] = []
     var lift: SKNode = SKNode()
     var statueCountLabel: SKLabelNode?
-    var statusWinningLabel: SKLabelNode?
-    var wanderGraph: [GKGraphNode2D]?
-    var wanderBehavior = GKBehavior()
-    var isLose : Bool = false
+//    var wanderGraph: [GKGraphNode2D]?
+//    var wanderBehavior = GKBehavior()
     
     let totalSwitch = 1
     var totalSwitchOn = 0
-    var spawnPaintingSpots: [SKNode] = []
-    var spawnTrashCanSpots: [SKNode] = []
-    var spawnSwitchSpots: [SKNode] = []
+//    var spawnPaintingSpots: [SKNode] = []
+//    var spawnTrashCanSpots: [SKNode] = []
+//    var spawnSwitchSpots: [SKNode] = []
     
     override func sceneDidLoad() {
         SoundManager.soundHelper.bgmPlayer.play()
@@ -53,7 +49,13 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         
+//        let background = SKSpriteNode(imageNamed: "MenuScene")
+//        background.size = CGSize(width: 336.136, height: 218.651)
+//        background.position = CGPoint(x: -0.932, y: -0.126)
+//        addChild(background)
+        
         scene?.enumerateChildNodes(withName: "MapCollider") { node, _ in
+//            print("ada wall")
             self.walls.append(node)
         }
         
@@ -61,6 +63,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         setupGameSceneInteractable()
         
         scene?.enumerateChildNodes(withName: "LiftCollider") { node, _ in
+//            print("ada lift")
             self.lift = node
         }
         
@@ -82,11 +85,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupGameSceneInteractable() {
-        
-        scene?.enumerateChildNodes(withName: "Switch") { node, _ in
-            self.spawnSwitchSpots.append(node)
-            node.isHidden = true
-        }
         
         
         let switchEntity = TriggerEntity(name: "switchfirst", type: .Switch, spriteImage: "Statues/0", pos: CGPoint(x: -0.932, y: 15.03))
@@ -136,10 +134,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         
         
         playerEntities = [player1Entity]
-        
         makeCamera()
-        
-        
     }
     
     func makeCamera() {
@@ -150,22 +145,22 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
         
     }
-    func updateStatueCount(count: Int, total: Int) {
-        guard let label = statueCountLabel else {
-            return
-        }
-        
-        label.text = "\(count)/\(total)"
-    }
+//    func updateStatueCount(count: Int, total: Int) {
+//        guard let label = statueCountLabel else {
+//            return
+//        }
+//
+//        label.text = "\(count)/\(total)"
+//    }
     
-    func updateStatusWinning() {
-        guard let label = statusWinningLabel else {
-            return
-        }
-        
-        label.text = "Find The Elevator to Escape"
-        label.fontColor = SKColor.yellow
-    }
+//    func updateStatusWinning() {
+//        guard let label = statusWinningLabel else {
+//            return
+//        }
+//
+//        label.text = "Find The Elevator to Escape"
+//        label.fontColor = SKColor.yellow
+//    }
     
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -190,7 +185,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
                     playerEntities[0].objCharacter.deathAnimating = true
                     playerEntities[0].objCharacter.isMovement = false
                     playerEntities[0].objCharacter.isHidden = true
-                    isLose = true
                     
                     
                     playerEntities[0].component(ofType: PlayerControllerComponent.self)?.animateDeath()
@@ -238,13 +232,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
                 TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.isOn = true
                 totalSwitchOn += 1
                 SoundManager.soundHelper.switchOnSFX.play()
-                updateStatueCount(count: totalSwitchOn, total: totalSwitch)
                 currStatue = childNode(withName: TriggerEntities[playerEntities[0].objCharacter.idxSwitchVisited].objTrigger.name ?? "") as! SKSpriteNode
                 currStatue.run(switchAnim)
                 
                 print("total switch on: ",totalSwitchOn)
                 if (totalSwitchOn == totalSwitch){
-                    updateStatusWinning()
                     self.lift.physicsBody?.categoryBitMask = 0x100000
                     let index = TriggerEntities.firstIndex(where: {$0.objTrigger.name == "portal"})
                     currPortal = childNode(withName: TriggerEntities[index!].objTrigger.name!) as! SKSpriteNode
@@ -258,10 +250,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
     }
-    
-    func startCountDown() {
-        playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
-    }
+//
+//    func startCountDown() {
+//        playerEntities[0].component(ofType: PlayerControllerComponent.self)?.countDown()
+//    }
     
     override func keyUp(with event: NSEvent) {
         switch event.keyCode {
@@ -301,6 +293,4 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         self.lastUpdateTime = currentTime
         overlayShadow.position = player1Entity.objCharacter.position
     }
-    
-    
 }
