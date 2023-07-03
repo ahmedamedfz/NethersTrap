@@ -7,25 +7,80 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492AE31A2A4EA71E001550F1 /* Assets.xcassets */; };
+		492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 492AE31C2A4EA748001550F1 /* GameScene.sks */; };
 		4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */; };
-		4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3D2A3C3B6200A377A9 /* GameScene.sks */; };
 		4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA3F2A3C3B6200A377A9 /* Actions.sks */; };
 		4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA412A3C3B6200A377A9 /* GameScene.swift */; };
 		4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997DA432A3C3B6200A377A9 /* ViewController.swift */; };
-		4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA452A3C3B6300A377A9 /* Assets.xcassets */; };
 		4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4997DA472A3C3B6300A377A9 /* Main.storyboard */; };
+		49D656E62A51545B00F93865 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D656E52A51545B00F93865 /* MenuScene.swift */; };
+		49D656E82A5154A400F93865 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 49D656E72A5154A400F93865 /* MenuScene.sks */; };
+		67F8AA932A4FF02000BC7E51 /* WinningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */; };
+		67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */ = {isa = PBXBuildFile; fileRef = 67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */; };
+		7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */; };
+		D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6749B2D2A4ECA2B001E029B /* SoundManager.swift */; };
+		D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B342A4FFFB4001E029B /* switch.mp3 */; };
+		D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B352A4FFFB4001E029B /* ambience.mp3 */; };
+		D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B362A4FFFB4001E029B /* hide.mp3 */; };
+		D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B382A4FFFB4001E029B /* unhide.mp3 */; };
+		D6749B412A4FFFB5001E029B /* died.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B3A2A4FFFB5001E029B /* died.mp3 */; };
+		D6749B432A500067001E029B /* haunt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B422A500067001E029B /* haunt.mp3 */; };
+		D6749B492A5037E5001E029B /* elevator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6749B482A5037E5001E029B /* elevator.mp3 */; };
+		FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA36697F2A40970F00B451DA /* MazeTileSet.sks */; };
+		FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */; };
+		FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */; };
+		FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */; };
+		FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */; };
+		FA98025A2A4F150400EBF9FC /* TriggerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */; };
+		FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */; };
+		FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */; };
+		FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */; };
+		FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87A2A4184D200A820AA /* PlayerNode.swift */; };
+		FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */; };
+		FACB19212A51CF670053E951 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FACB19202A51CF670053E951 /* win.mp3 */; };
+		FACB19232A51DA120053E951 /* CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACB19222A51DA120053E951 /* CutScene.swift */; };
+		FACB19252A51DC6B0053E951 /* CutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FACB19242A51DC6B0053E951 /* CutScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		492AE31A2A4EA71E001550F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		492AE31C2A4EA748001550F1 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		4997DA382A3C3B6200A377A9 /* NethersTrap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NethersTrap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4997DA3D2A3C3B6200A377A9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		4997DA3F2A3C3B6200A377A9 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		4997DA412A3C3B6200A377A9 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		4997DA432A3C3B6200A377A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4997DA452A3C3B6300A377A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4997DA482A3C3B6300A377A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NethersTrap.entitlements; sourceTree = "<group>"; };
+		49D656E52A51545B00F93865 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		49D656E72A5154A400F93865 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningScreen.swift; sourceTree = "<group>"; };
+		67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = WinningScreen.sks; sourceTree = "<group>"; };
+		7190C2912A4F48B4003DDD3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VT323-Regular.ttf"; sourceTree = "<group>"; };
+		D6749B2D2A4ECA2B001E029B /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		D6749B342A4FFFB4001E029B /* switch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = switch.mp3; sourceTree = "<group>"; };
+		D6749B352A4FFFB4001E029B /* ambience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambience.mp3; sourceTree = "<group>"; };
+		D6749B362A4FFFB4001E029B /* hide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hide.mp3; sourceTree = "<group>"; };
+		D6749B382A4FFFB4001E029B /* unhide.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unhide.mp3; sourceTree = "<group>"; };
+		D6749B3A2A4FFFB5001E029B /* died.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = died.mp3; sourceTree = "<group>"; };
+		D6749B422A500067001E029B /* haunt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = haunt.mp3; sourceTree = "<group>"; };
+		D6749B482A5037E5001E029B /* elevator.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = elevator.mp3; sourceTree = "<group>"; };
+		FA36697F2A40970F00B451DA /* MazeTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MazeTileSet.sks; sourceTree = "<group>"; };
+		FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
+		FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyEntity.swift; sourceTree = "<group>"; };
+		FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyControllerComponent.swift; sourceTree = "<group>"; };
+		FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
+		FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerControllerComponent.swift; sourceTree = "<group>"; };
+		FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryComponent.swift; sourceTree = "<group>"; };
+		FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControllerComponent.swift; sourceTree = "<group>"; };
+		FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
+		FAA4A87A2A4184D200A820AA /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
+		FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerEntity.swift; sourceTree = "<group>"; };
+		FACB19202A51CF670053E951 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
+		FACB19222A51DA120053E951 /* CutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutScene.swift; sourceTree = "<group>"; };
+		FACB19242A51DC6B0053E951 /* CutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CutScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +113,84 @@
 		4997DA3A2A3C3B6200A377A9 /* NethersTrap */ = {
 			isa = PBXGroup;
 			children = (
-				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
-				4997DA3D2A3C3B6200A377A9 /* GameScene.sks */,
-				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
-				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
+				7190C2912A4F48B4003DDD3D /* Info.plist */,
+				D6749B2F2A4ECBA1001E029B /* SoundAsset */,
+				FAA4A8842A41FFA700A820AA /* Component */,
+				FAA4A8832A41FF9700A820AA /* Node */,
+				FAA4A8822A41FF8D00A820AA /* Entity */,
+				FACB19272A51DD2D0053E951 /* Scene */,
 				4997DA432A3C3B6200A377A9 /* ViewController.swift */,
-				4997DA452A3C3B6300A377A9 /* Assets.xcassets */,
+				D6749B2D2A4ECA2B001E029B /* SoundManager.swift */,
+				7190C2922A4F4C06003DDD3D /* VT323-Regular.ttf */,
+				492AE31A2A4EA71E001550F1 /* Assets.xcassets */,
 				4997DA472A3C3B6300A377A9 /* Main.storyboard */,
 				4997DA4A2A3C3B6300A377A9 /* NethersTrap.entitlements */,
+				FA36697F2A40970F00B451DA /* MazeTileSet.sks */,
+				4997DA3F2A3C3B6200A377A9 /* Actions.sks */,
+				4997DA3B2A3C3B6200A377A9 /* AppDelegate.swift */,
 			);
 			path = NethersTrap;
+			sourceTree = "<group>";
+		};
+		D6749B2F2A4ECBA1001E029B /* SoundAsset */ = {
+			isa = PBXGroup;
+			children = (
+				D6749B352A4FFFB4001E029B /* ambience.mp3 */,
+				D6749B3A2A4FFFB5001E029B /* died.mp3 */,
+				D6749B482A5037E5001E029B /* elevator.mp3 */,
+				D6749B422A500067001E029B /* haunt.mp3 */,
+				D6749B362A4FFFB4001E029B /* hide.mp3 */,
+				D6749B342A4FFFB4001E029B /* switch.mp3 */,
+				D6749B382A4FFFB4001E029B /* unhide.mp3 */,
+				FACB19202A51CF670053E951 /* win.mp3 */,
+			);
+			path = SoundAsset;
+			sourceTree = "<group>";
+		};
+		FAA4A8822A41FF8D00A820AA /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A8782A4169BB00A820AA /* PlayerEntity.swift */,
+				FAA4A87E2A41F62400A820AA /* TriggerEntity.swift */,
+				FA9802512A49DC9F00EBF9FC /* EnemyEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		FAA4A8832A41FF9700A820AA /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A87A2A4184D200A820AA /* PlayerNode.swift */,
+				FA98024F2A49DC0B00EBF9FC /* EnemyNode.swift */,
+				FA9802552A4A9D2200EBF9FC /* TriggerNode.swift */,
+			);
+			path = Node;
+			sourceTree = "<group>";
+		};
+		FAA4A8842A41FFA700A820AA /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				FAA4A8712A40A53B00A820AA /* GeometryComponent.swift */,
+				FAA4A8732A40A5F100A820AA /* PlayerControllerComponent.swift */,
+				FA9802532A4A8A3B00EBF9FC /* EnemyControllerComponent.swift */,
+				FA9802592A4F150400EBF9FC /* TriggerControllerComponent.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		FACB19272A51DD2D0053E951 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				492AE31C2A4EA748001550F1 /* GameScene.sks */,
+				4997DA412A3C3B6200A377A9 /* GameScene.swift */,
+				67F8AA922A4FF02000BC7E51 /* WinningScreen.swift */,
+				67F8AA942A4FF1B100BC7E51 /* WinningScreen.sks */,
+				49D656E52A51545B00F93865 /* MenuScene.swift */,
+				49D656E72A5154A400F93865 /* MenuScene.sks */,
+				FACB19222A51DA120053E951 /* CutScene.swift */,
+				FACB19242A51DC6B0053E951 /* CutScene.sks */,
+			);
+			path = Scene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,10 +251,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4997DA3E2A3C3B6200A377A9 /* GameScene.sks in Resources */,
-				4997DA462A3C3B6300A377A9 /* Assets.xcassets in Resources */,
+				D6749B3D2A4FFFB5001E029B /* hide.mp3 in Resources */,
+				D6749B3F2A4FFFB5001E029B /* unhide.mp3 in Resources */,
+				D6749B3B2A4FFFB5001E029B /* switch.mp3 in Resources */,
+				FACB19212A51CF670053E951 /* win.mp3 in Resources */,
+				D6749B3C2A4FFFB5001E029B /* ambience.mp3 in Resources */,
+				FA3669802A40970F00B451DA /* MazeTileSet.sks in Resources */,
+				67F8AA952A4FF1B100BC7E51 /* WinningScreen.sks in Resources */,
+				492AE31D2A4EA748001550F1 /* GameScene.sks in Resources */,
 				4997DA402A3C3B6200A377A9 /* Actions.sks in Resources */,
+				D6749B412A4FFFB5001E029B /* died.mp3 in Resources */,
+				D6749B492A5037E5001E029B /* elevator.mp3 in Resources */,
 				4997DA492A3C3B6300A377A9 /* Main.storyboard in Resources */,
+				7190C2932A4F4C06003DDD3D /* VT323-Regular.ttf in Resources */,
+				FACB19252A51DC6B0053E951 /* CutScene.sks in Resources */,
+				492AE31B2A4EA71E001550F1 /* Assets.xcassets in Resources */,
+				49D656E82A5154A400F93865 /* MenuScene.sks in Resources */,
+				D6749B432A500067001E029B /* haunt.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,9 +278,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA98025A2A4F150400EBF9FC /* TriggerControllerComponent.swift in Sources */,
 				4997DA442A3C3B6200A377A9 /* ViewController.swift in Sources */,
+				FACB19232A51DA120053E951 /* CutScene.swift in Sources */,
+				FA9802522A49DC9F00EBF9FC /* EnemyEntity.swift in Sources */,
+				FA9802562A4A9D2200EBF9FC /* TriggerNode.swift in Sources */,
+				FA9802542A4A8A3B00EBF9FC /* EnemyControllerComponent.swift in Sources */,
+				D6749B2E2A4ECA2B001E029B /* SoundManager.swift in Sources */,
+				FAA4A87B2A4184D200A820AA /* PlayerNode.swift in Sources */,
+				FAA4A8722A40A53B00A820AA /* GeometryComponent.swift in Sources */,
+				FAA4A8792A4169BB00A820AA /* PlayerEntity.swift in Sources */,
 				4997DA422A3C3B6200A377A9 /* GameScene.swift in Sources */,
+				67F8AA932A4FF02000BC7E51 /* WinningScreen.swift in Sources */,
+				FAA4A8742A40A5F100A820AA /* PlayerControllerComponent.swift in Sources */,
 				4997DA3C2A3C3B6200A377A9 /* AppDelegate.swift in Sources */,
+				49D656E62A51545B00F93865 /* MenuScene.swift in Sources */,
+				FA9802502A49DC0B00EBF9FC /* EnemyNode.swift in Sources */,
+				FAA4A87F2A41F62400A820AA /* TriggerEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,9 +434,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C5V5PAM88P;
+				DEVELOPMENT_TEAM = FPC4M9S2JR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NethersTrap/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -294,6 +445,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.2.mini.degoat.NethersTrap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -314,6 +466,7 @@
 				DEVELOPMENT_TEAM = C5V5PAM88P;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NethersTrap/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -321,6 +474,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.2.mini.degoat.NethersTrap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
