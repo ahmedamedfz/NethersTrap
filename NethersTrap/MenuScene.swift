@@ -112,7 +112,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         playerNameLabel.fontColor = SKColor.green
         playerNameLabel.horizontalAlignmentMode = .center
         playerNameLabel.position = CGPoint(x: player1Entity.objCharacter.position.x, y: player1Entity.objCharacter.position.y + player1Entity.objCharacter.size.height/2)
-        player1Entity.objCharacter.addChild(playerNameLabel)
+//        player1Entity.objCharacter.addChild(playerNameLabel)
         
         let pressLabel = SKLabelNode(fontNamed: "VT323-Regular")
         pressLabel.text = "Press F to hide"
